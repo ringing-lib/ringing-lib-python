@@ -1,4 +1,4 @@
-from cython.operator cimport dereference
+from cython.operator cimport dereference as deref
 from cpython.version cimport PY_MAJOR_VERSION
 from libcpp.string cimport string
 
@@ -20,7 +20,7 @@ cdef class Row:
         if input is None:
             self.thisptr = new row()
         elif isinstance(input, Row):
-            self.thisptr = new row(dereference((<Row>input).thisptr))
+            self.thisptr = new row(deref((<Row>input).thisptr))
         elif isinstance(input, int):
             self.thisptr = new row(<int>input)
         elif isinstance(input, str):
@@ -64,7 +64,7 @@ cdef class Row:
 
     def __str__(self):
         return ''.join([
-            chr(dereference(self.thisptr)[i].to_char())
+            chr(deref(self.thisptr)[i].to_char())
             for i
             in range(self.thisptr.bells())
         ])
