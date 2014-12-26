@@ -19,6 +19,8 @@ cdef class Row:
     def __cinit__(self, input=None):
         if input is None:
             self.thisptr = new row()
+        elif isinstance(input, Row):
+            self.thisptr = new row(dereference((<Row>input).thisptr))
         elif isinstance(input, int):
             self.thisptr = new row(<int>input)
         elif isinstance(input, str):

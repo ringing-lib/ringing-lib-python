@@ -9,6 +9,7 @@ cdef extern from "ringing/row.h" namespace "ringing":
         row()
         row(int num) except +               # Construct rounds on n bells
         row(const string &s) except +       # Construct a row from a string
+        row(const row& r)                   # Default copy constructor
 
         bell operator[](int i)              # Return one particular bell
 
