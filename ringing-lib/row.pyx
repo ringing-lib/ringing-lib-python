@@ -1,3 +1,4 @@
+from cython.operator cimport dereference
 from libcpp.string cimport string
 
 from bell cimport bell
@@ -46,7 +47,7 @@ cdef class Row:
 
     def __str__(self):
         return ''.join([
-            chr(self.thisptr[0][i].to_char())
+            chr(dereference(self.thisptr)[i].to_char())
             for i
             in range(self.thisptr.bells())
         ])
