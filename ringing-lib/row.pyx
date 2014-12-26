@@ -31,7 +31,6 @@ cdef class Row:
     def bells(self):
         return self.thisptr.bells()
 
-    @property
     def is_rounds(self):
         return self.thisptr.isrounds()
 
@@ -41,7 +40,6 @@ cdef class Row:
         else:
             return self.thisptr.ispblh()
 
-    @property
     def sign(self):
         return self.thisptr.sign()
 
@@ -51,7 +49,6 @@ cdef class Row:
         else:
             return self.thisptr.cycles().decode()
 
-    @property
     def order(self):
         return self.thisptr.order()
 
