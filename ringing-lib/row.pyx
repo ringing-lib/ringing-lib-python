@@ -88,3 +88,11 @@ cdef class Row:
             return deref(Row(x).thisptr) > deref(Row(y).thisptr)
         elif op == 5:  # >=
             return deref(Row(x).thisptr) >= deref(Row(y).thisptr)
+
+    def __mul__(x, y):
+        if not isinstance(x, Row) or not isinstance(y, Row):
+            raise NotImplementedError
+
+        cdef Row result = Row()
+        result.thisptr[0] = deref(Row(x).thisptr) * deref(Row(y).thisptr)
+        return result
