@@ -2,7 +2,7 @@ from libcpp.string cimport string
 
 
 cdef string _s(s):
-    if type(s) is unicode:
+    if isinstance(s, unicode):
         return s.encode()
     else:
         return s
@@ -13,9 +13,9 @@ cdef class Row:
     cdef row *thisptr
 
     def __cinit__(self, input):
-        if type(input) is int:
+        if isinstance(input, int):
             self.thisptr = new row(<int>input)
-        elif type(input) is str:
+        elif isinstance(input, str):
             self.thisptr = new row(_s(input))
         else:
             raise TypeError
