@@ -90,9 +90,6 @@ cdef class Row:
             return deref(Row(x).thisptr) >= deref(Row(y).thisptr)
 
     def __mul__(x, y):
-        if not isinstance(x, Row) or not isinstance(y, Row):
-            raise NotImplementedError
-
         cdef Row rx = Row(x)
         cdef Row ry = Row(y)
         cdef Row result = Row()
@@ -101,9 +98,6 @@ cdef class Row:
         return result
 
     def __truediv__(x, y):
-        if not isinstance(x, Row) or not isinstance(y, Row):
-            raise NotImplementedError
-
         cdef Row rx = Row(x)
         cdef Row ry = Row(y)
         cdef Row result = Row()
