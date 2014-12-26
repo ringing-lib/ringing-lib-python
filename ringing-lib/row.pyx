@@ -96,3 +96,11 @@ cdef class Row:
         cdef Row result = Row()
         result.thisptr[0] = deref(Row(x).thisptr) * deref(Row(y).thisptr)
         return result
+
+    def __truediv__(x, y):
+        if not isinstance(x, Row) or not isinstance(y, Row):
+            raise NotImplementedError
+
+        cdef Row result = Row()
+        result.thisptr[0] = deref(Row(x).thisptr) / deref(Row(y).thisptr)
+        return result

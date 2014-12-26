@@ -15,6 +15,7 @@ cdef extern from "ringing/row.h" namespace "ringing":
         bool operator!=(const row& r)
         bell operator[](int i)              # Return one particular bell
         row operator*(const row& r)         # Transpose one row by another
+        row operator/(const row& r)         # Inverse of transposition
 
         int bells()                         # How many bells?
 
