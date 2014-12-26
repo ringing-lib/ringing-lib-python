@@ -31,12 +31,15 @@ cdef extern from "ringing/row.h" namespace "ringing":
         @staticmethod
         row reverse_rounds(int n)           # Return reverse rounds on n bells
         @staticmethod
-        row cyclic(int n, int h=1, int c=1) # Return cyclic lead head
-                                            # (13456..2)^c on n bells with h
-                                            # hunt bells
+        row cyclic(int n)                   # Return cyclic lead head
+        @staticmethod                       # (13456..2)^c on n bells with h
+        row cyclic(int n, int h)            # hunt bells
         @staticmethod
-        row pblh(int n, int h=1)            # Return first plain bob lead head
-                                            # on n bells with h hunt bells
+        row cyclic(int n, int h, int c)
+        @staticmethod
+        row pblh(int n)                     # Return first plain bob lead head
+        @staticmethod                       # on n bells with h hunt bells
+        row pblh(int n, int h)
 
         bool isrounds()     # Is it rounds?
         int ispblh()        # Which plain bob lead head is it?
