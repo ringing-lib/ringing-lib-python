@@ -73,18 +73,37 @@ cdef class Row:
         return self.thisptr.hash()
 
     def __richcmp__(x, y, int op):
-        if not isinstance(x, Row) or not isinstance(y, Row):
-            raise NotImplementedError
+        cdef Row rx = Row(x)
+        cdef Row ry = Row(y)
 
         if op == 0:  # <
-            return deref(Row(x).thisptr) < deref(Row(y).thisptr)
+            return deref(rx.thisptr) < deref(ry.thisptr)
         elif op == 1:  # <=
-            return deref(Row(x).thisptr) <= deref(Row(y).thisptr)
+            return deref(rx.thisptr) <= deref(ry.thisptr)
         elif op == 2:  # ==
-            return deref(Row(x).thisptr) == deref(Row(y).thisptr)
+            return deref(rx.thisptr) == deref(ry.thisptr)
         elif op == 3:  # !=
-            return deref(Row(x).thisptr) != deref(Row(y).thisptr)
+            return deref(rx.thisptr) != deref(ry.thisptr)
         elif op == 4:  # >
-            return deref(Row(x).thisptr) > deref(Row(y).thisptr)
+            return deref(rx.thisptr) > deref(ry.thisptr)
         elif op == 5:  # >=
-            return deref(Row(x).thisptr) >= deref(Row(y).thisptr)
+            return deref(rx.thisptr) >= deref(ry.thisptr)
+
+    def __mul__(x, y):
+        cdef Row rx = Row(x)
+        cdef Row ry = Row(y)
+        cdef Row result = Row()
+
+        result.thisptr[0] = deref(rx.thisptr) * deref(ry.thisptr)
+        return result
+
+    def __truediv__(x, y):
+        cdef Row rx = Row(x)
+        cdef Row ry = Row(y)
+        cdef Row result = Row()
+
+        result.thisptr[0] = deref(rx.thisptr) / deref(ry.thisptr)
+        return result
+
+    def __div__(x, y):
+        return Row.__truediv__(x, y)
