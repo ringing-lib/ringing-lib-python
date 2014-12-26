@@ -13,6 +13,9 @@ cdef extern from "ringing/row.h" namespace "ringing":
 
         int bells()                         # How many bells?
 
-        bool isrounds()                     # Is it rounds?
-        int sign()                          # Return whether it's odd or even
-        int order()                         # Return the order
+        bool isrounds()     # Is it rounds?
+        int ispblh()        # Which plain bob lead head is it?
+        int ispblh(int h)   # Which plain bob lh (with h hunts) is it?
+        int sign()          # Return whether it's odd or even
+        string cycles()     # Express it as a product of disjoint cycles
+        int order()         # Return the order

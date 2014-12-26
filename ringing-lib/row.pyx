@@ -1,4 +1,5 @@
 from cython.operator cimport dereference
+from cpython.version cimport PY_MAJOR_VERSION
 from libcpp.string cimport string
 
 from bell cimport bell
@@ -34,13 +35,25 @@ cdef class Row:
     def is_rounds(self):
         return self.thisptr.isrounds()
 
-    @property
-    def order(self):
-        return self.thisptr.order()
+    def is_pblh(self, int hunts=0):
+        if hunts:
+            return self.thisptr.ispblh(hunts)
+        else:
+            return self.thisptr.ispblh()
 
     @property
     def sign(self):
         return self.thisptr.sign()
+
+    def cycles(self):
+        if PY_MAJOR_VERSION < 3:
+            return self.thisptr.cycles()
+        else:
+            return self.thisptr.cycles().decode()
+
+    @property
+    def order(self):
+        return self.thisptr.order()
 
     def __repr__(self):
         return 'Row("' + self.__str__() + '")'
