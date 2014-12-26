@@ -6,10 +6,13 @@ from bell cimport bell
 
 cdef extern from "ringing/row.h" namespace "ringing":
     cdef cppclass row:
-        row(int) except +
-        row(const string) except +
-        bell operator[](int)
-        int bells()
-        bool isrounds()
-        int order()
-        int sign()
+        row(int num) except +               # Construct rounds on n bells
+        row(const string &s) except +       # Construct a row from a string
+
+        bell operator[](int i)              # Return one particular bell
+
+        int bells()                         # How many bells?
+
+        bool isrounds()                     # Is it rounds?
+        int sign()                          # Return whether it's odd or even
+        int order()                         # Return the order
