@@ -61,3 +61,6 @@ cdef class Row:
             for i
             in range(self.thisptr.bells())
         ])
+
+    def __hash__(self):
+        return self.thisptr.hash()

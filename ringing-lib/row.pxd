@@ -19,3 +19,4 @@ cdef extern from "ringing/row.h" namespace "ringing":
         int sign()          # Return whether it's odd or even
         string cycles()     # Express it as a product of disjoint cycles
         int order()         # Return the order
+        size_t hash()
