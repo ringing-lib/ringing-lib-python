@@ -4,6 +4,7 @@ from libcpp.string cimport string
 
 cdef extern from "ringing/row.h" namespace "ringing":
     cdef cppclass row:
+        row(int) except +
         row(const string) except +
         int bells()
         bool isrounds()

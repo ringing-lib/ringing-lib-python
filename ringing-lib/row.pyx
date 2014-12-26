@@ -14,8 +14,16 @@ cdef class Row:
 
     cdef row *thisptr
 
-    def __cinit__(self, str input):
-        self.thisptr = new row(_s(input))
+    def __cinit__(self, input):
+        cdef string s
+
+        if type(input) is int:
+            self.thisptr = new row(<int>input)
+        elif type(input) is str:
+            s = _s(input)
+            self.thisptr = new row(s)
+        else:
+            raise TypeError
 
     def __dealloc__(self):
         del self.thisptr
