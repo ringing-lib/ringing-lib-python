@@ -31,6 +31,12 @@ cdef class Row:
     def __dealloc__(self):
         del self.thisptr
 
+    def inverse(self):
+        cdef Row result = Row()
+
+        result.thisptr[0] = self.thisptr.inverse()
+        return result
+
     @property
     def bells(self):
         return self.thisptr.bells()
