@@ -35,6 +35,10 @@ cdef class Row:
     def bells(self):
         return self.thisptr.bells()
 
+    def rounds(self):
+        self.thisptr.rounds()
+        return self
+
     def is_rounds(self):
         return self.thisptr.isrounds()
 

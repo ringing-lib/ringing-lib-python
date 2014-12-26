@@ -18,6 +18,7 @@ cdef extern from "ringing/row.h" namespace "ringing":
         row operator/(const row& r)         # Inverse of transposition
 
         int bells()                         # How many bells?
+        row &rounds()                       # Set it to rounds
 
         bool isrounds()     # Is it rounds?
         int ispblh()        # Which plain bob lead head is it?
