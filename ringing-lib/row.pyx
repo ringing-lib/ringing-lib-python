@@ -127,3 +127,6 @@ cdef class Row:
 
     def __invert__(self):
         return self.inverse()
+
+    def __len__(self):
+        return self.bells
