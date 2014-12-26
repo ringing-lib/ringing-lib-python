@@ -33,7 +33,6 @@ cdef class Row:
 
     def inverse(self):
         cdef Row result = Row()
-
         result.thisptr[0] = self.thisptr.inverse()
         return result
 
@@ -44,6 +43,42 @@ cdef class Row:
     def rounds(self):
         self.thisptr.rounds()
         return self
+
+    @staticmethod
+    def queens(int n):
+        cdef Row result = Row()
+        result.thisptr[0] = row.queens(n)
+        return result
+
+    @staticmethod
+    def kings(int n):
+        cdef Row result = Row()
+        result.thisptr[0] = row.kings(n)
+        return result
+
+    @staticmethod
+    def tittums(int n):
+        cdef Row result = Row()
+        result.thisptr[0] = row.tittums(n)
+        return result
+
+    @staticmethod
+    def reverse_rounds(int n):
+        cdef Row result = Row()
+        result.thisptr[0] = row.reverse_rounds(n)
+        return result
+
+    @staticmethod
+    def cyclic(int n, int h=1, int c=1):
+        cdef Row result = Row()
+        result.thisptr[0] = row.cyclic(n, h, c)
+        return result
+
+    @staticmethod
+    def pblh(int n, int h=1):
+        cdef Row result = Row()
+        result.thisptr[0] = row.pblh(n, h)
+        return result
 
     def is_rounds(self):
         return self.thisptr.isrounds()

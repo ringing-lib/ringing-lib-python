@@ -86,6 +86,69 @@ class RowTest(unittest.TestCase):
         self.assertTrue(Row('12345678').is_rounds())
         self.assertFalse(Row('21').is_rounds())
 
+    def test_row_named_rows(self):
+        self.assertEqual(Row.queens(0), '')
+        self.assertEqual(Row.queens(1), '1')
+        self.assertEqual(Row.queens(2), '12')
+        self.assertEqual(Row.queens(5), '13524')
+        self.assertEqual(Row.queens(8), '13572468')
+
+        self.assertEqual(Row.kings(0), '')
+        self.assertEqual(Row.kings(1), '1')
+        self.assertEqual(Row.kings(2), '12')
+        self.assertEqual(Row.kings(5), '53124')
+        self.assertEqual(Row.kings(8), '75312468')
+
+        self.assertEqual(Row.tittums(0), '')
+        self.assertEqual(Row.tittums(1), '1')
+        self.assertEqual(Row.tittums(2), '12')
+        self.assertEqual(Row.tittums(5), '14253')
+        self.assertEqual(Row.tittums(8), '15263748')
+
+        self.assertEqual(Row.reverse_rounds(0), '')
+        self.assertEqual(Row.reverse_rounds(1), '1')
+        self.assertEqual(Row.reverse_rounds(2), '21')
+        self.assertEqual(Row.reverse_rounds(5), '54321')
+        self.assertEqual(Row.reverse_rounds(8), '87654321')
+
+    def test_row_pblh(self):
+        self.assertEqual(Row.pblh(0), Row())
+        self.assertEqual(Row.pblh(1), Row('1'))
+        self.assertEqual(Row.pblh(2), Row('12'))
+        self.assertEqual(Row.pblh(3), Row('132'))
+        self.assertEqual(Row.pblh(5), Row('13524'))
+        self.assertEqual(Row.pblh(6), Row('135264'))
+
+        self.assertEqual(Row.pblh(3, 10), Row('123'))
+        self.assertEqual(Row.pblh(3, 2), Row('123'))
+        self.assertEqual(Row.pblh(3, 2), Row('123'))
+        self.assertEqual(Row.pblh(6, 2), Row('124635'))
+        self.assertEqual(Row.pblh(7, 2), Row('1246375'))
+        self.assertEqual(Row.pblh(9, 5), Row('123457968'))
+
+    def test_row_cyclic(self):
+        self.assertEqual(Row.cyclic(0), Row())
+        self.assertEqual(Row.cyclic(1), Row('1'))
+        self.assertEqual(Row.cyclic(2), Row('12'))
+        self.assertEqual(Row.cyclic(3), Row('132'))
+        self.assertEqual(Row.cyclic(5), Row('13452'))
+        self.assertEqual(Row.cyclic(8), Row('13456782'))
+
+        self.assertEqual(Row.cyclic(3, 0), Row('231'))
+        self.assertEqual(Row.cyclic(3, 2), Row('123'))
+        self.assertEqual(Row.cyclic(3, 3), Row('123'))
+        self.assertEqual(Row.cyclic(3, 9), Row('123'))
+        self.assertEqual(Row.cyclic(8, 0), Row('23456781'))
+        self.assertEqual(Row.cyclic(8, 2), Row('12456783'))
+        self.assertEqual(Row.cyclic(9, 2), Row('124567893'))
+
+        self.assertEqual(Row.cyclic(8, 1, -1), Row('18234567'))
+        self.assertEqual(Row.cyclic(8, 1, 0), Row('12345678'))
+        self.assertEqual(Row.cyclic(8, 1, 2), Row('14567823'))
+        self.assertEqual(Row.cyclic(8, 1, 5), Row('17823456'))
+        self.assertEqual(Row.cyclic(8, 1, 7), Row('12345678'))
+        self.assertEqual(Row.cyclic(8, 1, 13), Row('18234567'))
+
     def test_row_ispblh(self):
         # TODO: more tests needed here.
         self.assertTrue(Row('135264').is_pblh())
