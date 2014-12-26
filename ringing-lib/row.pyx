@@ -1,5 +1,7 @@
 from libcpp.string cimport string
 
+from bell cimport bell
+
 
 cdef string _s(s):
     if isinstance(s, unicode):
@@ -38,3 +40,13 @@ cdef class Row:
     @property
     def sign(self):
         return self.thisptr.sign()
+
+    def __repr__(self):
+        return 'Row("' + self.__str__() + '")'
+
+    def __str__(self):
+        return ''.join([
+            chr(self.thisptr[0][i].to_char())
+            for i
+            in range(self.thisptr.bells())
+        ])
