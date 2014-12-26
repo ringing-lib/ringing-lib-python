@@ -63,6 +63,11 @@ class RowTest(unittest.TestCase):
         self.assertEqual(Row(7).bells, 7)
         self.assertEqual(Row('12345').bells, 5)
 
+    def test_row_rounds(self):
+        self.assertEqual(Row().rounds(), '')
+        self.assertEqual(Row('54321').rounds(), '12345')
+        self.assertEqual(Row('84567123').rounds(), Row(8))
+
     def test_row_isrounds(self):
         self.assertTrue(Row(0).is_rounds())
         self.assertTrue(Row(1).is_rounds())
