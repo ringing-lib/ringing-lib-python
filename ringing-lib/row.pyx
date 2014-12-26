@@ -3,7 +3,7 @@ from libcpp.string cimport string
 cimport row
 
 
-cdef bytes _s(s):
+cdef string _s(s):
     if type(s) is unicode:
         return s.encode()
     else:
@@ -15,13 +15,10 @@ cdef class Row:
     cdef row *thisptr
 
     def __cinit__(self, input):
-        cdef string s
-
         if type(input) is int:
             self.thisptr = new row(<int>input)
         elif type(input) is str:
-            s = _s(input)
-            self.thisptr = new row(s)
+            self.thisptr = new row(_s(input))
         else:
             raise TypeError
 
