@@ -29,10 +29,10 @@ class RowTest(unittest.TestCase):
         self.assertRaises(ValueError, lambda: Row('098765432'))
 
     def test_row_multiply_row(self):
-        self.assertTrue(Row('4312') * Row('2341') == Row('3124'))
-        self.assertTrue(Row('7631425') * Row('2347165') == Row('6315724'))
-        self.assertTrue(Row('12387654') * Row('631245') == Row('63128754'))
-        self.assertTrue(Row('24531') * Row('57863124') == Row('17865243'))
+        self.assertEqual(Row('4312') * Row('2341'), Row('3124'))
+        self.assertEqual(Row('7631425') * Row('2347165'), Row('6315724'))
+        self.assertEqual(Row('12387654') * Row('631245'), Row('63128754'))
+        self.assertEqual(Row('24531') * Row('57863124'), Row('17865243'))
 
         r = Row()
         r = r * '34512'
@@ -41,9 +41,9 @@ class RowTest(unittest.TestCase):
         self.assertEqual(r, '31425')
 
     def test_row_divide_row(self):
-        self.assertTrue(Row('642153') / Row('235164') == Row('164325'))
-        self.assertTrue(Row('53678421') / Row('425613') == Row('83456721'))
-        self.assertTrue(Row('51324') / Row('645231') == Row('624135'))
+        self.assertEqual(Row('642153') / Row('235164'), Row('164325'))
+        self.assertEqual(Row('53678421') / Row('425613'), Row('83456721'))
+        self.assertEqual(Row('51324') / Row('645231'), Row('624135'))
 
         r = Row()
         r = r / '623415'
