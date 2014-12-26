@@ -117,3 +117,10 @@ cdef class Row:
 
         result.thisptr[0] = deref(rx.thisptr) / deref(ry.thisptr)
         return result
+
+    def __pow__(Row x, int y, z):
+        cdef Row rx = Row(x)
+        cdef Row result = Row()
+
+        result.thisptr[0] = rx.thisptr.power(y)
+        return result

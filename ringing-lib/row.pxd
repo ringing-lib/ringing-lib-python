@@ -17,6 +17,7 @@ cdef extern from "ringing/row.h" namespace "ringing":
         row operator*(const row& r)         # Transpose one row by another
         row operator/(const row& r)         # Inverse of transposition
         row inverse()                       # Find the inverse
+        row power(int n)                    # Find the nth power of the row
 
         int bells()                         # How many bells?
         row &rounds()                       # Set it to rounds
