@@ -1,4 +1,4 @@
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 from Cython.Build import cythonize
 
@@ -29,4 +29,5 @@ setup(
     ],
     license='GPL',
     ext_modules=cythonize(extensions),
+    test_suite='tests',
 )

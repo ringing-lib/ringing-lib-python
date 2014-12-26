@@ -1,1 +1,2 @@
-ringing-lib/*.cpp
+/ringing-lib/*.cpp
+/ringing_lib.egg-info/
