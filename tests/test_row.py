@@ -5,6 +5,23 @@ from row import Row
 
 
 class RowTest(unittest.TestCase):
+    def test_row_equals(self):
+        self.assertTrue(Row() == Row(''))
+        self.assertTrue(Row() != Row('1'))
+        self.assertTrue(Row(6) == Row('123456'))
+
+        self.assertTrue(Row('123456') == Row('123456'))
+        self.assertFalse(Row('123456') != Row('123456'))
+
+        self.assertTrue(Row('123456') != Row('123465'))
+        self.assertFalse(Row('123456') == Row('123465'))
+
+        self.assertTrue(Row('123456') != Row('1234'))
+        self.assertFalse(Row('123456') == Row('1234'))
+
+        self.assertTrue(Row('123456') != Row('12345678'))
+        self.assertFalse(Row('123456') == Row('12345678'))
+
     def test_row_invalid(self):
         self.assertRaises(ValueError, lambda: Row('124'))
         self.assertRaises(ValueError, lambda: Row('12#'))

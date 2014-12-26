@@ -71,3 +71,10 @@ cdef class Row:
 
     def __hash__(self):
         return self.thisptr.hash()
+
+    def __richcmp__(x, y, int op):
+        if not isinstance(x, Row) or not isinstance(y, Row):
+            raise NotImplementedError
+
+        if op == 2:
+            return x.thisptr == y.thisptr

@@ -11,6 +11,8 @@ cdef extern from "ringing/row.h" namespace "ringing":
         row(const string &s) except +       # Construct a row from a string
         row(const row& r)                   # Default copy constructor
 
+        bool operator==(const row& r)       # Compare
+        bool operator!=(const row& r)
         bell operator[](int i)              # Return one particular bell
 
         int bells()                         # How many bells?
