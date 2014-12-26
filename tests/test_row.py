@@ -59,6 +59,11 @@ class RowTest(unittest.TestCase):
         self.assertEqual(Row('312').inverse(), '231')
         self.assertEqual(Row('18234567').inverse(), '13456782')
 
+    def test_row_inverse_tilde(self):
+        self.assertEqual(~Row('654321'), '654321')
+        self.assertEqual(~Row('312'), '231')
+        self.assertEqual(~Row('18234567'), '13456782')
+
     def test_row_print(self):
         self.assertEqual(str(Row()), '')
         self.assertEqual(str(Row('123456')), '123456')

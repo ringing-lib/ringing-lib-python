@@ -124,3 +124,6 @@ cdef class Row:
 
         result.thisptr[0] = rx.thisptr.power(y)
         return result
+
+    def __invert__(self):
+        return self.inverse()
