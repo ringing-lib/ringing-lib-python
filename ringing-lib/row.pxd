@@ -24,3 +24,9 @@ cdef extern from "ringing/row.h" namespace "ringing":
         string cycles()     # Express it as a product of disjoint cycles
         int order()         # Return the order
         size_t hash()
+
+        # So that we can put rows in containers
+        bool operator<(const row& r)
+        bool operator>(const row& r)
+        bool operator<=(const row& r)
+        bool operator>=(const row& r)
