@@ -83,3 +83,23 @@ class RowTest(unittest.TestCase):
         self.assertEqual(Row('234561').order(), 6)
         self.assertEqual(Row('21436578').order(), 2)
         self.assertEqual(Row('2315674').order(), 12)
+
+    def test_row_comparison(self):
+        self.assertTrue(Row('654321') > Row(8))
+        self.assertTrue(Row('654321') >= Row(8))
+        self.assertFalse(Row('654321') < Row(8))
+        self.assertFalse(Row('654321') <= Row(8))
+
+        self.assertTrue(Row('654321') > Row(6))
+        self.assertTrue(Row('654321') >= Row(6))
+        self.assertFalse(Row('654321') < Row(6))
+        self.assertFalse(Row('654321') <= Row(6))
+
+        self.assertFalse(Row('1432') > Row('1432'))
+        self.assertTrue(Row('1432') >= Row('1432'))
+        self.assertFalse(Row('1432') < Row('1432'))
+        self.assertTrue(Row('1432') <= Row('1432'))
+
+        self.assertTrue(Row('1234') < Row('1243'))
+        self.assertTrue(Row('1243') < Row('1432'))
+        self.assertTrue(Row('1432') < Row('4312'))
