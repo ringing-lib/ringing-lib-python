@@ -7,8 +7,8 @@ cdef class Row:
 
     cdef row *thisptr
 
-    def __cinit__(self, const string str):
-        self.thisptr = new row(str)
+    def __cinit__(self, unicode input):
+        self.thisptr = new row(input.encode())
 
     def __dealloc__(self):
         del self.thisptr
