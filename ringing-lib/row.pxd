@@ -6,6 +6,7 @@ from bell cimport bell
 
 cdef extern from "ringing/row.h" namespace "ringing":
     cdef cppclass row:
+        row()
         row(int num) except +               # Construct rounds on n bells
         row(const string &s) except +       # Construct a row from a string
 

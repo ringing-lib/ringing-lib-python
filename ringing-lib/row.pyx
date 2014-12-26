@@ -16,8 +16,10 @@ cdef class Row:
 
     cdef row *thisptr
 
-    def __cinit__(self, input):
-        if isinstance(input, int):
+    def __cinit__(self, input=None):
+        if input is None:
+            self.thisptr = new row()
+        elif isinstance(input, int):
             self.thisptr = new row(<int>input)
         elif isinstance(input, str):
             self.thisptr = new row(_s(input))
@@ -53,7 +55,10 @@ cdef class Row:
         return self.thisptr.order()
 
     def __repr__(self):
-        return 'Row("' + self.__str__() + '")'
+        if self.thisptr.bells():
+            return 'Row("' + self.__str__() + '")'
+        else:
+            return 'Row()'
 
     def __str__(self):
         return ''.join([
