@@ -78,14 +78,6 @@ class RowTest(unittest.TestCase):
         self.assertEqual(Row('54321').rounds(), '12345')
         self.assertEqual(Row('84567123').rounds(), Row(8))
 
-    def test_row_isrounds(self):
-        self.assertTrue(Row(0).is_rounds())
-        self.assertTrue(Row(1).is_rounds())
-        self.assertTrue(Row(2).is_rounds())
-
-        self.assertTrue(Row('12345678').is_rounds())
-        self.assertFalse(Row('21').is_rounds())
-
     def test_row_named_rows(self):
         self.assertEqual(Row.queens(0), '')
         self.assertEqual(Row.queens(1), '1')
@@ -148,6 +140,14 @@ class RowTest(unittest.TestCase):
         self.assertEqual(Row.cyclic(8, 1, 5), Row('17823456'))
         self.assertEqual(Row.cyclic(8, 1, 7), Row('12345678'))
         self.assertEqual(Row.cyclic(8, 1, 13), Row('18234567'))
+
+    def test_row_isrounds(self):
+        self.assertTrue(Row(0).is_rounds())
+        self.assertTrue(Row(1).is_rounds())
+        self.assertTrue(Row(2).is_rounds())
+
+        self.assertTrue(Row('12345678').is_rounds())
+        self.assertFalse(Row('21').is_rounds())
 
     def test_row_ispblh(self):
         # TODO: more tests needed here.
