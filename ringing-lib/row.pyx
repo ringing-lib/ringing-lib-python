@@ -66,22 +66,6 @@ cdef class Row:
     def order(self):
         return self.thisptr.order()
 
-    def __repr__(self):
-        if self.thisptr.bells():
-            return 'Row("' + self.__str__() + '")'
-        else:
-            return 'Row()'
-
-    def __str__(self):
-        return ''.join([
-            chr(deref(self.thisptr)[i].to_char())
-            for i
-            in range(self.thisptr.bells())
-        ])
-
-    def __hash__(self):
-        return self.thisptr.hash()
-
     def __richcmp__(x, y, int op):
         cdef Row rx = Row(x)
         cdef Row ry = Row(y)
@@ -99,6 +83,22 @@ cdef class Row:
         elif op == 5:  # >=
             return deref(rx.thisptr) >= deref(ry.thisptr)
 
+    def __str__(self):
+        return ''.join([
+            chr(deref(self.thisptr)[i].to_char())
+            for i
+            in range(self.thisptr.bells())
+        ])
+
+    def __repr__(self):
+        if self.thisptr.bells():
+            return 'Row("' + self.__str__() + '")'
+        else:
+            return 'Row()'
+
+    def __hash__(self):
+        return self.thisptr.hash()
+
     def __mul__(x, y):
         cdef Row rx = Row(x)
         cdef Row ry = Row(y)
@@ -107,6 +107,9 @@ cdef class Row:
         result.thisptr[0] = deref(rx.thisptr) * deref(ry.thisptr)
         return result
 
+    def __div__(x, y):
+        return Row.__truediv__(x, y)
+
     def __truediv__(x, y):
         cdef Row rx = Row(x)
         cdef Row ry = Row(y)
@@ -114,6 +117,3 @@ cdef class Row:
 
         result.thisptr[0] = deref(rx.thisptr) / deref(ry.thisptr)
         return result
-
-    def __div__(x, y):
-        return Row.__truediv__(x, y)
