@@ -45,6 +45,34 @@ cdef class Row:
         self.thisptr.rounds()
         return self
 
+    @staticmethod
+    def rounds(int n):
+        return Row(row.rounds(n))
+
+    @staticmethod
+    def queens(int n):
+        return row.queens(n)
+
+    @staticmethod
+    def kings(int n):
+        return row.kings(n)
+
+    @staticmethod
+    def tittums(int n):
+        return row.tittums(n)
+
+    @staticmethod
+    def reverse_rounds(int n):
+        return row.reverse_rounds(n)
+
+    @staticmethod
+    def cyclic(int n, int h=1, int c=1):
+        return row.cyclic(n, h, c)
+
+    @staticmethod
+    def pblh(int n, int h=1):
+        return row.pblh(n, h)
+
     def is_rounds(self):
         return self.thisptr.isrounds()
 
