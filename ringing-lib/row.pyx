@@ -37,9 +37,9 @@ cdef class Row:
         result.thisptr[0] = self.thisptr.inverse()
         return result
 
-    @property
-    def bells(self):
-        return self.thisptr.bells()
+    property bells:
+        def __get__(self):
+            return self.thisptr.bells()
 
     def rounds(self):
         self.thisptr.rounds()
