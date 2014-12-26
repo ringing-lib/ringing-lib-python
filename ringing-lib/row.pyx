@@ -1,7 +1,5 @@
 from libcpp.string cimport string
 
-cimport row
-
 
 cdef string _s(s):
     if type(s) is unicode:
