@@ -76,5 +76,8 @@ cdef class Row:
         if not isinstance(x, Row) or not isinstance(y, Row):
             raise NotImplementedError
 
-        if op == 2:
-            return x.thisptr == y.thisptr
+        if op == 2:  # ==
+            return deref(Row(x).thisptr) == deref(Row(y).thisptr)
+
+        if op == 3:  # !=
+            return deref(Row(x).thisptr) != deref(Row(y).thisptr)
