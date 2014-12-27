@@ -48,6 +48,13 @@ class RowTest(unittest.TestCase):
         self.assertRaises(ValueError, lambda: Row('5444'))
         self.assertRaises(ValueError, lambda: Row('098765432'))
 
+    def test_row_subscript(self):
+        self.assertEqual(Row('1')[0], 0)
+        self.assertEqual(Row('15234')[0], 0)
+        self.assertEqual(Row('15234')[2], 1)
+        self.assertEqual(Row('15234')[4], 3)
+        self.assertEqual(Row(12)[11], 11)
+
     def test_row_multiply_row(self):
         self.assertEqual(Row('4312') * Row('2341'), Row('3124'))
         self.assertEqual(Row('7631425') * Row('2347165'), Row('6315724'))

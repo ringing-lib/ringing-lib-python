@@ -173,3 +173,7 @@ cdef class Row:
 
     def __len__(self):
         return self.bells
+
+    def __getitem__(self, int x):
+        cdef bell item = deref(self.thisptr)[x]
+        return <int>item
