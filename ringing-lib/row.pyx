@@ -42,6 +42,12 @@ cdef class Row:
         return self
 
     @staticmethod
+    def rounds(int n):
+        cdef Row result = Row()
+        result.thisptr[0] = row.rounds(n)
+        return result
+
+    @staticmethod
     def queens(int n):
         cdef Row result = Row()
         result.thisptr[0] = row.queens(n)

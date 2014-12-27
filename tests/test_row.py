@@ -97,6 +97,12 @@ class RowTest(unittest.TestCase):
         self.assertEqual(r, '12345678')
 
     def test_row_named_rows(self):
+        self.assertEqual(Row.rounds(0), '')
+        self.assertEqual(Row.rounds(1), '1')
+        self.assertEqual(Row.rounds(2), '12')
+        self.assertEqual(Row.rounds(5), '12345')
+        self.assertEqual(Row.rounds(8), '12345678')
+
         self.assertEqual(Row.queens(0), '')
         self.assertEqual(Row.queens(1), '1')
         self.assertEqual(Row.queens(2), '12')

@@ -26,6 +26,8 @@ cdef extern from "ringing/row.h" namespace "ringing":
         row &rounds()                       # Set it to rounds
 
         @staticmethod
+        row rounds(int n)                   # Return rounds on n bells
+        @staticmethod
         row queens(int n)                   # Return queens on n bells
         @staticmethod
         row kings(int n)                    # Return kings on n bells
