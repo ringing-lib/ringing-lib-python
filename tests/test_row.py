@@ -35,6 +35,13 @@ class RowTest(unittest.TestCase):
         except NameError:
             pass
 
+    def test_row_copy(self):
+        a = Row('123654')
+        c = Row(a)
+        self.assertEqual(a, c)
+
+        # Tests involving row::swap() omitted.
+
     def test_row_invalid(self):
         self.assertRaises(ValueError, lambda: Row('124'))
         self.assertRaises(ValueError, lambda: Row('12#'))
@@ -80,6 +87,8 @@ class RowTest(unittest.TestCase):
     def test_row_print(self):
         self.assertEqual(str(Row()), '')
         self.assertEqual(str(Row('123456')), '123456')
+
+        # Tests involving stream operators omitted.
 
     def test_row_bells(self):
         self.assertEqual(Row().bells, 0)
@@ -174,7 +183,18 @@ class RowTest(unittest.TestCase):
         self.assertFalse(Row('21').is_rounds())
 
     def test_row_ispblh(self):
-        # TODO: more tests needed here.
+        self.assertEqual(Row.pblh(0).is_pblh(), 1)
+        self.assertEqual(Row.pblh(3).is_pblh(), 1)
+        self.assertEqual(Row.pblh(6).is_pblh(), 1)
+        self.assertEqual(Row.pblh(9).is_pblh(), 1)
+
+        self.assertTrue(Row.rounds(0).is_pblh())
+        self.assertFalse(Row.rounds(1).is_pblh())
+        self.assertFalse(Row.rounds(2).is_pblh())
+        self.assertFalse(Row.rounds(3).is_pblh())
+        self.assertFalse(Row.rounds(6).is_pblh())
+        self.assertFalse(Row.rounds(9).is_pblh())
+
         self.assertTrue(Row('135264').is_pblh())
         self.assertTrue(Row('156342').is_pblh())
         self.assertFalse(Row('165342').is_pblh())
@@ -182,6 +202,9 @@ class RowTest(unittest.TestCase):
         self.assertTrue(Row('1246375').is_pblh())
         self.assertTrue(Row('1267453').is_pblh())
         self.assertFalse(Row('1267543').is_pblh())
+
+        r = Row.pblh(10)
+        self.assertTrue((r * r * r).is_pblh())
 
     def test_row_sign(self):
         self.assertEqual(Row().sign(), +1)
