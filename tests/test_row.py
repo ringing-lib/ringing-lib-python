@@ -22,6 +22,19 @@ class RowTest(unittest.TestCase):
         self.assertTrue(Row('123456') != Row('12345678'))
         self.assertFalse(Row('123456') == Row('12345678'))
 
+    def test_row_equals_string_types(self):
+        self.assertEqual(Row('123456'), '123456')
+
+        self.assertEqual(Row(b'123456'), b'123456')
+        self.assertEqual(Row(u'123456'), u'123456')
+
+        self.assertEqual(bytes(Row('123456')), b'123456')
+
+        try:
+            self.assertEqual(unicode(Row('123456')), u'123456')
+        except NameError:
+            pass
+
     def test_row_invalid(self):
         self.assertRaises(ValueError, lambda: Row('124'))
         self.assertRaises(ValueError, lambda: Row('12#'))
