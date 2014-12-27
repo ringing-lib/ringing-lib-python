@@ -5,13 +5,6 @@ from libcpp.string cimport string
 from bell cimport bell
 
 
-cdef string _s(s):
-    if isinstance(s, unicode):
-        return s.encode()
-    else:
-        return s
-
-
 cdef class Row:
 
     cdef row *thisptr
@@ -23,8 +16,10 @@ cdef class Row:
             self.thisptr = new row(deref((<Row>input).thisptr))
         elif isinstance(input, int):
             self.thisptr = new row(<int>input)
-        elif isinstance(input, str):
-            self.thisptr = new row(_s(input))
+        elif isinstance(input, unicode):
+            self.thisptr = new row(<string>(input.encode()))
+        elif isinstance(input, bytes):
+            self.thisptr = new row(<string>input)
         else:
             raise TypeError
 
