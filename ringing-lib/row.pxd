@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 from libcpp cimport bool
 from libcpp.string cimport string
 
@@ -19,6 +21,7 @@ cdef extern from "ringing/row.h" namespace "ringing":
         row inverse()                       # Find the inverse
         row power(int n)                    # Find the nth power of the row
 
+        string print()                      # Print the row into a string
         int bells()                         # How many bells?
         row &rounds()                       # Set it to rounds
 

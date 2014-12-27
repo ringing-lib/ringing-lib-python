@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 from cython.operator cimport dereference as deref
 from cpython.version cimport PY_MAJOR_VERSION
 from libcpp.string cimport string
@@ -114,11 +116,16 @@ cdef class Row:
             return deref(rx.thisptr) >= deref(ry.thisptr)
 
     def __str__(self):
-        return ''.join([
-            chr(deref(self.thisptr)[i].to_char())
-            for i
-            in range(self.thisptr.bells())
-        ])
+        if PY_MAJOR_VERSION < 3:
+            return self.__bytes__()
+        else:
+            return self.__unicode__()
+
+    def __bytes__(self):
+        return self.thisptr.print()
+
+    def __unicode__(self):
+        return self.thisptr.print().decode()
 
     def __repr__(self):
         if self.thisptr.bells():
