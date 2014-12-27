@@ -37,7 +37,7 @@ cdef class Row:
         def __get__(self):
             return self.thisptr.bells()
 
-    def rounds(self):
+    def make_rounds(self):
         self.thisptr.rounds()
         return self
 

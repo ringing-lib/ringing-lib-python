@@ -87,9 +87,14 @@ class RowTest(unittest.TestCase):
         self.assertEqual(Row('12345').bells, 5)
 
     def test_row_rounds(self):
-        self.assertEqual(Row().rounds(), '')
-        self.assertEqual(Row('54321').rounds(), '12345')
-        self.assertEqual(Row('84567123').rounds(), Row(8))
+        self.assertEqual(Row().make_rounds(), '')
+        self.assertEqual(Row('54321').make_rounds(), '12345')
+        self.assertEqual(Row('84567123').make_rounds(), Row(8))
+
+        r = Row('54321').make_rounds()
+        self.assertEqual(r, '12345')
+        r = Row('84567123').make_rounds()
+        self.assertEqual(r, '12345678')
 
     def test_row_named_rows(self):
         self.assertEqual(Row.queens(0), '')
