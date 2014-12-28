@@ -1,0 +1,21 @@
+language: python
+
+python:
+  - 2.6
+  - 2.7
+  - 3.2
+  - 3.3
+  - 3.4
+
+before_install:
+  - wget http://ringing-lib-packages.s3.amazonaws.com/libringing-dev_0.4.0-1_amd64.deb
+
+install:
+  - sudo dpkg --install libringing-dev_0.4.0-1_amd64.deb
+  - pip install -r requirements.txt
+
+before_script:
+  - python setup.py build_ext --inplace
+
+script:
+  - python setup.py test
