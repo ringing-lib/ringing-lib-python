@@ -178,5 +178,7 @@ cdef class Row:
         return self.bells
 
     def __getitem__(self, int x):
-        cdef bell item = deref(self.thisptr)[x]
-        return <int>item
+        if 0 <= x <= (self.bells - 1):
+            return <int>(deref(self.thisptr)[x])
+        else:
+            raise IndexError
