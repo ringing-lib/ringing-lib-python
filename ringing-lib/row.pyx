@@ -20,7 +20,7 @@ cdef class Row:
             if 0 <= input <= 256:
                 self.thisptr = new row(<int>input)
             else:
-                raise ValueError
+                raise ValueError('number of bells must be between 0 and 256')
         elif isinstance(input, unicode):
             self.thisptr = new row(<string>(input.encode()))
         elif isinstance(input, bytes):
