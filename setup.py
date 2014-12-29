@@ -1,6 +1,14 @@
+import os
 from setuptools import setup, Extension
+import sys
 
 from Cython.Build import cythonize
+
+
+# Don't run any setup tasks if we're running on readthedocs.org.
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if on_rtd:
+    sys.exit()
 
 
 extensions = [
