@@ -17,7 +17,10 @@ cdef class Row:
         elif isinstance(input, Row):
             self.thisptr = new row(deref((<Row>input).thisptr))
         elif isinstance(input, int):
-            self.thisptr = new row(<int>input)
+            if 0 <= input <= 256:
+                self.thisptr = new row(<int>input)
+            else:
+                raise ValueError
         elif isinstance(input, unicode):
             self.thisptr = new row(<string>(input.encode()))
         elif isinstance(input, bytes):

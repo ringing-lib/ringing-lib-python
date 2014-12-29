@@ -4,6 +4,11 @@ from row import Row
 
 
 class RowTest(unittest.TestCase):
+    def test_row_constructor_exceptions(self):
+        self.assertRaises(ValueError, lambda: Row(-1))
+        self.assertRaises(ValueError, lambda: Row(257))
+        self.assertRaises(TypeError, lambda: Row(self))
+
     def test_row_equals_string_types(self):
         self.assertEqual(Row('123456'), '123456')
 
