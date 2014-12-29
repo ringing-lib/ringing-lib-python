@@ -10,4 +10,5 @@ NOTE: these bindings are still incomplete
 This package contains Python bindings for the
 [Ringing Class Library](http://ringing-lib.sourceforge.net/).
 It should work with Python versions 2.6, 2.7, 3.3 or 3.4.
-You will need to use [Cython](http://cython.org/) to compile the extension.
+
+[Documentation](https://ringing-lib-python.readthedocs.org/)
