@@ -91,9 +91,14 @@ cdef class Row:
 
     def is_pblh(self, int hunts=0):
         if hunts:
-            return self.thisptr.ispblh(hunts)
+            result = self.thisptr.ispblh(hunts)
         else:
-            return self.thisptr.ispblh()
+            result = self.thisptr.ispblh()
+
+        if result == 0:
+            result = False
+
+        return result
 
     def sign(self):
         return self.thisptr.sign()

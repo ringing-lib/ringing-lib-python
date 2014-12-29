@@ -217,10 +217,10 @@ The Row Class
       If the row is a lead head of Plain Bob, Grandsire or, more generally, of
       the Plain Bob type method with any number of hunt bells, then this
       function returns an integer indicating which lead head it is. Otherwise,
-      it returns 0.
+      it returns ``False``.
       
       :param int hunts: number of hunt bells
-      :return: lead head number, or 0 if not a Plain Bob-type lead head
+      :return: lead head number, or ``False`` if not a Plain Bob-type lead head
       :rtype: int
    
    .. method:: sign()
