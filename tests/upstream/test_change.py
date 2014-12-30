@@ -1,6 +1,6 @@
 import unittest
 
-from change import Change
+from ringing import Change
 
 
 class ChangeTest(unittest.TestCase):

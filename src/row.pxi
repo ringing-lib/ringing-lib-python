@@ -1,12 +1,3 @@
-# cython: language_level=3
-
-from cython.operator cimport dereference as deref
-from cpython.version cimport PY_MAJOR_VERSION
-from libcpp.string cimport string
-
-from bell cimport bell
-
-
 cdef class Row:
 
     cdef row *thisptr

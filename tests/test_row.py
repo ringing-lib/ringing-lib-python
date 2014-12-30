@@ -1,6 +1,6 @@
 import unittest
 
-from row import Row
+from ringing import Row
 
 
 class RowTest(unittest.TestCase):
