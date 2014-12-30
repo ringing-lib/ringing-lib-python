@@ -10,6 +10,7 @@ docs:
 	make -C docs html
 
 clean:
+	rm -rf build
 	rm -f ringing-lib/*.cpp
 	rm -f *.so
 	rm -rf ringing_lib.egg-info/
