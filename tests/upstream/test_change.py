@@ -195,3 +195,36 @@ class ChangeTest(unittest.TestCase):
         self.assertFalse(c.reverse().find_place(0))
         self.assertTrue(c.reverse().find_place(3))
         self.assertTrue(c.reverse().internal())
+
+    def test_change_multiply_bell(self):
+        b1 = 3
+
+        b1 = b1 * Change(6, '-')
+        self.assertEqual(b1, 2)
+        b1 = b1 * Change(6, '3')
+        self.assertEqual(b1, 2)
+        b1 = b1 * Change(6, '-')
+        self.assertEqual(b1, 3)
+        b1 = b1 * Change(6, '4')
+        self.assertEqual(b1, 3)
+        b1 = b1 * Change(6, '-')
+        self.assertEqual(b1, 2)
+
+        b2 = 0
+
+        b2 = b2 * Change(6, '-')
+        self.assertEqual(b2, 1)
+        b2 = b2 * Change(6, '3')
+        self.assertEqual(b2, 0)
+        b2 = b2 * Change(6, '-')
+        self.assertEqual(b2, 1)
+        b2 = b2 * Change(6, '4')
+        self.assertEqual(b2, 2)
+        b2 = b2 * Change(6, '-')
+        self.assertEqual(b2, 3)
+
+        self.assertEqual(b2 * Change(6, '16'), 4)
+        self.assertEqual(b2, 3)
+
+        self.assertEqual(10 * Change(4, 'X'), 10)
+        self.assertEqual(9 * Change(), 9)

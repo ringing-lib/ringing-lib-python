@@ -123,3 +123,23 @@ cdef class Change:
             )
         else:
             return 'Change()'
+
+    def __mul__(x, y):
+        cdef bell result
+
+        cdef int i
+        cdef change c
+
+        if isinstance(x, int) and isinstance(y, Change):
+            i = x
+            c = deref((<Change>y).thisptr)
+        elif isinstance(x, Change) and isinstance(y, int):
+            i = y
+            c = deref((<Change>x).thisptr)
+        else:
+            return NotImplemented
+
+        if 0 <= i <= 256:
+            return <int>(bell(i) * c)
+        else:
+            raise ValueError('bell number out of range')

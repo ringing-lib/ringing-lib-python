@@ -48,6 +48,17 @@ The Change Class
       :raises: :exc:`ValueError` if ``change`` can't be parsed
       :raises: :exc:`TypeError` if ``change`` is of an unknown type
    
+   .. method:: __mul__(bell)
+      
+      Returns the effect of applying the change to the bell *b*\ . For example,
+      ``3 * Change(4, '34') == 4``. This is useful in tracing the path of one
+      particular bell through a series of changes.
+      
+      :param int bell: bell to apply
+      :return: result
+      :rtype: int
+      :raises: :exc:`ValueError` if ``bell`` is out of range
+   
    .. method:: set(num, pn)
       
       Sets the change to a new value.

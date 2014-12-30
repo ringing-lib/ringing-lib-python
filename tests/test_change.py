@@ -48,3 +48,24 @@ class ChangeTest(unittest.TestCase):
         self.assertTrue(c.swap_pair(0))
         self.assertTrue(c.swap_pair(4))
         self.assertRaises(IndexError, lambda: c.swap_pair(5))
+
+    def test_bell_multiply_order(self):
+        c = Change(6, '14')
+
+        self.assertEqual(0 * c, 0)
+        self.assertEqual(1 * c, 2)
+        self.assertEqual(2 * c, 1)
+        self.assertEqual(3 * c, 3)
+        self.assertEqual(4 * c, 5)
+
+        self.assertEqual(c * 0, 0)
+        self.assertEqual(c * 1, 2)
+        self.assertEqual(c * 2, 1)
+        self.assertEqual(c * 3, 3)
+        self.assertEqual(c * 4, 5)
+
+    def test_bell_multiply_bounds(self):
+        c = Change(6, '14')
+
+        self.assertRaises(ValueError, lambda: c * -1)
+        self.assertRaises(ValueError, lambda: c * 257)
