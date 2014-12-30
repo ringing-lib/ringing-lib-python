@@ -11,7 +11,7 @@ docs:
 
 clean:
 	rm -rf build
-	rm -f ringing/*.cpp
+	rm -f src/*.cpp
 	rm -f *.so
 	rm -rf ringing_lib.egg-info/
 	make -C docs clean

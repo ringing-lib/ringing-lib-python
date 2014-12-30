@@ -12,7 +12,7 @@ if on_rtd:
 
 
 extensions = [
-    Extension('*', ['ringing/*.pyx'],
+    Extension('*', ['src/*.pyx'],
         language='c++',
         libraries=['ringing', 'ringingcore'],
     ),
