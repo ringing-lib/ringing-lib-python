@@ -23,6 +23,14 @@ class ChangeTest(unittest.TestCase):
         except NameError:
             pass
 
+    def test_change_set_exceptions(self):
+        c = Change()
+
+        self.assertRaises(ValueError, lambda: c.set(-1, 'X'))
+        self.assertRaises(ValueError, lambda: c.set(257, 'X'))
+        self.assertRaises(TypeError, lambda: c.set(self, 'X'))
+        self.assertRaises(TypeError, lambda: c.set(1, self))
+
     def test_index_method_bounds(self):
         c = Change(6)
 

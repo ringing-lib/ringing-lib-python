@@ -48,6 +48,17 @@ The Change Class
       :raises: :exc:`ValueError` if ``change`` can't be parsed
       :raises: :exc:`TypeError` if ``change`` is of an unknown type
    
+   .. method:: set(num, pn)
+      
+      Sets the change to a new value.
+      
+      :param int num: number of bells
+      :param string pn: place notation
+      :return: the new change
+      :rtype: :class:`Change`
+      :raises: :exc:`ValueError` if a parameter can't be parsed
+      :raises: :exc:`TypeError` if a parameter is of an unknown type
+   
    .. method:: reverse()
       
       Returns the reverse of a change; that is, the change is flipped over so

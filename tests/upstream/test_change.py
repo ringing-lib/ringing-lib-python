@@ -37,6 +37,13 @@ class ChangeTest(unittest.TestCase):
 
         self.assertRaises(ValueError, lambda: Change(5, '15'))
 
+    def test_change_set(self):
+        a = Change()
+        self.assertNotEqual(a, Change(6, '16'))
+
+        a.set(6, '16')
+        self.assertEqual(a, Change(6, '16'))
+
     def test_change_reverse(self):
         self.assertEqual(Change(5, '1').reverse(), Change(5, '5'))
         self.assertEqual(Change(6, '16').reverse(), Change(6, '16'))

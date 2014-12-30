@@ -26,6 +26,19 @@ cdef class Change:
     def __dealloc__(self):
         del self.thisptr
 
+    def set(self, int num, pn):
+        if 0 <= num <= 256:
+            if isinstance(pn, bytes):
+                self.thisptr.set(num, pn)
+            elif isinstance(pn, unicode):
+                self.thisptr.set(num, pn.encode())
+            else:
+                raise TypeError
+        else:
+            raise ValueError('number of bells must be between 0 and 256')
+
+        return self
+
     def reverse(self):
         cdef Change result = Change()
         result.thisptr[0] = self.thisptr.reverse()
