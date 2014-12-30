@@ -51,7 +51,7 @@ The Change Class
    .. method:: __mul__(bell)
       
       Returns the effect of applying the change to the bell *b*\ . For example,
-      ``3 * Change(4, '34') == 4``. This is useful in tracing the path of one
+      ``3 * Change(4, '34') == 3``. This is useful in tracing the path of one
       particular bell through a series of changes.
       
       :param int bell: bell to apply
