@@ -259,3 +259,12 @@ The Row Class
       
       :return: the row's order
       :rtype: int
+   
+   .. method:: find(int b)
+      
+      Locates the bell, *b*, in this row and returns its place.
+      
+      :param int b: bell to find (0-indexed)
+      :return: bell position (0-indexed)
+      :rtype: int
+      :raise: :exc:`TypeError` if ``b`` out of range

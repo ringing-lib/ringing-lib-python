@@ -56,6 +56,8 @@ cdef extern from "ringing/row.h" namespace "ringing":
         int order()         # Return the order
         size_t hash()
 
+        int find(const bell& b)  # Finds the bell
+
         # So that we can put rows in containers
         bool operator<(const row& r)
         bool operator>(const row& r)

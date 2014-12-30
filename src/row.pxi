@@ -103,6 +103,12 @@ cdef class Row:
     def order(self):
         return self.thisptr.order()
 
+    def find(self, int b):
+        if 0 <= b <= 256:
+            return self.thisptr.find(bell(b))
+        else:
+            raise ValueError('number of bells must be between 0 and 256')
+
     def __richcmp__(x, y, int op):
         cdef row rx = deref(Row(x).thisptr)
         cdef row ry = deref(Row(y).thisptr)
