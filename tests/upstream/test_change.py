@@ -21,3 +21,8 @@ class ChangeTest(unittest.TestCase):
         self.assertEqual(str(Change(10, '4')), '14')
         self.assertEqual(str(Change(10, '129')), '1290')
         self.assertEqual(str(Change(16, 'E')), 'ED')
+
+    def test_change_bells(self):
+        self.assertEqual(Change().bells, 0)
+        self.assertEqual(Change(7).bells, 7)
+        self.assertEqual(Change(8, '14').bells, 8)

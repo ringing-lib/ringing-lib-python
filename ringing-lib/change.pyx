@@ -33,6 +33,10 @@ cdef class Change:
     def __dealloc__(self):
         del self.thisptr
 
+    property bells:
+        def __get__(self):
+            return self.thisptr.bells()
+
     def __str__(self):
         if PY_MAJOR_VERSION < 3:
             return self.__bytes__()

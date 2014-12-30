@@ -30,3 +30,7 @@ The Change Class
       *  A string (unicode or bytes) representation of a change.
    :raises: :exc:`ValueError` if a parameter can't be parsed
    :raises: :exc:`TypeError` if a parameter is of an unknown type
+   
+   .. attribute:: bells
+      
+      Number of bells on which the change is defined.
