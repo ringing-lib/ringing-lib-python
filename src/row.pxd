@@ -4,6 +4,7 @@ from libcpp cimport bool
 from libcpp.string cimport string
 
 from bell cimport bell
+from change cimport change
 
 
 cdef extern from "ringing/row.h" namespace "ringing":
@@ -18,6 +19,7 @@ cdef extern from "ringing/row.h" namespace "ringing":
         bell operator[](int i)              # Return one particular bell
         row operator*(const row& r)         # Transpose one row by another
         row operator/(const row& r)         # Inverse of transposition
+        row operator*(const change& c)      # Apply a change to a row
         row inverse()                       # Find the inverse
         row power(int n)                    # Find the nth power of the row
 

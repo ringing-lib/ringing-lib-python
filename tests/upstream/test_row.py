@@ -1,6 +1,6 @@
 import unittest
 
-from ringing import Row
+from ringing import Row, Change
 
 
 class RowTest(unittest.TestCase):
@@ -66,6 +66,17 @@ class RowTest(unittest.TestCase):
         r = r / '87654321'
         self.assertEqual(r, '87514326')
         self.assertEqual(r.bells, 8)
+
+    def test_row_multiply_change(self):
+        r = Row()
+        r = r * Change(6, 'X')
+        self.assertEqual(r, '214365')
+        r = r * Change(6, '1')
+        self.assertEqual(r, '241635')
+        r = r * Change(8, 'X')
+        self.assertEqual(r, '42615387')
+        r = r * Change(5, '3')
+        self.assertEqual(r, '24651387')
 
     def test_row_inverse(self):
         self.assertEqual(Row('654321').inverse(), '654321')
