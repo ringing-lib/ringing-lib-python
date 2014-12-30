@@ -1,3 +1,3 @@
 /docs/build/
-/ringing-lib/*.cpp
-/ringing_lib.egg-info/
+/ringing/*.cpp
+/ringing.egg-info/

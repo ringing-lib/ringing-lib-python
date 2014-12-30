@@ -12,7 +12,7 @@ if on_rtd:
 
 
 extensions = [
-    Extension('*', ['ringing-lib/*.pyx'],
+    Extension('*', ['ringing/*.pyx'],
         language='c++',
         libraries=['ringing', 'ringingcore'],
     ),
@@ -20,7 +20,7 @@ extensions = [
 
 
 setup(
-    name='ringing-lib',
+    name='ringing',
     version='0.1.0',
     author='Leigh Simpson',
     author_email='code@simpleigh.com',
