@@ -37,6 +37,37 @@ cdef class Change:
         def __get__(self):
             return self.thisptr.bells()
 
+    def __richcmp__(x, y, int op):
+        cdef Change cx
+        cdef Change cy
+
+        if isinstance(x, Change):
+            cx = Change(x)
+        elif isinstance(x, bytes) or isinstance(x, unicode):
+            cx = Change(y.bells, x)
+        else:
+            return NotImplemented
+
+        if isinstance(y, Change):
+            cy = Change(y)
+        elif isinstance(y, bytes) or isinstance(y, unicode):
+            cy = Change(x.bells, y)
+        else:
+            return NotImplemented
+
+        if op == 0:  # <
+            return deref(cx.thisptr) < deref(cy.thisptr)
+        elif op == 1:  # <=
+            return deref(cx.thisptr) <= deref(cy.thisptr)
+        elif op == 2:  # ==
+            return deref(cx.thisptr) == deref(cy.thisptr)
+        elif op == 3:  # !=
+            return deref(cx.thisptr) != deref(cy.thisptr)
+        elif op == 4:  # >
+            return deref(cx.thisptr) > deref(cy.thisptr)
+        elif op == 5:  # >=
+            return deref(cx.thisptr) >= deref(cy.thisptr)
+
     def __str__(self):
         if PY_MAJOR_VERSION < 3:
             return self.__bytes__()

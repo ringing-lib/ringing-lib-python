@@ -31,6 +31,23 @@ The Change Class
    :raises: :exc:`ValueError` if a parameter can't be parsed
    :raises: :exc:`TypeError` if a parameter is of an unknown type
    
+   .. method:: __lt__(change)
+   .. method:: __le__(change)
+   .. method:: __eq__(change)
+   .. method:: __ne__(change)
+   .. method:: __gt__(change)
+   .. method:: __ge__(change)
+      
+      Compare a change to another.
+      
+      :param change: value to compare; strings are parsed as changes on the same
+         number of bells
+      :type change: :class:`Change` or string
+      :return: result
+      :rtype: boolean
+      :raises: :exc:`ValueError` if ``change`` can't be parsed
+      :raises: :exc`TypeError` if ``change`` is of an unknown type
+   
    .. attribute:: bells
       
       Number of bells on which the change is defined.

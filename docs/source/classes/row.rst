@@ -100,7 +100,7 @@ The Row Class
       Compare a row to another.
       
       :param row: value to compare
-      :type row: :type spec: :class:`Row` or integer or string
+      :type row: :class:`Row` or integer or string
       :return: result
       :rtype: boolean
       :raises: :exc:`ValueError` if ``row`` can't be parsed
