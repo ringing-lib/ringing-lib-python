@@ -39,10 +39,16 @@ cdef class Change:
         return self.thisptr.sign()
 
     def find_swap(self, int i):
-        return self.thisptr.findswap(bell(i))
+        if 0 <= i < (self.thisptr.bells() - 1):
+            return self.thisptr.findswap(bell(i))
+        else:
+            raise IndexError('bell number out of range')
 
     def find_place(self, int i):
-        return self.thisptr.findplace(bell(i))
+        if 0 <= i <= (self.thisptr.bells() - 1):
+            return self.thisptr.findplace(bell(i))
+        else:
+            raise IndexError('bell number out of range')
 
     def swap_pair(self, int i):
         return self.thisptr.swappair(bell(i))

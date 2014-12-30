@@ -76,6 +76,7 @@ The Change Class
       :return: ``True`` if the change swaps bells *i* and *i*\ +1, and ``False``
          otherwise
       :rtype: boolean
+      :raises: :exc:`IndexError` if ``i`` is out of range
    
    .. method:: find_place(i)
       
@@ -85,6 +86,7 @@ The Change Class
       :return: ``True`` if the change doesn't move the bell in the *i*\ th place
          (i.e. if *i*\ ths place is made), and ``False`` otherwise
       :rtype: boolean
+      :raises: :exc:`IndexError` if ``i`` is out of range
    
    .. method:: swap_pair(i)
       
@@ -100,8 +102,7 @@ The Change Class
       :return: ``True`` if after the function call, the pair of bells *i* and
          *i*\ +1 are swapped, and ``False`` otherwise
       :rtype: boolean
-      :raises: :exc:`IndexError` if the bell *i*\ +1 is greater the number of
-         bells in the change
+      :raises: :exc:`IndexError` if ``i`` is out of range
    
    .. method:: internal()
       

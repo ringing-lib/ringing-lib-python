@@ -22,3 +22,21 @@ class ChangeTest(unittest.TestCase):
             self.assertEqual(unicode(Change(6, '16')), u'16')
         except NameError:
             pass
+
+    def test_index_method_bounds(self):
+        c = Change(6)
+
+        self.assertRaises(IndexError, lambda: c.find_swap(-1))
+        self.assertFalse(c.find_swap(0))
+        self.assertFalse(c.find_swap(4))
+        self.assertRaises(IndexError, lambda: c.find_swap(5))
+
+        self.assertRaises(IndexError, lambda: c.find_place(-1))
+        self.assertTrue(c.find_place(0))
+        self.assertTrue(c.find_place(5))
+        self.assertRaises(IndexError, lambda: c.find_place(6))
+
+        self.assertRaises(IndexError, lambda: c.swap_pair(-1))
+        self.assertTrue(c.swap_pair(0))
+        self.assertTrue(c.swap_pair(4))
+        self.assertRaises(IndexError, lambda: c.swap_pair(5))
