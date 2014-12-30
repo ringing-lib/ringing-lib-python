@@ -68,6 +68,48 @@ class ChangeTest(unittest.TestCase):
         self.assertEqual(Change(6, '-').sign(), -1)
         self.assertEqual(Change(8, '-').sign(), +1)
 
+    def test_change_findswap(self):
+        c = Change(12, '145T')
+        self.assertFalse(c.find_swap(0))  # 1-2
+        self.assertTrue(c.find_swap(1))  # 2-3
+        self.assertFalse(c.find_swap(2))  # 3-4
+        self.assertFalse(c.find_swap(3))  # 4-5
+        self.assertTrue(c.find_swap(5))  # 6-7
+        self.assertFalse(c.find_swap(10))  # E-T
+
+    def test_change_findplace(self):
+        c = Change(10, '1230')
+        self.assertTrue(c.find_place(0))
+        self.assertTrue(c.find_place(1))
+        self.assertTrue(c.find_place(2))
+        self.assertFalse(c.find_place(3))
+        self.assertFalse(c.find_place(8))
+        self.assertTrue(c.find_place(9))
+
+    def test_change_swappair(self):
+        c = Change(8, '-')
+
+        self.assertFalse(c.swap_pair(0))
+        self.assertEqual(c, '12')
+        self.assertTrue(c.swap_pair(1))
+        self.assertEqual(c, '14')
+        self.assertTrue(c.swap_pair(0))
+        self.assertEqual(c, '34')
+        self.assertTrue(c.swap_pair(2))
+        self.assertEqual(c, 'X')
+
+        self.assertFalse(c.swap_pair(2))
+        self.assertEqual(c, '34')
+        self.assertFalse(c.swap_pair(0))
+        self.assertEqual(c, '1234')
+        self.assertTrue(c.swap_pair(1))
+        self.assertEqual(c, '14')
+        self.assertFalse(c.swap_pair(6))
+        self.assertEqual(c, '1478')
+
+        self.assertRaises(IndexError, lambda: c.swap_pair(11))
+        self.assertRaises(IndexError, lambda: c.swap_pair(7))
+
     def test_change_internal(self):
         self.assertFalse(Change().internal())
         self.assertFalse(Change(1).internal())

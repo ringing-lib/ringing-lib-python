@@ -38,6 +38,15 @@ cdef class Change:
     def sign(self):
         return self.thisptr.sign()
 
+    def find_swap(self, int i):
+        return self.thisptr.findswap(bell(i))
+
+    def find_place(self, int i):
+        return self.thisptr.findplace(bell(i))
+
+    def swap_pair(self, int i):
+        return self.thisptr.swappair(bell(i))
+
     def internal(self):
         return self.thisptr.internal()
 

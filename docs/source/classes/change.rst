@@ -68,6 +68,41 @@ The Change Class
          pairs are swapped
       :rtype: int
    
+   .. method:: find_swap(i)
+      
+      Determines whether a position is swapped by the change.
+      
+      :param int i: zero-indexed place to check
+      :return: ``True`` if the change swaps bells *i* and *i*\ +1, and ``False``
+         otherwise
+      :rtype: boolean
+   
+   .. method:: find_place(i)
+      
+      Determines whether a place is made.
+      
+      :param int i: zero-indexed place to check
+      :return: ``True`` if the change doesn't move the bell in the *i*\ th place
+         (i.e. if *i*\ ths place is made), and ``False`` otherwise
+      :rtype: boolean
+   
+   .. method:: swap_pair(i)
+      
+      If the change doesn't currently swap bells *i* and *i*\ +1, then this will
+      add that swap. If those bells are swapped, this will remove the swap. If
+      the bells *i*\ -1 and *i*, or *i*\ +1 and *i*\ +2, are currently swapped,
+      those swaps are removed.
+      
+      This function makes it possible for the user to edit changes in such a way
+      that they will always end up in a sensible state.
+      
+      :param int i: zero-indexed place to swap
+      :return: ``True`` if after the function call, the pair of bells *i* and
+         *i*\ +1 are swapped, and ``False`` otherwise
+      :rtype: boolean
+      :raises: :exc:`IndexError` if the bell *i*\ +1 is greater the number of
+         bells in the change
+   
    .. method:: internal()
       
       Checks whether the change contains internal places.
