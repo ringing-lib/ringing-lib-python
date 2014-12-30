@@ -46,8 +46,39 @@ The Change Class
       :return: result
       :rtype: boolean
       :raises: :exc:`ValueError` if ``change`` can't be parsed
-      :raises: :exc`TypeError` if ``change`` is of an unknown type
+      :raises: :exc:`TypeError` if ``change`` is of an unknown type
+   
+   .. method:: reverse()
+      
+      Returns the reverse of a change; that is, the change is flipped over so
+      that on 8 bells for example, 2nds place becomes 7ths place and so on.
+      
+      :return: result
+      :rtype: :class:`Change`
    
    .. attribute:: bells
       
       Number of bells on which the change is defined.
+   
+   .. method:: sign()
+      
+      Returns the sign of the change.
+      
+      :return: -1 if an odd number of pairs are swapped, +1 if an even number of
+         pairs are swapped
+      :rtype: int
+   
+   .. method:: internal()
+      
+      Checks whether the change contains internal places.
+      
+      :return: ``True`` if the change contains internal places, and ``False``
+         otherwise
+      :rtype: boolean
+   
+   .. method:: count_places()
+      
+      Returns the number of places made in the change
+      
+      :return: number of places made
+      :rtype: int

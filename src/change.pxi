@@ -26,9 +26,23 @@ cdef class Change:
     def __dealloc__(self):
         del self.thisptr
 
+    def reverse(self):
+        cdef Change result = Change()
+        result.thisptr[0] = self.thisptr.reverse()
+        return result
+
     property bells:
         def __get__(self):
             return self.thisptr.bells()
+
+    def sign(self):
+        return self.thisptr.sign()
+
+    def internal(self):
+        return self.thisptr.internal()
+
+    def count_places(self):
+        return self.thisptr.count_places()
 
     def __richcmp__(x, y, int op):
         cdef change cx
