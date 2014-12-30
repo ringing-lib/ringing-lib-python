@@ -51,6 +51,27 @@ class ChangeTest(unittest.TestCase):
         self.assertEqual(Change(7).bells, 7)
         self.assertEqual(Change(8, '14').bells, 8)
 
+    def test_change_comparison(self):
+        self.assertTrue(Change(6, '1234') < Change(8, '56'))
+        self.assertTrue(Change(6, '1234') <= Change(8, '56'))
+        self.assertFalse(Change(6, '1234') > Change(8, '56'))
+        self.assertFalse(Change(6, '1234') >= Change(8, '56'))
+
+        self.assertTrue(Change(6, '1234') > Change(6, '56'))
+        self.assertTrue(Change(6, '1234') >= Change(6, '56'))
+        self.assertFalse(Change(6, '1234') < Change(6, '56'))
+        self.assertFalse(Change(6, '1234') <= Change(6, '56'))
+
+        self.assertFalse(Change(6, 'X') > Change(6, 'X'))
+        self.assertTrue(Change(6, 'X') >= Change(6, 'X'))
+        self.assertFalse(Change(6, 'X') < Change(6, 'X'))
+        self.assertTrue(Change(6, 'X') <= Change(6, 'X'))
+
+        self.assertTrue(Change(6) < Change(6, '3456'))
+        self.assertTrue(Change(6, '3456') < Change(6, '56'))
+        self.assertTrue(Change(6, '56') < Change(6, '36'))
+        self.assertTrue(Change(6, '36') < Change(6, '16'))
+
     def test_change_output(self):
         string = '.'.join(map(str, [
             Change(6, '-'),
