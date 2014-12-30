@@ -5,6 +5,9 @@ from libcpp cimport bool
 
 cdef extern from "ringing/bell.h" namespace "ringing":
     cdef cppclass bell:
+        @staticmethod
+        unsigned int MAX_BELLS
+
         bell()
         bell(int i) except +
 

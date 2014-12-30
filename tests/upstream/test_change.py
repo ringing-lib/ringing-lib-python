@@ -1,6 +1,6 @@
 import unittest
 
-from ringing import Change
+from ringing import Change, MAX_BELLS
 
 
 class ChangeTest(unittest.TestCase):
@@ -172,3 +172,26 @@ class ChangeTest(unittest.TestCase):
             Change(6, '4'),
         ]))
         self.assertEqual(string, 'X.36.X.14')
+
+    def test_change_many_bells(self):
+        n = MAX_BELLS + 4
+
+        c = Change(n)
+
+        self.assertFalse(c.find_swap(n - 2))
+        self.assertTrue(c.swap_pair(n - 2))
+
+        self.assertFalse(c.find_place(n - 1))
+        self.assertFalse(c.find_place(n - 2))
+        self.assertTrue(c.find_place(n - 3))
+
+        self.assertTrue(c.find_swap(n - 2))
+        self.assertFalse(c.find_swap(n - 3))
+        self.assertFalse(c.find_swap(n - 4))
+
+        self.assertEqual(c.count_places(), n - 2)
+        self.assertTrue(c.internal())
+
+        self.assertFalse(c.reverse().find_place(0))
+        self.assertTrue(c.reverse().find_place(3))
+        self.assertTrue(c.reverse().internal())

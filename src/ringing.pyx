@@ -8,5 +8,7 @@ from bell cimport bell
 from row cimport row
 from change cimport change
 
+MAX_BELLS = bell().MAX_BELLS
+
 include 'row.pxi'
 include 'change.pxi'
