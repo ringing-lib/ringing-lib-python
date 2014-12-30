@@ -57,6 +57,8 @@ Installation
 Class Documentation
 -------------------
 
+.. module:: ringing
+
 .. toctree::
    :maxdepth: 2
    

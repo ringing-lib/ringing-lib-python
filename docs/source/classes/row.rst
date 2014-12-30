@@ -75,6 +75,8 @@ cycle, which is ``(456)``. Combining these two cycles will give us the row
 The Row Class
 -------------
 
+.. currentmodule:: ringing
+
 .. class:: Row([spec])
    
    Constructs a Row.

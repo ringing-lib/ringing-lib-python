@@ -12,6 +12,8 @@ stay in the same place. If all the bells swap, the place notation is ``X``.
 The Change Class
 ----------------
 
+.. currentmodule:: ringing
+
 .. class:: Change([spec[, change]])
    
    Constructs a Change.
