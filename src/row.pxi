@@ -143,7 +143,13 @@ cdef class Row:
 
     def __mul__(x, y):
         cdef Row result = Row()
-        result.thisptr[0] = deref(Row(x).thisptr) * deref(Row(y).thisptr)
+
+        if isinstance(y, Change):
+            result.thisptr[0] = deref(Row(x).thisptr) * \
+                                deref((<Change>y).thisptr)
+        else:
+            result.thisptr[0] = deref(Row(x).thisptr) * deref(Row(y).thisptr)
+
         return result
 
     def __div__(x, y):

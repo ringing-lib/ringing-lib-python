@@ -129,6 +129,17 @@ The Row Class
       :raises: :exc:`ValueError` if ``row`` can't be parsed
       :raises: :exc:`TypeError` if ``row`` is of an unknown type
    
+   .. method:: __mul__(change)
+      
+      Applies a change to a row. If the number of bells *c* differs from the
+      number of bells in *r*\ , then *c* is considered to be padded or truncated
+      in the obvious way.
+      
+      :param change: change to apply
+      :type change: :class:`Change`
+      :return: result
+      :rtype: :class:`Row`
+   
    .. method:: __div__(row)
       
       Divides two rows, as explained above. If the rows are not of the same
