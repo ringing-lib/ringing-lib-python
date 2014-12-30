@@ -20,7 +20,7 @@ extensions = [
 
 
 setup(
-    name='ringing',
+    name='ringing-lib',
     version='0.1.0',
     author='Leigh Simpson',
     author_email='code@simpleigh.com',
