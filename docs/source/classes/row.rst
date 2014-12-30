@@ -123,7 +123,7 @@ The Row Class
       end.
       
       :param row: value to multiply by
-      :typ row: :type spec: :class:`Row` or integer or string
+      :type row: :class:`Row` or integer or string
       :return: result
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if ``row`` can't be parsed
@@ -147,7 +147,7 @@ The Row Class
       of the longer row by adding the extra bells in order at the end.
       
       :param row: value to divide by
-      :type row: :type spec: :class:`Row` or integer or string
+      :type row: :class:`Row` or integer or string
       :return: result
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if ``row`` can't be parsed
