@@ -104,21 +104,21 @@ cdef class Row:
         return self.thisptr.order()
 
     def __richcmp__(x, y, int op):
-        cdef Row rx = Row(x)
-        cdef Row ry = Row(y)
+        cdef row rx = deref(Row(x).thisptr)
+        cdef row ry = deref(Row(y).thisptr)
 
         if op == 0:  # <
-            return deref(rx.thisptr) < deref(ry.thisptr)
+            return rx < ry
         elif op == 1:  # <=
-            return deref(rx.thisptr) <= deref(ry.thisptr)
+            return rx <= ry
         elif op == 2:  # ==
-            return deref(rx.thisptr) == deref(ry.thisptr)
+            return rx == ry
         elif op == 3:  # !=
-            return deref(rx.thisptr) != deref(ry.thisptr)
+            return rx != ry
         elif op == 4:  # >
-            return deref(rx.thisptr) > deref(ry.thisptr)
+            return rx > ry
         elif op == 5:  # >=
-            return deref(rx.thisptr) >= deref(ry.thisptr)
+            return rx >= ry
 
     def __str__(self):
         if PY_MAJOR_VERSION < 3:
@@ -142,29 +142,21 @@ cdef class Row:
         return self.thisptr.hash()
 
     def __mul__(x, y):
-        cdef Row rx = Row(x)
-        cdef Row ry = Row(y)
         cdef Row result = Row()
-
-        result.thisptr[0] = deref(rx.thisptr) * deref(ry.thisptr)
+        result.thisptr[0] = deref(Row(x).thisptr) * deref(Row(y).thisptr)
         return result
 
     def __div__(x, y):
         return Row.__truediv__(x, y)
 
     def __truediv__(x, y):
-        cdef Row rx = Row(x)
-        cdef Row ry = Row(y)
         cdef Row result = Row()
-
-        result.thisptr[0] = deref(rx.thisptr) / deref(ry.thisptr)
+        result.thisptr[0] = deref(Row(x).thisptr) / deref(Row(y).thisptr)
         return result
 
     def __pow__(Row x, int y, z):
-        cdef Row rx = Row(x)
         cdef Row result = Row()
-
-        result.thisptr[0] = rx.thisptr.power(y)
+        result.thisptr[0] = Row(x).thisptr.power(y)
         return result
 
     def __invert__(self):
