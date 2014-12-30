@@ -11,12 +11,7 @@ if on_rtd:
     sys.exit()
 
 
-extensions = [
-    Extension('ringing', ['src/ringing.pyx'],
-        language='c++',
-        libraries=['ringing', 'ringingcore'],
-    ),
-]
+cythonize(Extension('*', ['src/*.pyx'], language='c++'))
 
 
 setup(
@@ -36,6 +31,10 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     license='GPL',
-    ext_modules=cythonize(extensions),
+    ext_modules=[Extension('ringing',
+        language='c++',
+        sources=['src/ringing.cpp', 'src/row.cpp', 'src/change.cpp'],
+        libraries=['ringing', 'ringingcore'],
+    )],
     test_suite='tests',
 )
