@@ -61,6 +61,7 @@ Class Documentation
    :maxdepth: 2
    
    classes/row
+   classes/change
 
 Licence
 -------
