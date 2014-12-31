@@ -24,7 +24,7 @@ The Change Class
       *  Nothing. Constructs a change on zero bells.
       *  Another change. Constructs a copy.
       *  An integer number of bells. See the ``change`` parameter.
-   :type spec: :class:`Change` or integer or string
+   :type spec: :class:`Change` or int or string
    :param change: Change to read.
       This might be:
       

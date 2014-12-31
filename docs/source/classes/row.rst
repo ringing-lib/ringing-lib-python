@@ -88,7 +88,7 @@ The Row Class
       *  Another row. Constructs a copy.
       *  An integer number of bells. Constructs rounds.
       *  A string (unicode or bytes) representation of a row.
-   :type spec: :class:`Row` or integer or string
+   :type spec: :class:`Row` or int or string
    :raises: :exc:`ValueError` if ``spec`` can't be parsed
    :raises: :exc:`TypeError` if ``spec`` is of an unknown type
    
@@ -102,7 +102,7 @@ The Row Class
       Compare a row to another.
       
       :param row: value to compare
-      :type row: :class:`Row` or integer or string
+      :type row: :class:`Row` or int or string
       :return: result
       :rtype: boolean
       :raises: :exc:`ValueError` if ``row`` can't be parsed
@@ -125,7 +125,7 @@ The Row Class
       end.
       
       :param row: value to multiply by
-      :type row: :class:`Row` or integer or string
+      :type row: :class:`Row` or int or string
       :return: result
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if ``row`` can't be parsed
@@ -149,7 +149,7 @@ The Row Class
       of the longer row by adding the extra bells in order at the end.
       
       :param row: value to divide by
-      :type row: :class:`Row` or integer or string
+      :type row: :class:`Row` or int or string
       :return: result
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if ``row`` can't be parsed
@@ -260,7 +260,7 @@ The Row Class
       :return: the row's order
       :rtype: int
    
-   .. method:: find(int b)
+   .. method:: find(b)
       
       Locates the bell, *b*, in this row and returns its place.
       
