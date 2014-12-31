@@ -1,3 +1,4 @@
+import itertools
 import unittest
 
 from ringing import Row
@@ -45,3 +46,21 @@ class RowTest(unittest.TestCase):
 
         self.assertRaises(ValueError, lambda: r.find(-1))
         self.assertRaises(ValueError, lambda: r.find(257))
+
+    def test_row_conjugator(self):
+        x = Row('2143')
+        y = Row('3412')
+
+        r = Row.conjugator(x, y)
+        self.assertEqual(y, ~r * x * r)
+
+        self.assertFalse(Row.conjugator(x, 4))
+
+    def test_row_are_conjugate(self):
+        conj_class = list(map(Row, ['2143', '3412', '4321']))
+
+        for r1, r2 in itertools.product(conj_class, conj_class):
+            self.assertTrue(Row.are_conjugate(r1, r2))
+
+        for r in conj_class:
+            self.assertFalse(Row.are_conjugate(r, 4))

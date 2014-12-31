@@ -63,3 +63,8 @@ cdef extern from "ringing/row.h" namespace "ringing":
         bool operator>(const row& r)
         bool operator<=(const row& r)
         bool operator>=(const row& r)
+
+    # Find r such that y = r ^ -1 . x . r or return row() if x and y are not
+    # conjugate.
+    row conjugator(row& x, row& y)
+    bool are_conjugate(row& x, row& y)

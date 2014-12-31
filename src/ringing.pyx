@@ -4,9 +4,9 @@ from cython.operator cimport dereference as deref
 from cpython.version cimport PY_MAJOR_VERSION
 from libcpp.string cimport string
 
-from bell cimport bell
-from row cimport row
-from change cimport change
+from bell cimport *
+from row cimport *
+from change cimport *
 
 MAX_BELLS = bell().MAX_BELLS
 

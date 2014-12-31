@@ -268,3 +268,35 @@ The Row Class
       :return: bell position (0-indexed)
       :rtype: int
       :raise: :exc:`TypeError` if ``b`` out of range
+   
+   .. staticmethod:: conjugator(x, y)
+      
+      Two rows, *x* and *y*, are conjugate if there exists some row, *r*, such
+      that::
+         
+         y = (r ^ -1) . x . r
+      
+      or, in Python::
+         
+         y = ~r * x * r
+      
+      If *x* and *y* are conjugate, this method computes the row *r* that
+      relates them.
+      
+      :param x: row ``x``
+      :type x: :class:`Row` or int or string
+      :param y: row ``y``
+      :type y: :class:`Row` or int or string
+      :return: row ``r``, or ``None`` if the rows are not conjugate
+      :rtype: :class:`Row` or ``None``
+   
+   .. staticmethod:: are_conjugate(x, y)
+      
+      Determines whether the rows *x* and *y* are conjugate as described above.
+      
+      :param x: row ``x``
+      :type x: :class:`Row` or int or string
+      :param y: row ``y``
+      :type y: :class:`Row` or int or string
+      :return: ``True`` if the rows are conjugate, or ``False`` otherwise
+      :rtype: boolean

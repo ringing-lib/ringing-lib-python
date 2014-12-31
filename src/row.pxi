@@ -109,6 +109,20 @@ cdef class Row:
         else:
             raise ValueError('number of bells must be between 0 and 256')
 
+    @staticmethod
+    def conjugator(x, y):
+        cdef Row result = Row()
+        result.thisptr[0] = conjugator(deref(Row(x).thisptr),
+                                       deref(Row(y).thisptr))
+        if result == Row():
+            return None
+        else:
+            return result
+
+    @staticmethod
+    def are_conjugate(x, y):
+        return are_conjugate(deref(Row(x).thisptr), deref(Row(y).thisptr))
+
     def __richcmp__(x, y, int op):
         cdef row rx = deref(Row(x).thisptr)
         cdef row ry = deref(Row(y).thisptr)
