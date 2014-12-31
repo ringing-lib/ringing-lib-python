@@ -26,6 +26,8 @@ class RowTest(unittest.TestCase):
     def test_row_subscript_bounds(self):
         r = Row(6)
         self.assertRaises(IndexError, lambda: r[-1])
+        self.assertEqual(r[0], 0)
+        self.assertEqual(r[5], 5)
         self.assertRaises(IndexError, lambda: r[6])
 
     def test_row_inverse_tilde(self):
