@@ -7,7 +7,7 @@ from bell cimport bell
 from change cimport change
 
 
-cdef extern from "ringing/row.h" namespace "ringing":
+cdef extern from 'ringing/row.h' namespace 'ringing':
     cdef cppclass row:
         row()
         row(int num) except +               # Construct rounds on n bells

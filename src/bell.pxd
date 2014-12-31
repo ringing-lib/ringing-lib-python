@@ -5,7 +5,7 @@ from libcpp cimport bool
 from change cimport change
 
 
-cdef extern from "ringing/bell.h" namespace "ringing":
+cdef extern from 'ringing/bell.h' namespace 'ringing':
     cdef cppclass bell:
         @staticmethod
         unsigned int MAX_BELLS
