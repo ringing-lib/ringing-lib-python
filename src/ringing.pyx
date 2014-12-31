@@ -7,8 +7,10 @@ from libcpp.string cimport string
 from bell cimport *
 from row cimport *
 from change cimport *
+from row_block cimport *
 
 MAX_BELLS = bell().MAX_BELLS
 
 include 'row.pxi'
 include 'change.pxi'
+include 'row_block.pxi'
