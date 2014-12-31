@@ -34,13 +34,21 @@ cdef class RowBlock:
         return self
 
     def __len__(self):
-        return self.thisptr.size()
+        return self.size
 
     def __getitem__(self, int x):
         cdef Row result = Row()
-        result.thisptr[0] = deref(self.thisptr)[x]
-        return result
+
+        if 0 <= x < self.size:
+            result.thisptr[0] = deref(self.thisptr)[x]
+            return result
+        else:
+            raise IndexError
 
     def __setitem__(self, int x, y):
         cdef Row ry = Row(y)
-        deref(self.thisptr)[x] = deref(ry.thisptr)
+
+        if 0 <= x < self.size:
+            deref(self.thisptr)[x] = deref(ry.thisptr)
+        else:
+            raise IndexError
