@@ -32,3 +32,5 @@ cdef extern from "ringing/change.h" namespace "ringing":
         bool operator>(const change& c)
         bool operator<=(const change& c)
         bool operator>=(const change& c)
+
+    bell operator*(bell b, const change& c)  # Apply a change to a position

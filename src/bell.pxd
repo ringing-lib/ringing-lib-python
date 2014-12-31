@@ -20,7 +20,3 @@ cdef extern from "ringing/bell.h" namespace "ringing":
 
         @staticmethod
         bool is_symbol(char c)
-
-        # WARNING: this is actually defined in change.h.
-        # Cython doesn't seem to support operators not attached to a class.
-        bell operator*(const change& c)  # Apply a change to a position
