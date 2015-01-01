@@ -29,3 +29,10 @@ class RowBlockTest(unittest.TestCase):
         rb.recalculate(0)
         rb.recalculate(3)
         self.assertRaises(IndexError, lambda: rb.recalculate(4))
+
+    def test_row_block_iterator(self):
+        rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
+        self.assertListEqual(
+            list(rb),
+            ['12345', '21354', '23145', '32415']
+        )

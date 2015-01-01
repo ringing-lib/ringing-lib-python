@@ -158,8 +158,15 @@ lead of the method.
    Creates a block of rows using the changes in *changes*, starting from the row
    given in *starting_row* (or rounds if *starting_row* is not provided).
    
-   Once a row block is constructed, individual rows can be read or modified
-   using array subscript notation.
+   Row blocks support several standard sequence operations:
+   
+   ========================  ===============================
+   Operation                 Result
+   ========================  ===============================
+   ``rb[i]``                 *i*\ th row of ``rb``, origin 0
+   ``rb[0] = Row('12345')``  sets *i*\ th row of ``rb``
+   ``len(rb)``               length (:attr:`size`) of ``rb``
+   ========================  ===============================
    
    :param changes: changes to associate with the block
    :type changes: [:class:`Change`]

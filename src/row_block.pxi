@@ -52,6 +52,9 @@ cdef class RowBlock:
                 row=repr(self[0]),
             )
 
+    def __iter__(self):
+        return RowBlockIterator(self)
+
     def __len__(self):
         return self.size
 
@@ -71,3 +74,23 @@ cdef class RowBlock:
             deref(self.thisptr)[x] = deref(ry.thisptr)
         else:
             raise IndexError
+
+
+cdef class RowBlockIterator:
+
+    cdef RowBlock block
+
+    cdef int index
+
+    def __cinit__(self, RowBlock block):
+        self.block = block
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == len(self.block):
+            raise StopIteration
+        self.index = self.index + 1
+        return self.block[self.index - 1]
