@@ -160,13 +160,17 @@ lead of the method.
    
    Row blocks support several standard sequence operations:
    
-   ========================  ===============================
+   ========================  ==================================================
    Operation                 Result
-   ========================  ===============================
-   ``rb[i]``                 *i*\ th row of ``rb``, origin 0
-   ``rb[0] = Row('12345')``  sets *i*\ th row of ``rb``
-   ``len(rb)``               length (:attr:`size`) of ``rb``
-   ========================  ===============================
+   ========================  ==================================================
+   ``r in rb``               ``True`` if an item of *rb* is equal to *r*, else
+                             ``False``
+   ``r not in rb``           ``False`` if an item of *rb* is equal to *r*, else
+                             ``True``
+   ``rb[i]``                 *i*\ th row of *rb*, origin 0
+   ``rb[i] = Row('12345')``  sets *i*\ th row of *rb*
+   ``len(rb)``               length (:attr:`size`) of *rb*
+   ========================  ==================================================
    
    :param changes: changes to associate with the block
    :type changes: [:class:`Change`]
