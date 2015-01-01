@@ -4,11 +4,15 @@ cdef class Group:
 
     cdef generator_list
 
+    cdef repr_string
+
     def __cinit__(self, *generators):
         cdef vector[row] generator_vector
         cdef Row current_row
 
         self.generator_list = []
+        self.repr_string = None
+
         for generator in generators:
             current_row = Row(generator)
             generator_vector.push_back(deref(current_row.thisptr))
@@ -37,6 +41,8 @@ cdef class Group:
             )
 
         cdef Group result = Group()
+        result.repr_string = 'Group.symmetric_group({}, {}, {})'.format(
+            working_bells, hunt_bells, total_bells)
         result.thisptr[0] = group.symmetric_group(working_bells, hunt_bells,
                                                   total_bells)
         return result
@@ -51,6 +57,8 @@ cdef class Group:
             )
 
         cdef Group result = Group()
+        result.repr_string = 'Group.alternating_group({}, {}, {})'.format(
+            working_bells, hunt_bells, total_bells)
         result.thisptr[0] = group.alternating_group(working_bells, hunt_bells,
                                                     total_bells)
         return result
@@ -92,8 +100,12 @@ cdef class Group:
             return gx >= gy
 
     def __repr__(self):
-        cdef str rows = ', '.join([repr(r) for r in self.generator_list])
-        return 'Group({rows})'.format(rows=rows)
+        if self.repr_string:
+            return self.repr_string
+        else:
+            return 'Group({rows})'.format(
+                rows=', '.join([repr(r) for r in self.generator_list]),
+            )
 
     def __iter__(self):
         return GroupIterator(self)
