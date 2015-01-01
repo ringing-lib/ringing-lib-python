@@ -4,12 +4,16 @@ cdef class RowBlock:
 
     cdef vector[change] change_vector
 
+    cdef change_list
+
     def __cinit__(self, c, r=None):
         cdef row starting_row = deref(Row(r).thisptr)
 
+        self.change_list = []
         for ch in c:
             if isinstance(ch, Change):
                 self.change_vector.push_back(deref((<Change>ch).thisptr))
+                self.change_list.append(ch)
             else:
                 raise TypeError('change list contained invalid type')
 
@@ -24,6 +28,10 @@ cdef class RowBlock:
     property size:
         def __get__(self):
             return self.thisptr.size()
+
+    property changes:
+        def __get__(self):
+            return self.change_list
 
     def set_start(self, r):
         cdef Row rr = Row(r)
