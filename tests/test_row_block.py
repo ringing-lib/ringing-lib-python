@@ -33,6 +33,4 @@ class RowBlockTest(unittest.TestCase):
     def test_row_block_iterator(self):
         rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
 
-        self.assertEqual(len(rb), 4)
-        for r, s in zip(list(rb), ['12345', '21354', '23145', '32415']):
-            self.assertEqual(r, s)
+        self.assertEqual(list(rb), ['12345', '21354', '23145', '32415'])
