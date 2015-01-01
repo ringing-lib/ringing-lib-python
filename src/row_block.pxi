@@ -11,11 +11,8 @@ cdef class RowBlock:
 
         self.change_list = []
         for ch in c:
-            if isinstance(ch, Change):
-                self.change_vector.push_back(deref((<Change>ch).thisptr))
-                self.change_list.append(ch)
-            else:
-                raise TypeError('change list contained invalid type')
+            self.change_vector.push_back(deref((<Change?>ch).thisptr))
+            self.change_list.append(ch)
 
         if r is None:
             self.thisptr = new row_block(self.change_vector)
