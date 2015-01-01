@@ -142,3 +142,58 @@ The Change Class
       
       :return: number of places made
       :rtype: int
+
+Blocks of Rows
+--------------
+
+The :class:`RowBlock` class is an array of rows which has associated with it a
+reference to an array of changes, and can recalculate itself from those changes.
+For example, suppose that the variable *c*, a list of changes, holds one lead of
+a method; then it is possible to define a variable of type :class:`RowBlock`
+which, once it is told what the lead head is, will calculate the rows for one
+lead of the method.
+
+.. class:: RowBlock(c, [r])
+   
+   Creates a block of rows using the changes in *c*, starting from the row given
+   in *r* (or rounds if *r* is not provided).
+   
+   Once a row block is constructed, individual rows can be read or modified
+   using array subscript notation.
+   
+   :param c: changes to associate with the block
+   :type c: [:class:`Change`]
+   :param r: optional starting row
+   :type r: :class:`Row`
+   :raises: :exc:`ValueError` if ``r`` can't be parsed
+   :raises: :exc:`TypeError` if a parameter is of an unknown type
+   
+   .. attribute:: size
+      
+      Number of changes which the row block contains.
+   
+   .. attribute:: changes
+      
+      List of changes associated with the row block.
+   
+   .. method:: set_start(r)
+      
+      Assigns a new row for the start of the row block.
+      Other rows remain unmodified; call :meth:`recalculate` to update them.
+      
+      :param r: new starting row
+      :type r: :class:`Row` or int or string
+      :return: new starting row
+      :rtype: :class:`Row`
+      :raises: :exc:`ValueError` if ``r`` can't be parsed
+      :raises: :exc:`TypeError` if ``r`` is of an unknown type
+   
+   .. method:: recalculate([start])
+      
+      Recalculates the rows within the row block.
+      
+      :param int start: if supplied, only rows after this index will be
+         recalculated
+      :return: self
+      :rtype: :class:`RowBlock`
+      :raises: :exc:`IndexError` if ``start`` is out of range
