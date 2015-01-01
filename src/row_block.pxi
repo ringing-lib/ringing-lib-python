@@ -6,18 +6,18 @@ cdef class RowBlock:
 
     cdef change_list
 
-    def __cinit__(self, c, r=None):
-        cdef row starting_row = deref(Row(r).thisptr)
+    def __cinit__(self, changes, starting_row=None):
+        cdef row starting_row_obj = deref(Row(starting_row).thisptr)
 
         self.change_list = []
-        for ch in c:
+        for ch in changes:
             self.change_vector.push_back(deref((<Change?>ch).thisptr))
             self.change_list.append(ch)
 
-        if r is None:
+        if starting_row is None:
             self.thisptr = new row_block(self.change_vector)
         else:
-            self.thisptr = new row_block(self.change_vector, starting_row)
+            self.thisptr = new row_block(self.change_vector, starting_row_obj)
 
     def __dealloc__(self):
         del self.thisptr
@@ -30,10 +30,10 @@ cdef class RowBlock:
         def __get__(self):
             return self.change_list
 
-    def set_start(self, r):
-        cdef Row rr = Row(r)
-        self.thisptr.set_start(deref(rr.thisptr))
-        return rr
+    def set_start(self, starting_row):
+        cdef Row starting_row_obj = Row(starting_row)
+        self.thisptr.set_start(deref(starting_row_obj.thisptr))
+        return starting_row_obj
 
     def recalculate(self, int start=0):
         if 0 <= start < self.size:

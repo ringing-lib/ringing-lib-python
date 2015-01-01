@@ -153,19 +153,19 @@ a method; then it is possible to define a variable of type :class:`RowBlock`
 which, once it is told what the lead head is, will calculate the rows for one
 lead of the method.
 
-.. class:: RowBlock(c, [r])
+.. class:: RowBlock(changes, [starting_row])
    
-   Creates a block of rows using the changes in *c*, starting from the row given
-   in *r* (or rounds if *r* is not provided).
+   Creates a block of rows using the changes in *changes*, starting from the row
+   given in *starting_row* (or rounds if *starting_row* is not provided).
    
    Once a row block is constructed, individual rows can be read or modified
    using array subscript notation.
    
-   :param c: changes to associate with the block
-   :type c: [:class:`Change`]
-   :param r: optional starting row
-   :type r: :class:`Row`
-   :raises: :exc:`ValueError` if ``r`` can't be parsed
+   :param changes: changes to associate with the block
+   :type changes: [:class:`Change`]
+   :param starting_row: optional starting row
+   :type starting_row: :class:`Row`
+   :raises: :exc:`ValueError` if ``starting_row`` can't be parsed
    :raises: :exc:`TypeError` if a parameter is of an unknown type
    
    .. attribute:: size
@@ -176,17 +176,17 @@ lead of the method.
       
       List of changes associated with the row block.
    
-   .. method:: set_start(r)
+   .. method:: set_start(starting_row)
       
       Assigns a new row for the start of the row block.
       Other rows remain unmodified; call :meth:`recalculate` to update them.
       
-      :param r: new starting row
-      :type r: :class:`Row` or int or string
+      :param starting_row: new starting row
+      :type starting_row: :class:`Row` or int or string
       :return: new starting row
       :rtype: :class:`Row`
-      :raises: :exc:`ValueError` if ``r`` can't be parsed
-      :raises: :exc:`TypeError` if ``r`` is of an unknown type
+      :raises: :exc:`ValueError` if ``starting_row`` can't be parsed
+      :raises: :exc:`TypeError` if ``starting_row`` is of an unknown type
    
    .. method:: recalculate([start])
       
