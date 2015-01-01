@@ -17,8 +17,15 @@ cdef extern from 'ringing/group.h' namespace 'ringing':
         size_t bells()
 
         # Container interface
-        vector[row].iterator begin()
-        vector[row].iterator end()
+
+        # Workaround for two Cython issues:
+        #  - we can't use ctypedef here
+        #  - vector[T].const_iterator doesn't exist (use vector[T].iterator)
+        cppclass const_iterator(vector[row].iterator):
+            pass
+
+        const_iterator begin()
+        const_iterator end()
         size_t size()
 
         # Named constructors

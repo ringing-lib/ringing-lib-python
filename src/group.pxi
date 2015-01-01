@@ -48,5 +48,31 @@ cdef class Group:
         cdef str rows = ', '.join([repr(r) for r in self.generator_list])
         return 'Group({rows})'.format(rows=rows)
 
+    def __iter__(self):
+        return GroupIterator(self)
+
     def __len__(self):
         return self.size
+
+cdef class GroupIterator:
+
+    cdef group.const_iterator index
+
+    cdef group.const_iterator end
+
+    def __cinit__(self, Group g not None):
+        self.index = deref(g.thisptr).begin()
+        self.end = deref(g.thisptr).end()
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        cdef Row result = Row()
+
+        if self.index == self.end:
+            raise StopIteration
+
+        result.thisptr[0] = deref(self.index)
+        self.index += 1
+        return result
