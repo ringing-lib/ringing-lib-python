@@ -2,20 +2,21 @@ cdef class RowBlock:
 
     cdef row_block *thisptr
 
+    cdef vector[change] change_vector
+
     def __cinit__(self, c, r=None):
-        cdef vector[change] changes
         cdef row starting_row = deref(Row(r).thisptr)
 
         for ch in c:
             if isinstance(ch, Change):
-                changes.push_back(deref((<Change>ch).thisptr))
+                self.change_vector.push_back(deref((<Change>ch).thisptr))
             else:
                 raise TypeError('change list contained invalid type')
 
         if r is None:
-            self.thisptr = new row_block(changes)
+            self.thisptr = new row_block(self.change_vector)
         else:
-            self.thisptr = new row_block(changes, starting_row)
+            self.thisptr = new row_block(self.change_vector, starting_row)
 
     def __dealloc__(self):
         del self.thisptr
