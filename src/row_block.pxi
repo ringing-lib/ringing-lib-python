@@ -42,6 +42,16 @@ cdef class RowBlock:
         else:
             raise IndexError
 
+    def __repr__(self):
+        cdef str changes = ', '.join([repr(ch) for ch in self.change_list])
+        if self[0].is_rounds():
+            return 'RowBlock([{changes}])'.format(changes=changes)
+        else:
+            return 'RowBlock([{changes}], {row})'.format(
+                changes=changes,
+                row=repr(self[0]),
+            )
+
     def __len__(self):
         return self.size
 
