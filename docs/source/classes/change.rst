@@ -142,3 +142,69 @@ The Change Class
       
       :return: number of places made
       :rtype: int
+
+Blocks of Rows
+--------------
+
+The :class:`RowBlock` class is an array of rows which has associated with it a
+reference to an array of changes, and can recalculate itself from those changes.
+For example, suppose that the variable *c*, a list of changes, holds one lead of
+a method; then it is possible to define a variable of type :class:`RowBlock`
+which, once it is told what the lead head is, will calculate the rows for one
+lead of the method.
+
+.. class:: RowBlock(changes, [starting_row])
+   
+   Creates a block of rows using the changes in *changes*, starting from the row
+   given in *starting_row* (or rounds if *starting_row* is not provided).
+   
+   Row blocks support several standard sequence operations:
+   
+   ========================  ==================================================
+   Operation                 Result
+   ========================  ==================================================
+   ``r in rb``               ``True`` if an item of *rb* is equal to *r*, else
+                             ``False``
+   ``r not in rb``           ``False`` if an item of *rb* is equal to *r*, else
+                             ``True``
+   ``rb[i]``                 *i*\ th row of *rb*, origin 0
+   ``rb[i] = Row('12345')``  sets *i*\ th row of *rb*
+   ``len(rb)``               length (:attr:`size`) of *rb*
+   ========================  ==================================================
+   
+   :param changes: changes to associate with the block
+   :type changes: [:class:`Change`]
+   :param starting_row: optional starting row
+   :type starting_row: :class:`Row`
+   :raises: :exc:`ValueError` if ``starting_row`` can't be parsed
+   :raises: :exc:`TypeError` if a parameter is of an unknown type
+   
+   .. attribute:: size
+      
+      Number of changes which the row block contains.
+   
+   .. attribute:: changes
+      
+      List of changes associated with the row block.
+   
+   .. method:: set_start(starting_row)
+      
+      Assigns a new row for the start of the row block.
+      Other rows remain unmodified; call :meth:`recalculate` to update them.
+      
+      :param starting_row: new starting row
+      :type starting_row: :class:`Row` or int or string
+      :return: new starting row
+      :rtype: :class:`Row`
+      :raises: :exc:`ValueError` if ``starting_row`` can't be parsed
+      :raises: :exc:`TypeError` if ``starting_row`` is of an unknown type
+   
+   .. method:: recalculate([start])
+      
+      Recalculates the rows within the row block.
+      
+      :param int start: if supplied, only rows after this index will be
+         recalculated
+      :return: self
+      :rtype: :class:`RowBlock`
+      :raises: :exc:`IndexError` if ``start`` is out of range
