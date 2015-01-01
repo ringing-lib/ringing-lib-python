@@ -39,8 +39,11 @@ cdef class RowBlock:
         return rr
 
     def recalculate(self, int start=0):
-        self.thisptr.recalculate(start)
-        return self
+        if 0 <= start < self.size:
+            self.thisptr.recalculate(start)
+            return self
+        else:
+            raise IndexError
 
     def __len__(self):
         return self.size

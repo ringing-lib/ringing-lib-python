@@ -21,3 +21,11 @@ class RowBlockTest(unittest.TestCase):
         rb[0] = Row(5)  # Should succeed
         rb[3] = Row(5)
         self.assertRaises(IndexError, lambda: rb.__setitem__(4, Row(5)))
+
+    def test_row_block_recalculate_bounds(self):
+        rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
+
+        self.assertRaises(IndexError, lambda: rb.recalculate(-1))
+        rb.recalculate(0)
+        rb.recalculate(3)
+        self.assertRaises(IndexError, lambda: rb.recalculate(4))
