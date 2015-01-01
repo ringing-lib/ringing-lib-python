@@ -27,6 +27,53 @@ cdef class Group:
         def __get__(self):
             return self.thisptr.size()
 
+    @staticmethod
+    def symmetric_group(int working_bells, int hunt_bells = 0,
+                        int total_bells = 0):
+
+        if total_bells and total_bells < working_bells + hunt_bells:
+            raise ValueError(
+                'total_bells must be greater than working_bells + hunt_bells'
+            )
+
+        cdef Group result = Group()
+        result.thisptr[0] = group.symmetric_group(working_bells, hunt_bells,
+                                                  total_bells)
+        return result
+
+    @staticmethod
+    def alternating_group(int working_bells, int hunt_bells = 0,
+                          int total_bells = 0):
+
+        if total_bells and total_bells < working_bells + hunt_bells:
+            raise ValueError(
+                'total_bells must be greater than working_bells + hunt_bells'
+            )
+
+        cdef Group result = Group()
+        result.thisptr[0] = group.alternating_group(working_bells, hunt_bells,
+                                                    total_bells)
+        return result
+
+    def conjugate(self, r):
+        cdef Group result = Group()
+        result.thisptr[0] = self.thisptr.conjugate(deref(Row(r).thisptr))
+        return result
+
+    def rcoset_label(self, r):
+        cdef Row result = Row()
+        result.thisptr[0] = self.thisptr.rcoset_label(deref(Row(r).thisptr))
+        return result
+
+    def lcoset_label(self, r):
+        cdef Row result = Row()
+        result.thisptr[0] = self.thisptr.lcoset_label(deref(Row(r).thisptr))
+        return result
+
+    def invariants(self):
+        cdef vector[bell] invariants = self.thisptr.invariants()
+        return [<int>invariant for invariant in invariants]
+
     def __richcmp__(x, y, int op):
         cdef group gx = deref((<Group?>x).thisptr)
         cdef group gy = deref((<Group?>y).thisptr)
