@@ -41,8 +41,11 @@ cdef class Group:
             )
 
         cdef Group result = Group()
-        result.repr_string = 'Group.symmetric_group({}, {}, {})'.format(
-            working_bells, hunt_bells, total_bells)
+        result.repr_string = 'Group.symmetric_group({w}, {h}, {t})'.format(
+            w=working_bells,
+            h=hunt_bells,
+            t=total_bells,
+        )
         result.thisptr[0] = group.symmetric_group(working_bells, hunt_bells,
                                                   total_bells)
         return result
@@ -57,8 +60,11 @@ cdef class Group:
             )
 
         cdef Group result = Group()
-        result.repr_string = 'Group.alternating_group({}, {}, {})'.format(
-            working_bells, hunt_bells, total_bells)
+        result.repr_string = 'Group.alternating_group({w}, {h}, {t})'.format(
+            w=working_bells,
+            h=hunt_bells,
+            t=total_bells,
+        )
         result.thisptr[0] = group.alternating_group(working_bells, hunt_bells,
                                                     total_bells)
         return result
