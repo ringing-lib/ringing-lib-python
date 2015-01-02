@@ -6,8 +6,7 @@ from Cython.Build import cythonize
 
 
 # Don't run any setup tasks if we're running on readthedocs.org.
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-if on_rtd:
+if os.environ.get('READTHEDOCS', None) == 'True':
     sys.exit()
 
 
