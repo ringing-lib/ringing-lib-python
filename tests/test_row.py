@@ -23,18 +23,6 @@ class RowTest(unittest.TestCase):
         except NameError:
             pass
 
-    def test_row_subscript_bounds(self):
-        r = Row(6)
-        self.assertRaises(IndexError, lambda: r[-1])
-        self.assertEqual(r[0], 0)
-        self.assertEqual(r[5], 5)
-        self.assertRaises(IndexError, lambda: r[6])
-
-    def test_row_inverse_tilde(self):
-        self.assertEqual(~Row('654321'), '654321')
-        self.assertEqual(~Row('312'), '231')
-        self.assertEqual(~Row('18234567'), '13456782')
-
     def test_row_find(self):
         r = Row('615423')
 
@@ -66,3 +54,15 @@ class RowTest(unittest.TestCase):
 
         for r in conj_class:
             self.assertFalse(Row.are_conjugate(r, 4))
+
+    def test_row_inverse_tilde(self):
+        self.assertEqual(~Row('654321'), '654321')
+        self.assertEqual(~Row('312'), '231')
+        self.assertEqual(~Row('18234567'), '13456782')
+
+    def test_row_subscript_bounds(self):
+        r = Row(6)
+        self.assertRaises(IndexError, lambda: r[-1])
+        self.assertEqual(r[0], 0)
+        self.assertEqual(r[5], 5)
+        self.assertRaises(IndexError, lambda: r[6])
