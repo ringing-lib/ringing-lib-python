@@ -1,5 +1,6 @@
 import os
 from setuptools import setup, Extension
+from setuptools.command.build_ext import build_ext as _build_ext
 import sys
 
 
@@ -16,10 +17,34 @@ except ImportError:
     USE_CYTHON = False
 
 
-EXTENSION_OPTIONS = {
-    'language': 'c++',
-    'libraries': ['ringing', 'ringingcore'],
-}
+# Override build_ext to add --static option.
+class build_ext(_build_ext):
+
+    user_options = _build_ext.user_options + [
+        ('static', None, 'statically link the Ringing Class Library'),
+    ]
+
+    def initialize_options(self):
+        _build_ext.initialize_options(self)
+        self.static = False
+
+
+# ... but then grab it straight out of sys.argv hackhackhackhack
+if '--static' in sys.argv:
+    EXTENSION_OPTIONS = {
+        'language': 'c++',
+        'extra_link_args': [
+            '-Wl,-Bstatic',
+            '-lringing',
+            '-lringingcore',
+            '-Wl,-Bdynamic',
+        ],
+    }
+else:
+    EXTENSION_OPTIONS = {
+        'language': 'c++',
+        'libraries': ['ringing', 'ringingcore'],
+    }
 
 
 if USE_CYTHON:
@@ -52,4 +77,5 @@ setup(
     license='GPL',
     ext_modules=extensions,
     test_suite='tests',
+    cmdclass={'build_ext': build_ext},
 )

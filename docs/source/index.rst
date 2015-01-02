@@ -62,6 +62,26 @@ Installation
       
       python setup.py test
 
+.. note::
+   
+   This procedure will build an extension that links to the Ringing Class
+   Library dynamically.
+   If you would prefer to link statically
+   (e.g. for installation where the Ringing Class Library is not installed),
+   then make the following changes to the above procedure:
+   
+   #. Invoke :command:`configure` with the ``--with-pic`` option:
+      
+      .. code-block:: bash
+         
+         ./configure --with-pic
+   
+   #. Pass the ``--static`` option when compiling the extension:
+      
+      .. code-block:: bash
+         
+         python setup.py build_ext --inplace --static
+
 Class Documentation
 -------------------
 
