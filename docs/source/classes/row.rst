@@ -300,3 +300,119 @@ The Row Class
       :type y: :class:`Row` or int or string
       :return: ``True`` if the rows are conjugate, or ``False`` otherwise
       :rtype: boolean
+
+The Group Class
+---------------
+
+.. class:: Group(generator[, generator[, ...]])
+   
+   Generates a group of changes.
+   
+   Once created, groups can be tested for membership or iterated over using the
+   ``in`` operator (and hence converted to lists via ``list()``).
+   
+   :param generator: generators for the group (rows)
+   :type generator: :class:`Row` or int or string
+   :raises: :exc:`ValueError` if a generator can't be parsed
+   :raises: :exc:`TypeError` if a generator is of an unknown type
+   
+   .. method:: __lt__(group)
+   .. method:: __le__(group)
+   .. method:: __eq__(group)
+   .. method:: __ne__(group)
+   .. method:: __gt__(group)
+   .. method:: __ge__(group)
+      
+      Compare a group to another.
+      
+      :param group: value to compare
+      :type group: :class:`Group`
+      :return: result
+      :rtype: boolean
+      :raises: :exc:`TypeError` if ``group`` is of an unknown type
+   
+   .. attribute:: bells
+      
+      Number of bells which the group's rows contain::
+         
+         >>> from ringing import Group
+         >>> Group('2143', '1324').bells
+         4
+   
+   .. attribute:: size
+      
+      Number of rows which the group contains (the *order* of the group)::
+         
+         >>> from ringing import group
+         >>> Group('2143', '1324').size
+         8
+   
+   .. staticmethod:: symmetric_group(working_bells[, hunt_bells[, total_bells]])
+   .. staticmethod:: alternating_group(working_bells[, hunt_bells[, total_bells]])
+      
+      Returns the symmetric or alternating group respectively.
+      
+      The symmetric group S\ :sub:`n` contains all permutations on *n* bells,
+      i.e. the extent.
+      The alternating group A\ :sub:`n` contains all even permutations on *n*
+      bells (see :meth:`Row.sign`).
+      
+      By specifying *hunt_bells* and *total_bells* it's possible to produce
+      groups with more fixed bells, e.g.::
+         
+         >>> from ringing import Group
+         >>> list(Group.alternating_group(3, 1, 8))
+         [Row('12345678'), Row('13425678'), Row('14235678')]
+      
+      :param int working_bells: *n*, number of bells involved in permutations
+      :param int hunt_bells: number of fixed bells at the start of the change
+      :param int total_bells: number of bells in each row
+      :return: the computed group
+      :rtype: :class:`Group`
+      :raises: :exc:`ValueError` if *total_bells* is less than the sum of
+         *working_bells* and *hunt_bells*
+      :raises: :exc:`TypeError` if a parameter is of an unknown type
+   
+   .. method:: conjugate(r)
+      
+      Conjugates the group by a row *r*, in pseudocode::
+         
+         H = (r ^ -1) . g . r for g in G
+      
+      :param r: row *r*
+      :type r: :class:`Row` or int or string
+      :return: the computed group
+      :rtype: :class:`Group`
+      :raises: :exc:`TypeError` if *r* is of an unknown type
+   
+   .. method:: rcoset_label(r)
+   .. method:: lcoset_label(r)
+      
+      A subgroup H of S\ :sub:`n` partitions the group into ``n! / |G|`` cosets.
+      
+      -  *g*\ H is the left coset of H in G with respect to *g*
+      -  H\ *g* is the right coset of H in G with respect to *g*
+      
+      Each coset may be conveniently labelled by choosing the lexicographically
+      least element within it.
+      
+      These methods return the label of the right or left coset (respectively)
+      of G in S\ :sub:`n` with respect to the row *r*.
+      
+      :param r: row *r*
+      :type r: :class:`Row` or int or string
+      :return: the computed label
+      :rtype: :class:`Row`
+      :raises: :exc:`ValueError` if *r* can't be parsed
+      :raises: :exc:`TypeError` if *r* is of an unknown type
+   
+   .. method:: invariants
+      
+      Returns a list of invariant bells as 0-indexed integers, e.g.::
+         
+         >>> from ringing import Group
+         >>> Group.alternating_group(3, 1, 8).invariants()
+         [0, 4, 5, 6, 7]
+      
+      :return: invariant bells
+      :rtype: [int]
