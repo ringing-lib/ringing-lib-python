@@ -7,11 +7,13 @@ from libcpp.vector cimport vector
 
 from bell cimport *
 from row cimport *
+from group cimport *
 from change cimport *
 from row_block cimport *
 
 MAX_BELLS = bell().MAX_BELLS
 
 include 'row.pxi'
+include 'group.pxi'
 include 'change.pxi'
 include 'row_block.pxi'
