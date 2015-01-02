@@ -118,7 +118,11 @@ The Row Class
    .. method:: __gt__(row)
    .. method:: __ge__(row)
       
-      Compare a row to another.
+      Compare a row to another::
+         
+         >>> from ringing import Row
+         >>> Row(4) == '1234'
+         True
       
       :param row: value to compare
       :type row: :class:`Row` or int or string
@@ -127,8 +131,21 @@ The Row Class
    
    .. method:: __getitem__(i)
       
-      This returns the *i*\ th bell in the row. Note that this is not an lvalue,
-      so you cannot assign a value to an individual bell in a row.
+      This returns the *i*\ th bell in the row::
+         
+         >>> from ringing import Row
+         >>> r = Row('512364')
+         >>> r[0]
+         4
+         >>> r[1]
+         0
+         >>> print([b for b in r])
+         [4, 0, 1, 2, 5, 3]
+      
+      .. note::
+         
+         Note that this is not an lvalue,
+         so you cannot assign a value to an individual bell in a row.
       
       :param int i: bell position to return (0-indexed)
       :return: bell number in that position (0-indexed; ``0`` is the treble)
@@ -136,10 +153,18 @@ The Row Class
    
    .. method:: __mul__(row)
       
-      Multiplies two rows together as explained above. If the rows are not of
-      the same length, the shorter row is considered to be first padded out to
-      the length of the longer row by adding the extra bells in order at the
-      end.
+      Multiplies two rows together as explained above::
+         
+         >>> from ringing import Row
+         >>> r = Row('21345678')
+         >>> r * '13572468'
+         Row('23571468')
+         >>> '13572468' * r
+         Row('31572468')
+      
+      If the rows are not of the same length, the shorter row is considered to
+      be first padded out to the length of the longer row by adding the extra
+      bells in order at the end.
       
       :param row: value to multiply by
       :type row: :class:`Row` or int or string
@@ -148,9 +173,14 @@ The Row Class
    
    .. method:: __mul__(change)
       
-      Applies a change to a row. If the number of bells *c* differs from the
-      number of bells in *r*\ , then *c* is considered to be padded or truncated
-      in the obvious way.
+      Applies a change to a row::
+         
+         >>> from ringing import Row, Change
+         >>> Row('214365') * Change(6, '1')
+         Row('241635')
+      
+      If the number of bells *c* differs from the number of bells in *r*\ , then
+      *c* is considered to be padded or truncated in the obvious way.
       
       :param change: change to apply
       :type change: :class:`Change`
@@ -159,9 +189,15 @@ The Row Class
    
    .. method:: __div__(row)
       
-      Divides two rows, as explained above. If the rows are not of the same
-      length, the shorter row is considered to be first padded out to the length
-      of the longer row by adding the extra bells in order at the end.
+      Divides two rows, as explained above::
+         
+         >>> from ringing import Row
+         >>> Row('23571468') / Row('13572468')
+         Row('21345678')
+      
+      If the rows are not of the same length, the shorter row is considered to
+      be first padded out to the length of the longer row by adding the extra
+      bells in order at the end.
       
       :param row: value to divide by
       :type row: :class:`Row` or int or string
@@ -171,14 +207,36 @@ The Row Class
    .. method:: __invert__()
    .. method:: inverse()
       
-      Returns the inverse of a row.
+      Returns the inverse of a row::
+         
+         >>> from ringing import Row
+         >>> r = Row('13572468')
+         >>> ~r
+         Row('15263748')
+         >>> r.inverse()
+         Row('15263748')
+         >>> r * ~r
+         Row('12345678')
+         >>> ~r * r
+         Row('12345678')
       
       :return: the row's inverse
       :rtype: :class:`Row`
    
    .. method:: __pow__(n)
       
-      Returns the *n*\ th power of a row.
+      Returns the *n*\ th power of a row::
+         
+         >>> from ringing import Row
+         >>> r = Row('13572468')
+         >>> r ** 0
+         Row('12345678')
+         >>> r ** 1
+         Row('13572468')
+         >>> r ** 2
+         Row('15263748')
+         >>> r ** 3
+         Row('12345678')
       
       :param int n: power to which the row should be raised
       :return: result
@@ -186,11 +244,25 @@ The Row Class
    
    .. attribute:: bells
       
-      Number of bells which the row contains.
+      Number of bells which the row contains::
+         
+         >>> from ringing import Row
+         >>> Row('2143').bells
+         4
    
    .. method:: make_rounds()
       
-      Sets the row to rounds.
+      Sets the row to rounds::
+         
+         >>> from ringing import Row
+         >>> r = Row('2143')
+         >>> r.make_rounds()
+         Row('1234')
+         >>> r
+         Row('1234')
+      
+      This is the only operation that modifies the row; otherwise rows are
+      immutable.
       
       :return: ``self``
       :rtype: :class:`Row`
@@ -212,7 +284,11 @@ The Row Class
       
       Returns the first lead head of Plain Bob (*h* = 1), Grandsire (*h* = 2),
       or more generally the Plain Bob type method on *n* bells with *h* hunt
-      bells.
+      bells::
+         
+         >>> from ringing import Row
+         >>> Row.pblh(6)
+         Row('135264')
       
       :param int n: number of bells
       :param int h: number of hunt bells
@@ -223,7 +299,11 @@ The Row Class
       
       Returns a cyclic row on *n* bells with *h* initial fixed (hunt) bells. The
       variable *c* controls the number of bells moved from the front of the row
-      to the end. Thus, ``Row.cyclic(6, 1, 2) == '145623'``.
+      to the end::
+         
+         >>> from ringing import Row
+         >>> Row.cyclic(6, 1, 2)
+         Row('145623')
       
       :param int n: number of bells
       :param int h: number of hunt bells
@@ -233,7 +313,13 @@ The Row Class
    
    .. method:: is_rounds()
       
-      Determines whether the row is rounds.
+      Determines whether the row is rounds::
+         
+         >>> from ringing import Row
+         >>> Row('12345678').is_rounds()
+         True
+         >>> Row('72635184').is_rounds()
+         False
       
       :return: ``True`` if the row is rounds, and ``False`` otherwise
       :rtype: boolean
@@ -251,7 +337,13 @@ The Row Class
    
    .. method:: sign()
       
-      Returns the sign or parity of a row.
+      Returns the sign or parity of a row::
+         
+         >>> from ringing import Row
+         >>> Row('12345678').sign()
+         1
+         >>> Row('21345678').sign()
+         -1
       
       :return: 1 for even, -1 for odd
       :rype: int
@@ -259,25 +351,43 @@ The Row Class
    .. method:: cycles()
       
       Expresses the row as separate cycles. The returned string will afterwards
-      contain a list of all the cycles in the row, separated by commas; for
-      example ``Row("21453678").cycles()`` will return the string
-      ``"12,345,6,7,8"``.
+      contain a list of all the cycles in the row, separated by commas::
+         
+         >>> from ringing import Row
+         >>> Row('21453678').cycles()
+         '12,345,6,7,8'
       
       :return: representation of the row as disjoint cycles
       :rtype: string
    
    .. method:: order()
       
-      Returns the order of the row.
+      Returns the order of the row::
+         
+         >>> from ringing import Row
+         >>> r = Row('21453678')
+         >>> r.order()
+         6
+         >>> (r ** 6).is_rounds()
+         True
       
       :return: the row's order
       :rtype: int
    
    .. method:: find(b)
       
-      Locates the bell, *b*, in this row and returns its place.
+      Locates the bell, *b*, in this row and returns its place::
+         
+         >>> from ringing import Row
+         >>> r = Row('512364')
+         >>> r.find(0)
+         1
+         >>> r.find(1)
+         2
       
-      :param int b: bell to find (0-indexed)
+      See also :meth:`__getitem__`.
+      
+      :param int b: bell number to find (0-indexed; ``0`` is the treble)
       :return: bell position (0-indexed)
       :rtype: int
    
@@ -397,8 +507,8 @@ The Group Class
       
       A subgroup H of S\ :sub:`n` partitions the group into ``n! / |G|`` cosets.
       
-      -  *g*\ H is the left coset of H in G with respect to *g*
-      -  H\ *g* is the right coset of H in G with respect to *g*
+      *  *g*\ H is the left coset of H in G with respect to *g*
+      *  H\ *g* is the right coset of H in G with respect to *g*
       
       Each coset may be conveniently labelled by choosing the lexicographically
       least element within it.
