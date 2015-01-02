@@ -2,20 +2,35 @@ import os
 from setuptools import setup, Extension
 import sys
 
-from Cython.Build import cythonize
-
 
 # Don't run any setup tasks if we're running on readthedocs.org.
 if os.environ.get('READTHEDOCS', None) == 'True':
     sys.exit()
 
 
-extensions = [
-    Extension('ringing', ['src/ringing.pyx'],
-        language='c++',
-        libraries=['ringing', 'ringingcore'],
-    ),
-]
+# Detect whether Cython is installed.
+try:
+    import Cython
+    USE_CYTHON = True
+except ImportError:
+    USE_CYTHON = False
+
+
+EXTENSION_OPTIONS = {
+    'language': 'c++',
+    'libraries': ['ringing', 'ringingcore'],
+}
+
+
+if USE_CYTHON:
+    from Cython.Build import cythonize
+    extensions = cythonize([
+        Extension('ringing', ['src/ringing.pyx'], **EXTENSION_OPTIONS),
+    ])
+else:
+    extensions = [
+        Extension('ringing', ['src/ringing.cpp'], **EXTENSION_OPTIONS)
+    ]
 
 
 setup(
@@ -35,6 +50,6 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     license='GPL',
-    ext_modules=cythonize(extensions),
+    ext_modules=extensions,
     test_suite='tests',
 )
