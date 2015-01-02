@@ -154,7 +154,7 @@ cdef class Row:
 
     def __repr__(self):
         if self.thisptr.bells():
-            return 'Row("' + self.__str__() + '")'
+            return "Row('" + self.__str__() + "')"
         else:
             return 'Row()'
 

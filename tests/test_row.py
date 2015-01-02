@@ -55,6 +55,10 @@ class RowTest(unittest.TestCase):
         for r in conj_class:
             self.assertFalse(Row.are_conjugate(r, 4))
 
+    def test_row_repr(self):
+        self.assertEqual(repr(Row()), 'Row()')
+        self.assertEqual(repr(Row('123456')), "Row('123456')")
+
     def test_row_inverse_tilde(self):
         self.assertEqual(~Row('654321'), '654321')
         self.assertEqual(~Row('312'), '231')

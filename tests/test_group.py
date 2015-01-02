@@ -94,8 +94,8 @@ class GroupTest(unittest.TestCase):
     def test_group_repr(self):
         tests = [
             'Group()',
-            'Group(Row("134256"))',
-            'Group(Row("213564"), Row("123546"))',
+            "Group(Row('134256'))",
+            "Group(Row('213564'), Row('123546'))",
             'Group.symmetric_group(1, 2, 4)',
             'Group.alternating_group(1, 2, 4)',
         ]

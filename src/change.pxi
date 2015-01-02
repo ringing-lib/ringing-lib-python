@@ -117,7 +117,7 @@ cdef class Change:
 
     def __repr__(self):
         if self.thisptr.bells():
-            return 'Change({bells}, "{change}")'.format(
+            return "Change({bells}, '{change}')".format(
                 bells = self.thisptr.bells(),
                 change = self.__str__(),
             )

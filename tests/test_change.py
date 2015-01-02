@@ -49,6 +49,11 @@ class ChangeTest(unittest.TestCase):
         self.assertTrue(c.swap_pair(4))
         self.assertRaises(IndexError, lambda: c.swap_pair(5))
 
+    def test_change_repr(self):
+        self.assertEqual(repr(Change()), 'Change()')
+        self.assertEqual(repr(Change(4)), "Change(4, '1234')")
+        self.assertEqual(repr(Change(4, 'X')), "Change(4, 'X')")
+
     def test_bell_multiply_order(self):
         c = Change(6, '14')
 
