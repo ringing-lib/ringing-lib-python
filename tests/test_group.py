@@ -52,10 +52,37 @@ class GroupTest(unittest.TestCase):
         self.assertRaises(ValueError, lambda: Group.symmetric_group(2, 2, 3))
         self.assertRaises(ValueError, lambda: Group.alternating_group(2, 2, 3))
 
-    # TODO:
-    #  - test_group_conjugate
-    #  - test_group_rcoset_label
-    #  - test_group_lcoset_label
+    def test_group_conjugate(self):
+        G = Group('2143', '1324')
+        r = Row('1243')
+
+        self.assertEqual(
+            sorted([~r * g * r for g in G]),
+            sorted(G.conjugate(r))
+        )
+
+    def test_group_coset_labels(self):
+        G = Group('2143', '1324', '1243')  # S_4
+        H = Group('2143', '1324')  # Rows in plain hunt
+
+        # A row in G but not H; this must be in a coset of H.
+        # This is the lexicographically lowest row (except rounds), so should be
+        # the label of its coset.
+        g = Row('1243')
+
+        for h_dash in G:
+            # gH is the left coset of H in G with respect to g
+            lcoset_row = g * h_dash
+
+            # Hg is the right coset of H in G with respect to g
+            rcoset_row = h_dash * g
+
+            if h_dash in H:
+                self.assertEqual(H.lcoset_label(lcoset_row), g)
+                self.assertEqual(H.rcoset_label(rcoset_row), g)
+            else:
+                self.assertNotEqual(H.lcoset_label(lcoset_row), g)
+                self.assertNotEqual(H.rcoset_label(rcoset_row), g)
 
     def test_group_invariants(self):
         self.assertEqual(Group().invariants(), [])
