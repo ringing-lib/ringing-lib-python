@@ -8,15 +8,15 @@ python:
 
 before_install:
   - sudo apt-get update
-  - wget http://ringing-lib-packages.s3.amazonaws.com/libringing-dev_0.4.0-1_amd64.deb
+  - wget http://ringing-lib-packages.s3.amazonaws.com/libringing-dev_0.4.0-2_amd64.deb
 
 install:
   - sudo apt-get install libreadline6 libgdome2-0
-  - sudo dpkg --install libringing-dev_0.4.0-1_amd64.deb
+  - sudo dpkg --install libringing-dev_0.4.0-2_amd64.deb
   - pip install cython
 
 before_script:
-  - python setup.py build_ext --inplace
+  - python setup.py build_ext --inplace --static
 
 script:
   - python setup.py test
