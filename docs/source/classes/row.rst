@@ -90,7 +90,6 @@ The Row Class
       *  A string (unicode or bytes) representation of a row.
    :type spec: :class:`Row` or int or string
    :raises: :exc:`ValueError` if ``spec`` can't be parsed
-   :raises: :exc:`TypeError` if ``spec`` is of an unknown type
    
    .. method:: __lt__(row)
    .. method:: __le__(row)
@@ -106,7 +105,6 @@ The Row Class
       :return: result
       :rtype: boolean
       :raises: :exc:`ValueError` if ``row`` can't be parsed
-      :raises: :exc:`TypeError` if ``row`` is of an unknown type
    
    .. method:: __getitem__(i)
       
@@ -129,7 +127,6 @@ The Row Class
       :return: result
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if ``row`` can't be parsed
-      :raises: :exc:`TypeError` if ``row`` is of an unknown type
    
    .. method:: __mul__(change)
       
@@ -153,7 +150,6 @@ The Row Class
       :return: result
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if ``row`` can't be parsed
-      :raises: :exc:`TypeError` if ``row`` is of an unknown type
    
    .. method:: __invert__()
    .. method:: inverse()
@@ -267,7 +263,6 @@ The Row Class
       :param int b: bell to find (0-indexed)
       :return: bell position (0-indexed)
       :rtype: int
-      :raise: :exc:`TypeError` if ``b`` out of range
    
    .. staticmethod:: conjugator(x, y)
       
@@ -314,7 +309,6 @@ The Group Class
    :param generator: generators for the group (rows)
    :type generator: :class:`Row` or int or string
    :raises: :exc:`ValueError` if a generator can't be parsed
-   :raises: :exc:`TypeError` if a generator is of an unknown type
    
    .. method:: __lt__(group)
    .. method:: __le__(group)
@@ -329,7 +323,6 @@ The Group Class
       :type group: :class:`Group`
       :return: result
       :rtype: boolean
-      :raises: :exc:`TypeError` if ``group`` is of an unknown type
    
    .. attribute:: bells
       
@@ -371,7 +364,6 @@ The Group Class
       :rtype: :class:`Group`
       :raises: :exc:`ValueError` if *total_bells* is less than the sum of
          *working_bells* and *hunt_bells*
-      :raises: :exc:`TypeError` if a parameter is of an unknown type
    
    .. method:: conjugate(r)
       
@@ -383,7 +375,6 @@ The Group Class
       :type r: :class:`Row` or int or string
       :return: the computed group
       :rtype: :class:`Group`
-      :raises: :exc:`TypeError` if *r* is of an unknown type
    
    .. method:: rcoset_label(r)
    .. method:: lcoset_label(r)
@@ -404,7 +395,6 @@ The Group Class
       :return: the computed label
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if *r* can't be parsed
-      :raises: :exc:`TypeError` if *r* is of an unknown type
    
    .. method:: invariants
       

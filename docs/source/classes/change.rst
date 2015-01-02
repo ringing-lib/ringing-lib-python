@@ -31,7 +31,6 @@ The Change Class
       *  Nothing. Constructs a change where all bells lie still (no swaps).
       *  A string (unicode or bytes) representation of a change.
    :raises: :exc:`ValueError` if a parameter can't be parsed
-   :raises: :exc:`TypeError` if a parameter is of an unknown type
    
    .. method:: __lt__(change)
    .. method:: __le__(change)
@@ -48,7 +47,6 @@ The Change Class
       :return: result
       :rtype: boolean
       :raises: :exc:`ValueError` if ``change`` can't be parsed
-      :raises: :exc:`TypeError` if ``change`` is of an unknown type
    
    .. method:: __mul__(bell)
       
@@ -70,7 +68,6 @@ The Change Class
       :return: the new change
       :rtype: :class:`Change`
       :raises: :exc:`ValueError` if a parameter can't be parsed
-      :raises: :exc:`TypeError` if a parameter is of an unknown type
    
    .. method:: reverse()
       
@@ -177,7 +174,6 @@ lead of the method.
    :param starting_row: optional starting row
    :type starting_row: :class:`Row`
    :raises: :exc:`ValueError` if ``starting_row`` can't be parsed
-   :raises: :exc:`TypeError` if a parameter is of an unknown type
    
    .. attribute:: size
       
@@ -197,7 +193,6 @@ lead of the method.
       :return: new starting row
       :rtype: :class:`Row`
       :raises: :exc:`ValueError` if ``starting_row`` can't be parsed
-      :raises: :exc:`TypeError` if ``starting_row`` is of an unknown type
    
    .. method:: recalculate([start])
       
