@@ -40,7 +40,7 @@ Installation
 
 #. **Install Cython**.
    
-   `Cython <http://cython.org/>`_ is most easily installed using :command:`pip`.
+   `Cython <http://cython.org/>`_ is most easily installed using :command:`pip`:
    
    .. code-block:: bash
       
@@ -48,11 +48,19 @@ Installation
 
 #. **Compile the Python extension**.
    
-   Use the supplied :file:`Makefile` by running :command:`make`.
+   Build the extension using :file:`setup.py`:
+   
+   .. code-block:: bash
+      
+      python setup.py build_ext --inplace
 
 #. (Optional) **Run Tests**.
    
-   Use the supplied :file:`Makefile` by running :command:`make check`.
+   Run the included tests using :file:`setup.py`:
+   
+   .. code-block:: bash
+      
+      python setup.py test
 
 Class Documentation
 -------------------
