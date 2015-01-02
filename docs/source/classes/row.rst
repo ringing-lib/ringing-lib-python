@@ -81,6 +81,27 @@ The Row Class
    
    Constructs a Row.
    
+   Rows may be constructed in a variety of ways::
+      
+      >>> from ringing import Row
+      >>> Row(4)  # from an integer number of bells
+      Row('1234')
+      >>> Row('1234')  # from a string containing the row
+      Row('1234')
+      >>> Row(Row('1234'))  # from another row
+      Row('1234')
+   
+   This library makes extensive use of :class:`Row` objects as function
+   parameters.
+   These may be passed in the same ways:
+   
+   *  as a row
+   *  as a string containing the row
+   *  as an integer number of bells
+   
+   If a row parameter can't be read then a :exc:`TypeError` or :exc:`ValueError`
+   exception will be raised as most appropriate.
+   
    :param spec: Specification for constructing the row.
       This might be:
       
@@ -89,7 +110,6 @@ The Row Class
       *  An integer number of bells. Constructs rounds.
       *  A string (unicode or bytes) representation of a row.
    :type spec: :class:`Row` or int or string
-   :raises: :exc:`ValueError` if ``spec`` can't be parsed
    
    .. method:: __lt__(row)
    .. method:: __le__(row)
@@ -104,7 +124,6 @@ The Row Class
       :type row: :class:`Row` or int or string
       :return: result
       :rtype: boolean
-      :raises: :exc:`ValueError` if ``row`` can't be parsed
    
    .. method:: __getitem__(i)
       
@@ -126,7 +145,6 @@ The Row Class
       :type row: :class:`Row` or int or string
       :return: result
       :rtype: :class:`Row`
-      :raises: :exc:`ValueError` if ``row`` can't be parsed
    
    .. method:: __mul__(change)
       
@@ -149,7 +167,6 @@ The Row Class
       :type row: :class:`Row` or int or string
       :return: result
       :rtype: :class:`Row`
-      :raises: :exc:`ValueError` if ``row`` can't be parsed
    
    .. method:: __invert__()
    .. method:: inverse()
@@ -308,7 +325,6 @@ The Group Class
    
    :param generator: generators for the group (rows)
    :type generator: :class:`Row` or int or string
-   :raises: :exc:`ValueError` if a generator can't be parsed
    
    .. method:: __lt__(group)
    .. method:: __le__(group)
@@ -394,7 +410,6 @@ The Group Class
       :type r: :class:`Row` or int or string
       :return: the computed label
       :rtype: :class:`Row`
-      :raises: :exc:`ValueError` if *r* can't be parsed
    
    .. method:: invariants
       
