@@ -28,7 +28,7 @@ cdef class RowBlock:
 
     property changes:
         def __get__(self):
-            return self.change_list
+            return self.change_list[:]
 
     def set_start(self, starting_row):
         cdef Row starting_row_obj = Row(starting_row)

@@ -9,6 +9,19 @@ class RowBlockTest(unittest.TestCase):
         self.assertRaises(TypeError, lambda: RowBlock([self]))
         self.assertRaises(TypeError, lambda: RowBlock([], self))
 
+    def test_row_block_changes_not_directly_mutable(self):
+        changes_in = [Change(5, pn) for pn in ['3', '1', '5']]
+        rb = RowBlock(changes_in)
+
+        # Make a local reference to rb.changes, and modify it...
+        changes_out = rb.changes
+        changes_out.pop()
+
+        # ... then make sure the original hasn't changed
+        self.assertEqual(len(changes_in), 3)
+        self.assertEqual(len(rb.changes), 3)
+        self.assertEqual(rb.changes, changes_in)
+
     def test_row_block_subscript_bounds(self):
         rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
 
