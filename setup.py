@@ -2,21 +2,33 @@ import os
 from setuptools import setup, Extension
 import sys
 
-from Cython.Build import cythonize
-
 
 # Don't run any setup tasks if we're running on readthedocs.org.
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-if on_rtd:
+if os.environ.get('READTHEDOCS', None) == 'True':
     sys.exit()
 
 
-extensions = [
-    Extension('ringing', ['src/ringing.pyx'],
-        language='c++',
-        libraries=['ringing', 'ringingcore'],
-    ),
-]
+EXTENSION_OPTIONS = {
+    'language': 'c++',
+    'libraries': ['ringing', 'ringingcore'],
+}
+
+
+# Detect whether Cython is installed.
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    extensions = [
+        Extension('ringing', ['src/ringing.cpp'], **EXTENSION_OPTIONS)
+    ]
+else:
+    extensions = cythonize([
+        Extension('ringing', ['src/ringing.pyx'], **EXTENSION_OPTIONS),
+    ])
+
+
+with open('README.rst') as file:
+    long_description = file.read()
 
 
 setup(
@@ -26,6 +38,7 @@ setup(
     author_email='code@simpleigh.com',
     url='http://github.com/simpleigh/ringing-lib-python',
     description='Python wrapper for the Ringing Class Library',
+    long_description=long_description,
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -36,6 +49,6 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     license='GPL',
-    ext_modules=cythonize(extensions),
+    ext_modules=extensions,
     test_suite='tests',
 )
