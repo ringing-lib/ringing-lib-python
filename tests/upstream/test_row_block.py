@@ -27,8 +27,8 @@ class RowBlockTest(unittest.TestCase):
         changes.append(Change(5, '5'))
 
         rb = RowBlock(changes)
-        self.assertEqual(rb.set_start('54321'), '54321')
-        self.assertEqual(rb.recalculate(), rb)
+        rb.set_start('54321')
+        rb.recalculate()
 
         self.assertEqual(rb[2], '43521')
 

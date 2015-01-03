@@ -185,8 +185,7 @@ lead of the method.
       
       :param starting_row: new starting row
       :type starting_row: :class:`Row` or int or string
-      :return: new starting row
-      :rtype: :class:`Row`
+      :return: ``None``
    
    .. method:: recalculate([start])
       
@@ -194,6 +193,5 @@ lead of the method.
       
       :param int start: if supplied, only rows after this index will be
          recalculated
-      :return: self
-      :rtype: :class:`RowBlock`
+      :return: ``None``
       :raises: :exc:`IndexError` if ``start`` is out of range

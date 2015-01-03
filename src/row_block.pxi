@@ -33,12 +33,10 @@ cdef class RowBlock:
     def set_start(self, starting_row):
         cdef Row starting_row_obj = Row(starting_row)
         self.thisptr.set_start(deref(starting_row_obj.thisptr))
-        return starting_row_obj
 
     def recalculate(self, int start=0):
         if 0 <= start < self.size:
             self.thisptr.recalculate(start)
-            return self
         else:
             raise IndexError
 
