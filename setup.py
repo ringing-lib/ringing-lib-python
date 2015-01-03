@@ -8,29 +8,23 @@ if os.environ.get('READTHEDOCS', None) == 'True':
     sys.exit()
 
 
-# Detect whether Cython is installed.
-try:
-    import Cython
-    USE_CYTHON = True
-except ImportError:
-    USE_CYTHON = False
-
-
 EXTENSION_OPTIONS = {
     'language': 'c++',
     'libraries': ['ringing', 'ringingcore'],
 }
 
 
-if USE_CYTHON:
+# Detect whether Cython is installed.
+try:
     from Cython.Build import cythonize
-    extensions = cythonize([
-        Extension('ringing', ['src/ringing.pyx'], **EXTENSION_OPTIONS),
-    ])
-else:
+except ImportError:
     extensions = [
         Extension('ringing', ['src/ringing.cpp'], **EXTENSION_OPTIONS)
     ]
+else:
+    extensions = cythonize([
+        Extension('ringing', ['src/ringing.pyx'], **EXTENSION_OPTIONS),
+    ])
 
 
 with open('README.rst') as file:
