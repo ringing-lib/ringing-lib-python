@@ -151,7 +151,19 @@ lead of the method.
    Creates a block of rows using the changes in *changes*, starting from the row
    given in *starting_row* (or rounds if *starting_row* is not provided).
    
-   Row blocks support several standard sequence operations:
+   Row blocks support several standard sequence operations::
+      
+      >>> from ringing import RowBlock, Change
+      >>> rb = RowBlock([Change(5, '3'), Change(5, '1'), Change(5, '5')])
+      >>> rb[0]
+      Row('12345')
+      >>> for r in rb:
+      ...     print(r)
+      ...
+      12345
+      21354
+      23145
+      32415
    
    ========================  ==================================================
    Operation                 Result
@@ -163,6 +175,7 @@ lead of the method.
    ``rb[i]``                 *i*\ th row of *rb*, origin 0
    ``rb[i] = Row('12345')``  sets *i*\ th row of *rb*
    ``len(rb)``               length (:attr:`size`) of *rb*
+   ``list(rb)``              list of rows in *rb*
    ========================  ==================================================
    
    :param changes: changes to associate with the block
@@ -172,16 +185,37 @@ lead of the method.
    
    .. attribute:: size
       
-      Number of changes which the row block contains.
+      Number of rows which the row block contains::
+         
+         >>> from ringing import RowBlock, Change
+         >>> rb = RowBlock([Change(5, '3'), Change(5, '1'), Change(5, '5')])
+         >>> rb.size
+         4
    
    .. attribute:: changes
       
-      List of changes associated with the row block.
+      List of changes associated with the row block::
+         
+         >>> from ringing import RowBlock, Change
+         >>> rb = RowBlock([Change(5, '3'), Change(5, '1'), Change(5, '5')])
+         >>> rb.changes
+         [Change(5, '3'), Change(5, '1'), Change(5, '5')]
    
    .. method:: set_start(starting_row)
       
       Assigns a new row for the start of the row block.
-      Other rows remain unmodified; call :meth:`recalculate` to update them.
+      Other rows remain unmodified; call :meth:`recalculate` to update them::
+         
+         >>> from ringing import RowBlock, Change
+         >>> rb = RowBlock([Change(5, '3'), Change(5, '1'), Change(5, '5')])
+         >>> list(rb)
+         [Row('12345'), Row('21354'), Row('23145'), Row('32415')]
+         >>> rb.set_start('54321')
+         >>> list(rb)
+         [Row('54321'), Row('21354'), Row('23145'), Row('32415')]
+         >>> rb.recalculate()
+         >>> list(rb)
+         [Row('54321'), Row('45312'), Row('43521'), Row('34251')]
       
       :param starting_row: new starting row
       :type starting_row: :class:`Row` or int or string
@@ -189,7 +223,18 @@ lead of the method.
    
    .. method:: recalculate([start])
       
-      Recalculates the rows within the row block.
+      Recalculates the rows within the row block::
+         
+         >>> from ringing import RowBlock, Change
+         >>> rb = RowBlock([Change(5, '3'), Change(5, '1'), Change(5, '5')])
+         >>> list(rb)
+         [Row('12345'), Row('21354'), Row('23145'), Row('32415')]
+         >>> rb[2] = '54321'
+         >>> list(rb)
+         [Row('12345'), Row('21354'), Row('54321'), Row('32415')]
+         >>> rb.recalculate(2)
+         >>> list(rb)
+         [Row('12345'), Row('21354'), Row('54321'), Row('45231')]
       
       :param int start: if supplied, only rows after this index will be
          recalculated
