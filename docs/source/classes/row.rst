@@ -91,6 +91,8 @@ The Row Class
       >>> Row(Row('1234'))  # from another row
       Row('1234')
    
+   Rows are immutable once created.
+   
    This library makes extensive use of :class:`Row` objects as function
    parameters.
    These may be passed in the same ways:
@@ -249,23 +251,6 @@ The Row Class
          >>> from ringing import Row
          >>> Row('2143').bells
          4
-   
-   .. method:: make_rounds()
-      
-      Sets the row to rounds::
-         
-         >>> from ringing import Row
-         >>> r = Row('2143')
-         >>> r.make_rounds()
-         Row('1234')
-         >>> r
-         Row('1234')
-      
-      This is the only operation that modifies the row; otherwise rows are
-      immutable.
-      
-      :return: ``self``
-      :rtype: :class:`Row`
    
    .. staticmethod:: rounds(n)
    .. staticmethod:: queens(n)

@@ -31,10 +31,6 @@ cdef class Row:
         def __get__(self):
             return self.thisptr.bells()
 
-    def make_rounds(self):
-        self.thisptr.rounds()
-        return self
-
     @staticmethod
     def rounds(int n):
         cdef Row result = Row()
