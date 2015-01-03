@@ -33,14 +33,14 @@ with open('README.rst') as file:
 
 setup(
     name='ringing-lib',
-    version='0.1.0',
+    version='0.1.1',
     author='Leigh Simpson',
     author_email='code@simpleigh.com',
     url='http://github.com/simpleigh/ringing-lib-python',
     description='Python wrapper for the Ringing Class Library',
     long_description=long_description,
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
