@@ -22,6 +22,25 @@ class RowBlockTest(unittest.TestCase):
         self.assertEqual(len(rb.changes), 3)
         self.assertEqual(rb.changes, changes_in)
 
+    def test_row_block_set_changes(self):
+        rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']], '54321')
+
+        new_changes = [Change(5, pn) for pn in ['5', '3']]
+        rb.changes = new_changes
+
+        self.assertEqual(rb.changes, new_changes)
+        self.assertEqual(rb.size, 3)
+        self.assertEqual(list(rb), ['54321', '45231', '54213'])
+
+    def test_row_block_set_changes_exceptions(self):
+        rb = RowBlock([])
+
+        def assign_changes(changes):
+            rb.changes = changes
+
+        self.assertRaises(TypeError, lambda: assign_changes(self))
+        self.assertRaises(TypeError, lambda: assign_changes([self]))
+
     def test_row_block_subscript_bounds(self):
         rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
 

@@ -30,6 +30,20 @@ cdef class RowBlock:
         def __get__(self):
             return self.change_list[:]
 
+        def __set__(self, value):
+            cdef row_block *our_rb_ptr = self.thisptr
+
+            # Create a new RowBlock (may raise exceptions)...
+            cdef RowBlock new_row_block = RowBlock(value, self[0])
+
+            # ... suck its brains out...
+            self.thisptr = new_row_block.thisptr
+            self.change_vector = new_row_block.change_vector
+            self.change_list = new_row_block.change_list
+
+            # ... and put our thisptr into it so it gets deallocated
+            new_row_block.thisptr = our_rb_ptr
+
     def set_start(self, starting_row):
         cdef Row starting_row_obj = Row(starting_row)
         self.thisptr.set_start(deref(starting_row_obj.thisptr))

@@ -200,6 +200,16 @@ lead of the method.
          >>> rb = RowBlock([Change(5, '3'), Change(5, '1'), Change(5, '5')])
          >>> rb.changes
          [Change(5, '3'), Change(5, '1'), Change(5, '5')]
+      
+      It's also possible to assign a new set of changes::
+         
+         >>> from ringing import RowBlock, Change
+         >>> rb = RowBlock([Change(5, '3'), Change(5, '1'), Change(5, '5')])
+         >>> list(rb)
+         [Row('12345'), Row('21354'), Row('23145'), Row('32415')]
+         >>> rb.changes = [Change(5, pn) for pn in ['5', '3']]
+         >>> list(rb)
+         [Row('12345'), Row('21435'), Row('12453')]
    
    .. method:: set_start(starting_row)
       
