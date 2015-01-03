@@ -71,7 +71,7 @@ bells which move round in a sequential way as the row is repeated; for example,
 cycle, which is ``(456)``. Combining these two cycles will give us the row
 ``213564678``.
 
- 
+
 The Row Class
 -------------
 
@@ -413,10 +413,11 @@ The Group Class
 
 .. class:: Group(generator[, generator[, ...]])
    
-   Generates a group of changes.
+   Generates a group of rows.
    
    Once created, groups can be tested for membership or iterated over using the
    ``in`` operator (and hence converted to lists via ``list()``).
+   Groups are immutable.
    
    :param generator: generators for the group (rows)
    :type generator: :class:`Row` or int or string
