@@ -8,7 +8,7 @@ cdef class Change:
         elif isinstance(input, Change):
             self.thisptr = new change(deref((<Change>input).thisptr))
         elif isinstance(input, int):
-            if 0 <= input <= 256:
+            if 0 <= input < 256:
                 if change_str is None:
                     self.thisptr = new change(<int>input)
                 elif isinstance(change_str, unicode):
@@ -19,7 +19,7 @@ cdef class Change:
                 else:
                     raise TypeError('supplied change must be a string')
             else:
-                raise ValueError('number of bells must be between 0 and 256')
+                raise ValueError('number of bells must be between 0 and 255')
         else:
             raise TypeError
 
@@ -27,7 +27,7 @@ cdef class Change:
         del self.thisptr
 
     def set(self, int num, pn):
-        if 0 <= num <= 256:
+        if 0 <= num < 256:
             if isinstance(pn, bytes):
                 self.thisptr.set(num, pn)
             elif isinstance(pn, unicode):
@@ -35,7 +35,7 @@ cdef class Change:
             else:
                 raise TypeError
         else:
-            raise ValueError('number of bells must be between 0 and 256')
+            raise ValueError('number of bells must be between 0 and 255')
 
     def reverse(self):
         cdef Change result = Change()

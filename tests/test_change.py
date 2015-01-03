@@ -6,7 +6,7 @@ from ringing import Change
 class ChangeTest(unittest.TestCase):
     def test_change_constructor_exceptions(self):
         self.assertRaises(ValueError, lambda: Change(-1))
-        self.assertRaises(ValueError, lambda: Change(257))
+        self.assertRaises(ValueError, lambda: Change(256))
         self.assertRaises(TypeError, lambda: Change(self))
         self.assertRaises(TypeError, lambda: Change(1, self))
 
@@ -27,7 +27,10 @@ class ChangeTest(unittest.TestCase):
         c = Change()
 
         self.assertRaises(ValueError, lambda: c.set(-1, 'X'))
-        self.assertRaises(ValueError, lambda: c.set(257, 'X'))
+        c.set(0, 'X')
+        c.set(255, 'X')
+        self.assertRaises(ValueError, lambda: c.set(256, 'X'))
+
         self.assertRaises(TypeError, lambda: c.set(self, 'X'))
         self.assertRaises(TypeError, lambda: c.set(1, self))
 
