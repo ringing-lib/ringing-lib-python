@@ -37,8 +37,6 @@ cdef class Change:
         else:
             raise ValueError('number of bells must be between 0 and 256')
 
-        return self
-
     def reverse(self):
         cdef Change result = Change()
         result.thisptr[0] = self.thisptr.reverse()

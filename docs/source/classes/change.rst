@@ -63,8 +63,7 @@ The Change Class
       
       :param int num: number of bells
       :param string pn: place notation
-      :return: the new change
-      :rtype: :class:`Change`
+      :return: ``None``
    
    .. method:: reverse()
       
