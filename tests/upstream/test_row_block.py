@@ -10,14 +10,14 @@ class RowBlockTest(unittest.TestCase):
         changes.append(Change(5, '1'))
         changes.append(Change(5, '5'))
 
-        rb = RowBlock(changes)
+        rb = RowBlock(*changes)
         self.assertEqual(rb.size, 4)
         self.assertEqual(rb[0], '12345')
         self.assertEqual(rb[1], '21354')
         self.assertEqual(rb[2], '23145')
         self.assertEqual(rb[3], '32415')
 
-        rb = RowBlock(changes, '54321')
+        rb = RowBlock(*changes, starting_row='54321')
         self.assertEqual(rb[2], '43521')
 
     def test_row_block_set_start(self):
@@ -26,7 +26,7 @@ class RowBlockTest(unittest.TestCase):
         changes.append(Change(5, '1'))
         changes.append(Change(5, '5'))
 
-        rb = RowBlock(changes)
+        rb = RowBlock(*changes)
         rb.set_start('54321')
         rb.recalculate()
 
@@ -38,7 +38,7 @@ class RowBlockTest(unittest.TestCase):
         changes.append(Change(5, '1'))
         changes.append(Change(5, '5'))
 
-        rb = RowBlock(changes)
+        rb = RowBlock(*changes)
         rb[2] = '54321'
         rb.recalculate(2)
 
@@ -50,6 +50,6 @@ class RowBlockTest(unittest.TestCase):
 
     def test_row_block_get_changes(self):
         changes = []
-        rb = RowBlock(changes)
+        rb = RowBlock(*changes)
 
         self.assertEqual(rb.changes, changes)

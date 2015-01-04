@@ -6,12 +6,11 @@ from ringing import Row, Change, RowBlock
 class RowBlockTest(unittest.TestCase):
     def test_row_block_constructor_exceptions(self):
         self.assertRaises(TypeError, lambda: RowBlock(self))
-        self.assertRaises(TypeError, lambda: RowBlock([self]))
-        self.assertRaises(TypeError, lambda: RowBlock([], self))
+        self.assertRaises(TypeError, lambda: RowBlock(starting_row=self))
 
     def test_row_block_changes_not_directly_mutable(self):
         changes_in = [Change(5, pn) for pn in ['3', '1', '5']]
-        rb = RowBlock(changes_in)
+        rb = RowBlock(*changes_in)
 
         # Make a local reference to rb.changes, and modify it...
         changes_out = rb.changes
@@ -23,7 +22,8 @@ class RowBlockTest(unittest.TestCase):
         self.assertEqual(rb.changes, changes_in)
 
     def test_row_block_set_changes(self):
-        rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']], '54321')
+        rb = RowBlock(*[Change(5, pn) for pn in ['3', '1', '5']],
+                      starting_row='54321')
 
         new_changes = [Change(5, pn) for pn in ['5', '3']]
         rb.changes = new_changes
@@ -33,7 +33,7 @@ class RowBlockTest(unittest.TestCase):
         self.assertEqual(list(rb), ['54321', '45231', '54213'])
 
     def test_row_block_set_changes_exceptions(self):
-        rb = RowBlock([])
+        rb = RowBlock()
 
         def assign_changes(changes):
             rb.changes = changes
@@ -41,8 +41,19 @@ class RowBlockTest(unittest.TestCase):
         self.assertRaises(TypeError, lambda: assign_changes(self))
         self.assertRaises(TypeError, lambda: assign_changes([self]))
 
+    def test_row_block_repr(self):
+        tests = [
+            'RowBlock()',
+            "RowBlock(Change(5, '3'))",
+            "RowBlock(Change(5, '3'), Change(5, '1'))",
+            "RowBlock(Change(5, '3'), starting_row=Row('54321'))",
+        ]
+
+        for test in tests:
+            self.assertEqual(repr(eval(test)), test)
+
     def test_row_block_subscript_bounds(self):
-        rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
+        rb = RowBlock(*[Change(5, pn) for pn in ['3', '1', '5']])
 
         self.assertRaises(IndexError, lambda: rb[-1])
         self.assertEqual(rb[0], '12345')
@@ -55,7 +66,7 @@ class RowBlockTest(unittest.TestCase):
         self.assertRaises(IndexError, lambda: rb.__setitem__(4, Row(5)))
 
     def test_row_block_recalculate_bounds(self):
-        rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
+        rb = RowBlock(*[Change(5, pn) for pn in ['3', '1', '5']])
 
         self.assertRaises(IndexError, lambda: rb.recalculate(-1))
         rb.recalculate(0)
@@ -63,6 +74,6 @@ class RowBlockTest(unittest.TestCase):
         self.assertRaises(IndexError, lambda: rb.recalculate(4))
 
     def test_row_block_iterator(self):
-        rb = RowBlock([Change(5, pn) for pn in ['3', '1', '5']])
+        rb = RowBlock(*[Change(5, pn) for pn in ['3', '1', '5']])
 
         self.assertEqual(list(rb), ['12345', '21354', '23145', '32415'])
