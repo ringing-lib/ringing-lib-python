@@ -17,11 +17,15 @@ cdef class Change:
                 elif isinstance(change_str, bytes):
                     self.thisptr = new change(<int>input, <string>change_str)
                 else:
-                    raise TypeError('supplied change must be a string')
+                    raise TypeError('Cannot convert {type} to str'.format(
+                        type=type(change_str).__name__
+                    ))
             else:
-                raise ValueError('number of bells must be between 0 and 255')
+                raise ValueError('Number of bells must be between 0 and 255')
         else:
-            raise TypeError
+            raise TypeError('Cannot convert {type} to ringing.Change'.format(
+                type=type(input).__name__
+            ))
 
     def __dealloc__(self):
         del self.thisptr
@@ -33,9 +37,11 @@ cdef class Change:
             elif isinstance(pn, unicode):
                 self.thisptr.set(num, pn.encode())
             else:
-                raise TypeError
+                raise TypeError('Cannot convert {type} to str'.format(
+                    type=type(pn).__name__
+                ))
         else:
-            raise ValueError('number of bells must be between 0 and 255')
+            raise ValueError('Number of bells must be between 0 and 255')
 
     def reverse(self):
         cdef Change result = Change()
@@ -53,13 +59,13 @@ cdef class Change:
         if 0 <= i < (self.thisptr.bells() - 1):
             return self.thisptr.findswap(bell(i))
         else:
-            raise IndexError('bell number out of range')
+            raise IndexError('ringing.Change index out of range')
 
     def find_place(self, int i):
         if 0 <= i <= (self.thisptr.bells() - 1):
             return self.thisptr.findplace(bell(i))
         else:
-            raise IndexError('bell number out of range')
+            raise IndexError('ringing.Change index out of range')
 
     def swap_pair(self, int i):
         return self.thisptr.swappair(bell(i))
@@ -140,4 +146,4 @@ cdef class Change:
         if 0 <= i <= 256:
             return <int>(bell(i) * c)
         else:
-            raise ValueError('bell number out of range')
+            raise ValueError('Bell number out of range')

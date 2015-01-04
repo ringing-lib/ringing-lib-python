@@ -53,7 +53,7 @@ cdef class RowBlock:
         if 0 <= start < self.size:
             self.thisptr.recalculate(start)
         else:
-            raise IndexError
+            raise IndexError('ringing.RowBlock index out of range')
 
     def __repr__(self):
         cdef str changes = ', '.join([repr(ch) for ch in self.change_list])
@@ -75,7 +75,7 @@ cdef class RowBlock:
             result.thisptr[0] = deref(self.thisptr)[x]
             return result
         else:
-            raise IndexError
+            raise IndexError('ringing.RowBlock index out of range')
 
     def __setitem__(self, int x, y):
         cdef Row ry = Row(y)
@@ -83,4 +83,4 @@ cdef class RowBlock:
         if 0 <= x < self.size:
             deref(self.thisptr)[x] = deref(ry.thisptr)
         else:
-            raise IndexError
+            raise IndexError('ringing.RowBlock index out of range')

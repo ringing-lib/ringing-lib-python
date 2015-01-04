@@ -11,13 +11,15 @@ cdef class Row:
             if 0 <= input <= 256:
                 self.thisptr = new row(<int>input)
             else:
-                raise ValueError('number of bells must be between 0 and 256')
+                raise ValueError('Number of bells must be between 0 and 256')
         elif isinstance(input, unicode):
             self.thisptr = new row(<string>(input.encode()))
         elif isinstance(input, bytes):
             self.thisptr = new row(<string>input)
         else:
-            raise TypeError
+            raise TypeError('Cannot convert {type} to ringing.Row'.format(
+                type=type(input).__name__
+            ))
 
     def __dealloc__(self):
         del self.thisptr
@@ -103,7 +105,7 @@ cdef class Row:
         if 0 <= b <= 256:
             return self.thisptr.find(bell(b))
         else:
-            raise ValueError('number of bells must be between 0 and 256')
+            raise ValueError('Number of bells must be between 0 and 256')
 
     @staticmethod
     def conjugator(x, y):
@@ -191,4 +193,4 @@ cdef class Row:
         if 0 <= x < self.bells:
             return <int>(deref(self.thisptr)[x])
         else:
-            raise IndexError
+            raise IndexError('ringing.Row index out of range')
