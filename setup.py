@@ -3,6 +3,9 @@ from setuptools import setup, Extension
 import sys
 
 
+BASE_DIR = os.path.dirname(__file__)
+
+
 # Don't run any setup tasks if we're running on readthedocs.org.
 if os.environ.get('READTHEDOCS', None) == 'True':
     sys.exit()
@@ -27,13 +30,17 @@ else:
     ])
 
 
+with open(os.path.join(BASE_DIR, 'VERSION')) as version_file:
+    version = version_file.read().strip()
+
+
 with open('README.rst') as file:
     long_description = file.read()
 
 
 setup(
     name='ringing-lib',
-    version='0.1.1',
+    version=version,
     author='Leigh Simpson',
     author_email='code@simpleigh.com',
     url='http://github.com/simpleigh/ringing-lib-python',
