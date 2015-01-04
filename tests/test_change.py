@@ -34,6 +34,8 @@ class ChangeTest(unittest.TestCase):
         self.assertRaises(TypeError, lambda: c.set(self, 'X'))
         self.assertRaises(TypeError, lambda: c.set(1, self))
 
+        self.assertRaises(ValueError, lambda: Change(5, 'XYZ'))
+
     def test_change_set_returns_none(self):
         c = Change()
         self.assertEqual(c.set(4, 'X'), None)
