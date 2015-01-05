@@ -6,9 +6,9 @@ from libcpp.string cimport string
 from libcpp.vector cimport vector
 
 from bell cimport *
-from row cimport *
-from group cimport *
 from change cimport *
+from group cimport *
+from row cimport *
 from row_block cimport *
 
 MAX_BELLS = bell().MAX_BELLS
