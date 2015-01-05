@@ -1,6 +1,8 @@
 Changes
 =======
 
+.. currentmodule:: ringing
+
 A *change* is a means for getting from one row to another. It works by swapping
 over pairs of bells, and no bell may move more than one place.
 
@@ -11,8 +13,6 @@ stay in the same place. If all the bells swap, the place notation is ``X``.
 
 The Change Class
 ----------------
-
-.. currentmodule:: ringing
 
 .. class:: Change([spec[, change]])
    

@@ -1,6 +1,8 @@
 Rows
 ====
 
+.. currentmodule:: ringing
+
 For ease of notation, we use the idea that a row is an individual permutation of
 bells (such as ``13572468``), and a change is a means of getting from one row to
 another, by swapping pairs of bells; the most convenient way to write a change
@@ -74,8 +76,6 @@ cycle, which is ``(456)``. Combining these two cycles will give us the row
 
 The Row Class
 -------------
-
-.. currentmodule:: ringing
 
 .. class:: Row([spec])
    
