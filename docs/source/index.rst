@@ -83,6 +83,7 @@ Class Documentation
    
    classes/row
    classes/change
+   classes/method
 
 Licence
 -------
