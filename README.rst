@@ -26,4 +26,14 @@ This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.sourceforge.net/>`_.
 It should work with Python versions 2.6, 2.7, 3.3 or 3.4.
 
+Install as follows:
+
+#. Build and install the Ringing Class Library.
+   You can obtain the latest source from
+   `SourceForge <http://sourceforge.net/p/ringing-lib/code/>`_.
+
+#. Install using ``pip``::
+      
+      pip install ringing-lib
+
 `Documentation <https://ringing-lib-python.readthedocs.org/>`_

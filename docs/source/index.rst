@@ -20,7 +20,7 @@ This package contains Python bindings for the
 Installation
 ------------
 
-#. **Install the Ringing Class Library**.
+1. **Install the Ringing Class Library**.
    
    You can download the latest source from
    `SourceForge <http://sourceforge.net/p/ringing-lib/code/>`_.
@@ -38,15 +38,26 @@ Installation
    It may also be necessary to run :command:`ldconfig` as root in order to
    refresh the loader cache.
 
-#. **Install Cython**.
+Then either install directly from
+`PyPI <https://pypi.python.org/pypi/ringing-lib/>`_:
+
+2. **Install Using pip**
+   
+   .. code-block:: bash
+      
+      pip install ringing-lib
+
+... or build from source:
+
+2. **Install Cython**.
    
    `Cython <http://cython.org/>`_ is most easily installed using :command:`pip`:
    
    .. code-block:: bash
       
-      pip install -r requirements.txt
+      pip install Cython
 
-#. **Compile the Python extension**.
+3. **Compile the Python extension**.
    
    Build the extension using :file:`setup.py`:
    
@@ -54,7 +65,7 @@ Installation
       
       python setup.py build_ext --inplace
 
-#. (Optional) **Run Tests**.
+4. (Optional) **Run Tests**.
    
    Run the included tests using :file:`setup.py`:
    
