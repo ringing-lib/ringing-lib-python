@@ -11,8 +11,13 @@ from row cimport row
 
 cdef extern from 'ringing/method.h' namespace 'ringing':
     cdef cppclass method(vector[change]):
-        method(const string &pn, int b)  # Make a method from place notation
-        method(const string &pn, int b, const string& n)
+        method()
+        method(int l)
+        method(int l, int b)
+        method(int l, int b, const char *n)
+        method(const string& pn, int b)  # Make a method from place notation
+        method(const string& pn, int b, const string& n)
+        method(const method& m)
 
         int length()
         int bells()
