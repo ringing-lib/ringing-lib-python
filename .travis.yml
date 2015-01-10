@@ -8,7 +8,7 @@ python:
 
 before_install:
   - sudo apt-get update
-  - wget http://ringing-lib-packages.s3.amazonaws.com/libringing-dev_0.4.0-3_amd64.deb
+  - wget https://github.com/ringing-lib/ringing-lib-deb/releases/download/v0.4.0-3/libringing-dev_0.4.0-3_amd64.deb
 
 install:
   - sudo apt-get install libreadline6 libgdome2-0
