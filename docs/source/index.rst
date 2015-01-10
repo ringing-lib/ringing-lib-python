@@ -3,17 +3,17 @@ lib-ringing-python Documentation
 
 **Wrapper for the Ringing Class Library**.
 
-.. |master| image:: https://travis-ci.org/simpleigh/ringing-lib-python.svg?branch=master
+.. |master| image:: https://travis-ci.org/ringing-lib/ringing-lib-python.svg?branch=master
    :alt: Build Status - master branch
-   :target: https://travis-ci.org/simpleigh/ringing-lib-python
+   :target: https://travis-ci.org/ringing-lib/ringing-lib-python
 
 About
 -----
 
 This package contains Python bindings for the
-`Ringing Class Library <http://ringing-lib.sourceforge.net/>`_.
+`Ringing Class Library <http://ringing-lib.github.io/>`_.
 
-*  GitHub: https://github.com/simpleigh/ringing-lib-python
+*  GitHub: https://github.com/ringing-lib/ringing-lib-python
 *  Supports: Python versions 2.6, 2.7, 3.3, 3.4.
 *  |master|
 
