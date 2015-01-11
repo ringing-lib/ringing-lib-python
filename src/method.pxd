@@ -30,7 +30,8 @@ cdef extern from 'ringing/method.h' namespace 'ringing':
         int leads()                 # Number of leads in a plain course
         bool issym(bell b)          # Is this bell's path symmetrical?
         bool ispalindromic(bell b)  # Is it palindromic about any point?
-        bool isplain(bell b=0)      # Does this bell plain hunt?
+        bool isplain()              # Does this bell plain hunt?
+        bool isplain(bell b)
         bool hasdodges(bell b)      # Does this bell ever dodge?
         bool hasplaces(bell b)      # Does this bell make internal places?
         int methclass()             # What sort of method is it?
