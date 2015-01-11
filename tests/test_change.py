@@ -1,12 +1,16 @@
 import unittest
 
 from ringing import Change
+from tests import MAX_BELL_NUMBER
 
 
 class ChangeTest(unittest.TestCase):
     def test_change_constructor_exceptions(self):
         self.assertRaises(ValueError, lambda: Change(-1))
-        self.assertRaises(ValueError, lambda: Change(256))
+        Change(0)
+        Change(MAX_BELL_NUMBER)
+        self.assertRaises(ValueError, lambda: Change(MAX_BELL_NUMBER + 1))
+
         self.assertRaises(TypeError, lambda: Change(self))
         self.assertRaises(TypeError, lambda: Change(1, self))
 
@@ -28,8 +32,8 @@ class ChangeTest(unittest.TestCase):
 
         self.assertRaises(ValueError, lambda: c.set(-1, 'X'))
         c.set(0, 'X')
-        c.set(255, 'X')
-        self.assertRaises(ValueError, lambda: c.set(256, 'X'))
+        c.set(MAX_BELL_NUMBER, 'X')
+        self.assertRaises(ValueError, lambda: c.set(MAX_BELL_NUMBER + 1, 'X'))
 
         self.assertRaises(TypeError, lambda: c.set(self, 'X'))
         self.assertRaises(TypeError, lambda: c.set(1, self))
@@ -82,4 +86,6 @@ class ChangeTest(unittest.TestCase):
         c = Change(6, '14')
 
         self.assertRaises(ValueError, lambda: c * -1)
-        self.assertRaises(ValueError, lambda: c * 256)
+        c * 0
+        c * MAX_BELL_NUMBER
+        self.assertRaises(ValueError, lambda: c * MAX_BELL_NUMBER + 1)
