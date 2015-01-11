@@ -6,8 +6,8 @@ cdef class Method:
         cdef string name_string
 
         # Validate bells parameter
-        if not (0 <= bells <= 256):
-            raise ValueError('Number of bells must be between 0 and 256')
+        if not (0 <= bells <= MAX_BELL_NUMBER):
+            raise ValueError('Number of bells out of range')
 
         # Process name parameter
         if isinstance(name, unicode):
