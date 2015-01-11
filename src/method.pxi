@@ -110,3 +110,27 @@ cdef class Method:
 
     def max_blows(self):
         return self.thisptr.maxblows()
+
+    def append(self, c):
+        cdef Change cc = Change(c)
+        self.thisptr.push_back(deref(cc.thisptr))
+
+    def __len__(self):
+        return self.size
+
+    def __getitem__(self, int x):
+        cdef Change result = Change()
+
+        if 0 <= x < self.size:
+            result.thisptr[0] = deref(self.thisptr)[x]
+            return result
+        else:
+            raise IndexError('ringing.Method index out of range')
+
+    def __setitem__(self, int x, y):
+        cdef Change cy = Change(y)
+
+        if 0 <= x < self.size:
+            deref(self.thisptr)[x] = deref(cy.thisptr)
+        else:
+            raise IndexError('ringing.Method index out of range')
