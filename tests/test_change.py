@@ -82,4 +82,4 @@ class ChangeTest(unittest.TestCase):
         c = Change(6, '14')
 
         self.assertRaises(ValueError, lambda: c * -1)
-        self.assertRaises(ValueError, lambda: c * 257)
+        self.assertRaises(ValueError, lambda: c * 256)

@@ -2,12 +2,13 @@ import itertools
 import unittest
 
 from ringing import Row
+from tests import MAX_BELL_NUMBER
 
 
 class RowTest(unittest.TestCase):
     def test_row_constructor_exceptions(self):
         self.assertRaises(ValueError, lambda: Row(-1))
-        self.assertRaises(ValueError, lambda: Row(257))
+        self.assertRaises(ValueError, lambda: Row(256))
         self.assertRaises(TypeError, lambda: Row(self))
 
     def test_row_equals_string_types(self):
@@ -35,7 +36,7 @@ class RowTest(unittest.TestCase):
         self.assertEqual(r.find(6), 6)
 
         self.assertRaises(ValueError, lambda: r.find(-1))
-        self.assertRaises(ValueError, lambda: r.find(257))
+        self.assertRaises(ValueError, lambda: r.find(256))
 
     def test_row_conjugator(self):
         x = Row('2143')
