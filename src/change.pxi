@@ -143,7 +143,7 @@ cdef class Change:
         else:
             return NotImplemented
 
-        if 0 <= i <= 256:
+        if 0 <= i < 256:
             return <int>(bell(i) * c)
         else:
             raise ValueError('Bell number out of range')
