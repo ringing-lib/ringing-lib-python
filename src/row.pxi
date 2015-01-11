@@ -8,10 +8,10 @@ cdef class Row:
         elif isinstance(input, Row):
             self.thisptr = new row(deref((<Row>input).thisptr))
         elif isinstance(input, int):
-            if 0 <= input <= 256:
+            if 0 <= input <= MAX_BELL_NUMBER:
                 self.thisptr = new row(<int>input)
             else:
-                raise ValueError('Number of bells must be between 0 and 256')
+                raise ValueError('Number of bells out of range')
         elif isinstance(input, unicode):
             self.thisptr = new row(<string>(input.encode()))
         elif isinstance(input, bytes):
@@ -102,10 +102,10 @@ cdef class Row:
         return self.thisptr.order()
 
     def find(self, int b):
-        if 0 <= b <= 256:
+        if 0 <= b <= MAX_BELL_NUMBER:
             return self.thisptr.find(bell(b))
         else:
-            raise ValueError('Number of bells must be between 0 and 256')
+            raise ValueError('Number of bells out of range')
 
     @staticmethod
     def conjugator(x, y):

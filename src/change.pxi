@@ -8,7 +8,7 @@ cdef class Change:
         elif isinstance(input, Change):
             self.thisptr = new change(deref((<Change>input).thisptr))
         elif isinstance(input, int):
-            if 0 <= input < 256:
+            if 0 <= input <= MAX_BELL_NUMBER:
                 if change_str is None:
                     self.thisptr = new change(<int>input)
                 elif isinstance(change_str, unicode):
@@ -21,7 +21,7 @@ cdef class Change:
                         type=type(change_str).__name__
                     ))
             else:
-                raise ValueError('Number of bells must be between 0 and 255')
+                raise ValueError('Number of bells out of range')
         else:
             raise TypeError('Cannot convert {type} to ringing.Change'.format(
                 type=type(input).__name__
@@ -31,7 +31,7 @@ cdef class Change:
         del self.thisptr
 
     def set(self, int num, pn):
-        if 0 <= num < 256:
+        if 0 <= num <= MAX_BELL_NUMBER:
             if isinstance(pn, bytes):
                 self.thisptr.set(num, pn)
             elif isinstance(pn, unicode):
@@ -41,7 +41,7 @@ cdef class Change:
                     type=type(pn).__name__
                 ))
         else:
-            raise ValueError('Number of bells must be between 0 and 255')
+            raise ValueError('Number of bells out of range')
 
     def reverse(self):
         cdef Change result = Change()
@@ -143,7 +143,7 @@ cdef class Change:
         else:
             return NotImplemented
 
-        if 0 <= i <= 256:
+        if 0 <= i <= MAX_BELL_NUMBER:
             return <int>(bell(i) * c)
         else:
             raise ValueError('Bell number out of range')
