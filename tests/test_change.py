@@ -88,4 +88,4 @@ class ChangeTest(unittest.TestCase):
         self.assertRaises(ValueError, lambda: c * -1)
         c * 0
         c * MAX_BELL_NUMBER
-        self.assertRaises(ValueError, lambda: c * MAX_BELL_NUMBER + 1)
+        self.assertRaises(ValueError, lambda: c * (MAX_BELL_NUMBER + 1))
