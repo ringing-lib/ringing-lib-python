@@ -129,6 +129,9 @@ cdef class GroupIterator:
         self.index = deref(g.thisptr).begin()
         self.end = deref(g.thisptr).end()
 
+    def __iter__(self):
+        return self
+
     def __next__(self):
         cdef Row result = Row()
 
