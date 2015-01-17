@@ -14,7 +14,7 @@ This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
 
 *  GitHub: https://github.com/ringing-lib/ringing-lib-python
-*  Supports: Python versions 2.6, 2.7, 3.3, 3.4.
+*  Supports: CPython versions 2.6, 2.7, 3.3, 3.4.
 *  |master|
 
 Installation
