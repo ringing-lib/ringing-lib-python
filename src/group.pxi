@@ -89,8 +89,14 @@ cdef class Group:
         return [<int>invariant for invariant in invariants]
 
     def __richcmp__(x, y, int op):
-        cdef group gx = deref((<Group?>x).thisptr)
-        cdef group gy = deref((<Group?>y).thisptr)
+        cdef group gx
+        cdef group gy
+
+        if not isinstance(x, Group) or not isinstance(y, Group):
+            return NotImplemented
+
+        gx = deref((<Group>x).thisptr)
+        gy = deref((<Group>y).thisptr)
 
         if op == 0:  # <
             return gx < gy
