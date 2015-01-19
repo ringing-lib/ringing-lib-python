@@ -122,8 +122,14 @@ cdef class Row:
         return are_conjugate(deref(Row(x).thisptr), deref(Row(y).thisptr))
 
     def __richcmp__(x, y, int op):
-        cdef row rx = deref(Row(x).thisptr)
-        cdef row ry = deref(Row(y).thisptr)
+        cdef row rx
+        cdef row ry
+
+        try:
+            rx = deref(Row(x).thisptr)
+            ry = deref(Row(y).thisptr)
+        except TypeError:
+            return NotImplemented
 
         if op == 0:  # <
             return rx < ry
@@ -162,21 +168,30 @@ cdef class Row:
     def __mul__(x, y):
         cdef Row result = Row()
 
-        if isinstance(y, Change):
-            result.thisptr[0] = deref(Row(x).thisptr) * \
-                                deref((<Change>y).thisptr)
+        try:
+            if isinstance(y, Change):
+                result.thisptr[0] = deref(Row(x).thisptr) * \
+                                    deref((<Change>y).thisptr)
+            else:
+                result.thisptr[0] = deref(Row(x).thisptr) * \
+                                    deref(Row(y).thisptr)
+        except TypeError:
+            return NotImplemented
         else:
-            result.thisptr[0] = deref(Row(x).thisptr) * deref(Row(y).thisptr)
-
-        return result
+            return result
 
     def __div__(x, y):
         return Row.__truediv__(x, y)
 
     def __truediv__(x, y):
         cdef Row result = Row()
-        result.thisptr[0] = deref(Row(x).thisptr) / deref(Row(y).thisptr)
-        return result
+
+        try:
+            result.thisptr[0] = deref(Row(x).thisptr) / deref(Row(y).thisptr)
+        except TypeError:
+            return NotImplemented
+        else:
+            return result
 
     def __pow__(Row x, int y, z):
         cdef Row result = Row()
