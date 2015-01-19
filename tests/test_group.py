@@ -91,6 +91,15 @@ class GroupTest(unittest.TestCase):
         self.assertEqual(Group('213564', '123546').invariants(), [2])
         self.assertEqual(Group('654321').invariants(), [])
 
+    def test_operators_return_not_implemented(self):
+        # Arithmetic operator returns NotImplemented when given unknown types
+        self.assertEqual(Group().__lt__(self), NotImplemented)
+        self.assertEqual(Group().__le__(self), NotImplemented)
+        self.assertEqual(Group().__eq__(self), NotImplemented)
+        self.assertEqual(Group().__ne__(self), NotImplemented)
+        self.assertEqual(Group().__gt__(self), NotImplemented)
+        self.assertEqual(Group().__ge__(self), NotImplemented)
+
     def test_group_repr(self):
         tests = [
             'Group()',

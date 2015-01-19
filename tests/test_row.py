@@ -60,6 +60,37 @@ class RowTest(unittest.TestCase):
         for r in conj_class:
             self.assertFalse(Row.are_conjugate(r, 4))
 
+    def test_operators_return_not_implemented(self):
+        # Arithmetic operator returns NotImplemented when given unknown types
+        self.assertEqual(Row().__lt__(self), NotImplemented)
+        self.assertEqual(Row().__le__(self), NotImplemented)
+        self.assertEqual(Row().__eq__(self), NotImplemented)
+        self.assertEqual(Row().__ne__(self), NotImplemented)
+        self.assertEqual(Row().__gt__(self), NotImplemented)
+        self.assertEqual(Row().__ge__(self), NotImplemented)
+        self.assertEqual(Row().__mul__(self), NotImplemented)
+        self.assertEqual(Row().__rmul__(self), NotImplemented)
+        self.assertEqual(Row().__truediv__(self), NotImplemented)
+        self.assertEqual(Row().__rtruediv__(self), NotImplemented)
+
+        # ... but passes through errors parsing known types.
+        self.assertRaises(ValueError, lambda: Row().__lt__('!'))
+        self.assertRaises(ValueError, lambda: Row().__le__('!'))
+        self.assertRaises(ValueError, lambda: Row().__eq__('!'))
+        self.assertRaises(ValueError, lambda: Row().__ne__('!'))
+        self.assertRaises(ValueError, lambda: Row().__gt__('!'))
+        self.assertRaises(ValueError, lambda: Row().__ge__('!'))
+        self.assertRaises(ValueError, lambda: Row().__mul__('!'))
+        self.assertRaises(ValueError, lambda: Row().__rmul__('!'))
+        self.assertRaises(ValueError, lambda: Row().__truediv__('!'))
+        self.assertRaises(ValueError, lambda: Row().__rtruediv__('!'))
+
+        try:
+            self.assertEqual(Row().__div__(self), NotImplemented)
+            self.assertRaises(ValueError, lambda: Row().__div__('!'))
+        except AttributeError:
+            pass  # Ignore (Python 3 doesn't create __div__)
+
     def test_row_repr(self):
         self.assertEqual(repr(Row()), 'Row()')
         self.assertEqual(repr(Row('123456')), "Row('123456')")
