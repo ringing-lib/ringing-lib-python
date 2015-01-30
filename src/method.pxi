@@ -112,8 +112,16 @@ cdef class Method:
         return self.thisptr.maxblows()
 
     def append(self, c):
-        cdef Change cc = Change(c)
-        self.thisptr.push_back(deref(cc.thisptr))
+        if isinstance(c, Change):
+            self.thisptr.push_back(deref((<Change>c).thisptr))
+        elif isinstance(c, unicode):
+            self.thisptr.push_back(<string>(c.encode()))
+        elif isinstance(c, bytes):
+            self.thisptr.push_back(<string>c)
+        else:
+            raise TypeError("Cannot append {type} to ringing.Method".format(
+                type=type(c).__name__
+            ))
 
     def __len__(self):
         return self.size
