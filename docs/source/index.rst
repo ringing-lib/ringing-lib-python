@@ -14,7 +14,7 @@ This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
 
 *  GitHub: https://github.com/ringing-lib/ringing-lib-python
-*  Supports: Python versions 2.6, 2.7, 3.3, 3.4.
+*  Supports: CPython versions 2.6, 2.7, 3.3, 3.4.
 *  |master|
 
 Installation
@@ -38,16 +38,21 @@ Installation
    It may also be necessary to run :command:`ldconfig` as root in order to
    refresh the loader cache.
 
-Then either install directly from
-`PyPI <https://pypi.python.org/pypi/ringing-lib/>`_:
-
 2. **Install Using pip**
+   
+   Install directly from
+   `PyPI <https://pypi.python.org/pypi/ringing-lib/>`_:
    
    .. code-block:: bash
       
       pip install ringing-lib
+   
+   .. note::
+      
+      This is a C++ Python extension: you will need a working compiler with
+      access to Python headers in order to build it.
 
-... or build from source:
+Alternatively, to build from source:
 
 2. **Install Cython**.
    

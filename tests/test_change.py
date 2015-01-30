@@ -62,6 +62,25 @@ class ChangeTest(unittest.TestCase):
         self.assertTrue(c.swap_pair(4))
         self.assertRaises(IndexError, lambda: c.swap_pair(5))
 
+    def test_operators_return_not_implemented(self):
+        # Arithmetic operator returns NotImplemented when given unknown types
+        self.assertEqual(Change().__lt__(self), NotImplemented)
+        self.assertEqual(Change().__le__(self), NotImplemented)
+        self.assertEqual(Change().__eq__(self), NotImplemented)
+        self.assertEqual(Change().__ne__(self), NotImplemented)
+        self.assertEqual(Change().__gt__(self), NotImplemented)
+        self.assertEqual(Change().__ge__(self), NotImplemented)
+        self.assertEqual(Change().__mul__(self), NotImplemented)
+        self.assertEqual(Change().__rmul__(self), NotImplemented)
+
+        # ... but passes through errors parsing known types.
+        self.assertRaises(ValueError, lambda: Change().__lt__('!'))
+        self.assertRaises(ValueError, lambda: Change().__le__('!'))
+        self.assertRaises(ValueError, lambda: Change().__eq__('!'))
+        self.assertRaises(ValueError, lambda: Change().__ne__('!'))
+        self.assertRaises(ValueError, lambda: Change().__gt__('!'))
+        self.assertRaises(ValueError, lambda: Change().__ge__('!'))
+
     def test_change_repr(self):
         self.assertEqual(repr(Change()), 'Change()')
         self.assertEqual(repr(Change(4)), "Change(4, '1234')")
