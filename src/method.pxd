@@ -19,6 +19,12 @@ cdef extern from 'ringing/method.h' namespace 'ringing':
         method(const string& pn, int b, const string& n)
         method(const method& m)
 
+        char *name()                # Get name
+        void name(const string& n)  # Set name
+        string fullname()
+
+        void push_back(const string &str)
+
         int length()
         int bells()
         row lh()
@@ -39,3 +45,9 @@ cdef extern from 'ringing/method.h' namespace 'ringing':
         int symmetry_point()        # Point of palindromic symmetry (or -1)
         int symmetry_point(bell b)  # Point of palindromic symmetry (or -1)
         int maxblows()              # Counts the maximum blows in one place
+
+        bool is_palindromic_about(int i)
+        bool is_palindromic_about(bell b, int i)
+
+        string format()             # Format the place notation for output
+        string format(int flags)
