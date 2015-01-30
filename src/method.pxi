@@ -42,6 +42,29 @@ cdef class Method:
     def __dealloc__(self):
         del self.thisptr
 
+    property name:
+        def __get__(self):
+            if PY_MAJOR_VERSION < 3:
+                return <bytes>self.thisptr.name()
+            else:
+                return (<bytes>self.thisptr.name()).decode()
+
+        def __set__(self, value):
+            if isinstance(value, unicode):
+                self.thisptr.name(<string>(value.encode()))
+            elif isinstance(value, bytes):
+                self.thisptr.name(<string>value)
+            else:
+                raise TypeError('Cannot convert {type} to string'.format(
+                    type=type(input).__name__
+                ))
+
+    def full_name(self):
+        if PY_MAJOR_VERSION < 3:
+            return <bytes>self.thisptr.fullname()
+        else:
+            return (<bytes>self.thisptr.fullname()).decode()
+
     property size:
         def __get__(self):
             return self.thisptr.size()
@@ -94,6 +117,12 @@ cdef class Method:
 
     def has_places(self, int b):
         return self.thisptr.hasplaces(bell(b))
+
+    def lh_code(self):
+        if PY_MAJOR_VERSION < 3:
+            return <bytes>self.thisptr.lhcode()
+        else:
+            return (<bytes>self.thisptr.lhcode()).decode()
 
     def symmetry_point(self, b=None):
         cdef int result
