@@ -140,6 +140,27 @@ cdef class Method:
     def max_blows(self):
         return self.thisptr.maxblows()
 
+    def format(self, **kwargs):
+        cdef int format = 0
+        parameter_mapping = {
+            'all_dots': 0o1,
+            'external_places': 0o2,
+            'cross_upper_x': 0o4,
+            'cross_lower_x': 0o10,
+            'cross_dash': 0o20,
+            'symmetry': 0o40,
+            'full_symmetry': 0o140,
+            'omit_lh': 0o200,
+            'asymmetric_plus': 0o400,
+        }
+        for key, value in parameter_mapping.items():
+            if kwargs.get(key, False):
+                format |= value
+        if PY_MAJOR_VERSION < 3:
+            return <bytes>self.thisptr.format(format)
+        else:
+            return (<bytes>self.thisptr.format(format)).decode()
+
     def append(self, c):
         if isinstance(c, Change):
             self.thisptr.push_back(deref((<Change>c).thisptr))
@@ -151,6 +172,29 @@ cdef class Method:
             raise TypeError("Cannot append {type} to ringing.Method".format(
                 type=type(c).__name__
             ))
+
+    def __str__(self):
+        if PY_MAJOR_VERSION < 3:
+            return self.__bytes__()
+        else:
+            return self.__unicode__()
+
+    def __bytes__(self):
+        return <bytes>self.thisptr.fullname()
+
+    def __unicode__(self):
+        return (<bytes>self.thisptr.fullname()).decode()
+
+    def __repr__(self):
+        return "Method('{pn}', {bells}, '{name}')".format(
+            pn=self.format(
+                external_places=True,
+                cross_dash=True,
+                symmetry=True,
+            ),
+            bells=self.bells,
+            name=self.name,
+        )
 
     def __len__(self):
         return self.size
