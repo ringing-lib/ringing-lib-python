@@ -4,6 +4,74 @@ from ringing import Method
 
 
 class MethodTest(unittest.TestCase):
+    def test_method_name(self):
+        self.assertEqual(Method('&-12,1', 8).name, 'Untitled')
+        self.assertEqual(Method('&-12,1', 8, 'Bastow').name, 'Bastow')
+
+        m = Method('&-12,1', 8)
+        m.name = 'Bastow'
+        self.assertEqual(m.name, 'Bastow')
+
+        # Skipped identical test setting name from string rather than char *
+
+    def test_method_fullname(self):
+        self.assertEqual(
+            Method('&-12,1', 8, 'Bastow').full_name(),
+            'Bastow Little Bob Major'
+        )
+
+        self.assertEqual(
+            Method('&34.1.5.1.5,2', 5,
+                   'Reverse Canterbury Pleasure').full_name(),
+            'Reverse Canterbury Pleasure Place Doubles'
+        )
+
+        self.assertEqual(
+            Method('3.1', 3, 'Original').full_name(),
+            'Original Singles'
+        )
+
+        self.assertEqual(
+            Method('&-5-4.5-5.36.4-4.5-4-1,8', 8, 'Bristol').full_name(),
+            'Bristol Surprise Major'
+        )
+
+        self.assertEqual(
+            Method('-', 8, 'Cross').full_name(),
+            'Cross Differential Major'
+        )
+
+        self.assertEqual(
+            Method('-4-6-6-4-6-6-2', 6, "Tetley's Smoothflow").full_name(),
+            "Tetley's Smoothflow Differential Hybrid Minor"
+        )
+
+    def test_method_fullname_grandsire(self):
+        self.assertEqual(
+            Method('3,&1-1-1-', 6, 'Grandsire').full_name(),
+            'Grandsire Minor'
+        )
+
+        self.assertEqual(
+            Method('6,&1-1-1.4', 6, 'Reverse Grandsire').full_name(),
+            'Reverse Grandsire Minor'
+        )
+
+        self.assertEqual(
+            Method('3,&1-1-1.4', 6, 'Double Grandsire').full_name(),
+            'Double Grandsire Minor'
+        )
+
+        self.assertEqual(
+            Method('+3,&1.9.1.5.1', 9, 'Little Grandsire').full_name(),
+            'Little Grandsire Caters'
+        )
+
+        self.assertEqual(
+            Method('+3.1.7.1.7.1.7.1.7.1.7.1.5.1', 7, 'Union').full_name(),
+            'Union Triples'
+        )
+
     def test_method_length(self):
         self.assertEqual(Method('&-12,16', 6).length, 4)
         self.assertEqual(Method('&-12,16', 6).size, 4)
