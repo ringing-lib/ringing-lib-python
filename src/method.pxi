@@ -173,6 +173,23 @@ cdef class Method:
                 type=type(c).__name__
             ))
 
+    def __richcmp__(x, y, int op):
+        cdef method mx
+        cdef method my
+
+        try:
+            mx = deref(Method(x).thisptr)
+            my = deref(Method(y).thisptr)
+        except TypeError:
+            return NotImplemented
+
+        if op == 2:  # ==
+            return mx == my
+        elif op == 3:  # !=
+            return mx != my
+        else:
+            return NotImplemented
+
     def __str__(self):
         if PY_MAJOR_VERSION < 3:
             return self.__bytes__()

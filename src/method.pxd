@@ -23,6 +23,9 @@ cdef extern from 'ringing/method.h' namespace 'ringing':
         void name(const string& n)  # Set name
         string fullname()
 
+        bool operator==(const method& m)
+        bool operator!=(const method& m)
+
         void push_back(const string &str)
 
         int length()

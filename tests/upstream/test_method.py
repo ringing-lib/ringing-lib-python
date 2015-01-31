@@ -4,6 +4,12 @@ from ringing import Method
 
 
 class MethodTest(unittest.TestCase):
+    def test_method_equals(self):
+        self.assertTrue(Method() == Method(0, 6, 'name'))
+        self.assertTrue(Method() == Method('', 9))
+        self.assertTrue(Method('-', 6) != Method('-', 4))
+        self.assertTrue(Method('&-12,1', 8) == Method('+ -12-18', 8))
+
     def test_method_name(self):
         self.assertEqual(Method('&-12,1', 8).name, 'Untitled')
         self.assertEqual(Method('&-12,1', 8, 'Bastow').name, 'Bastow')
