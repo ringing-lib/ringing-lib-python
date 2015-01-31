@@ -65,6 +65,16 @@ cdef class Method:
         else:
             return (<bytes>self.thisptr.fullname()).decode()
 
+    @staticmethod
+    def stage_name(int n):
+        if 0 <= n <= MAX_BELL_NUMBER:
+            if PY_MAJOR_VERSION < 3:
+                return <bytes>method.stagename(n)
+            else:
+                return (<bytes>method.stagename(n)).decode()
+        else:
+            raise ValueError('Number of bells out of range')
+
     property size:
         def __get__(self):
             return self.thisptr.size()

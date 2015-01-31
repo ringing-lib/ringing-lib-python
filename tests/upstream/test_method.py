@@ -78,6 +78,36 @@ class MethodTest(unittest.TestCase):
             'Union Triples'
         )
 
+    def test_method_stagename(self):
+        self.assertEqual(Method.stage_name(0), '0')  # ???
+        self.assertEqual(Method.stage_name(1), '1')
+        self.assertEqual(Method.stage_name(2), '2')
+
+        self.assertEqual(Method.stage_name(3), 'Singles')
+        self.assertEqual(Method.stage_name(4), 'Minimus')
+        self.assertEqual(Method.stage_name(5), 'Doubles')
+        self.assertEqual(Method.stage_name(6), 'Minor')
+        self.assertEqual(Method.stage_name(7), 'Triples')
+        self.assertEqual(Method.stage_name(8), 'Major')
+        self.assertEqual(Method.stage_name(9), 'Caters')
+        self.assertEqual(Method.stage_name(10), 'Royal')
+        self.assertEqual(Method.stage_name(11), 'Cinques')
+        self.assertEqual(Method.stage_name(12), 'Maximus')
+        self.assertEqual(Method.stage_name(13), 'Sextuples')
+        self.assertEqual(Method.stage_name(14), 'Fourteen')
+        self.assertEqual(Method.stage_name(15), 'Septuples')
+        self.assertEqual(Method.stage_name(16), 'Sixteen')
+        self.assertEqual(Method.stage_name(17), 'Octuples')
+        self.assertEqual(Method.stage_name(18), 'Eighteen')
+        self.assertEqual(Method.stage_name(19), 'Nonuples')
+        self.assertEqual(Method.stage_name(20), 'Twenty')
+        self.assertEqual(Method.stage_name(21), 'Decuples')
+        self.assertEqual(Method.stage_name(22), 'Twenty-two')
+
+        self.assertEqual(Method.stage_name(54), '54')
+
+    # test_method_classname omitted: not implemented
+
     def test_method_length(self):
         self.assertEqual(Method('&-12,16', 6).length, 4)
         self.assertEqual(Method('&-12,16', 6).size, 4)
