@@ -82,7 +82,7 @@ cdef class Method:
         result.thisptr[0] = self.thisptr.lh()
         return result
 
-    def is_sym(self, b=None):
+    def is_symmetric(self, b=None):
         if b is None:
             return self.thisptr.issym()
         else:
