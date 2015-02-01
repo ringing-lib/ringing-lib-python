@@ -27,7 +27,11 @@ cdef extern from 'ringing/method.h' namespace 'ringing':
         const char *stagename(int n)  # Get the name of this stage
 
         bool operator==(const method& m)
+        bool operator<(const method& m)
+        bool operator>(const method& m)
         bool operator!=(const method& m)
+        bool operator<=(const method& m)
+        bool operator>=(const method& m)
 
         void push_back(const string &str)
 

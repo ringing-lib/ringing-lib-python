@@ -217,12 +217,18 @@ cdef class Method:
         except TypeError:
             return NotImplemented
 
-        if op == 2:  # ==
+        if op == 0:  # <
+            return mx < my
+        elif op == 1:  # <=
+            return mx <= my
+        elif op == 2:  # ==
             return mx == my
         elif op == 3:  # !=
             return mx != my
-        else:
-            return NotImplemented
+        elif op == 4:  # >
+            return mx > my
+        elif op == 5:  # >=
+            return mx >= my
 
     def __str__(self):
         if PY_MAJOR_VERSION < 3:
