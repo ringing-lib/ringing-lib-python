@@ -8,6 +8,7 @@ from libcpp.vector cimport vector
 from bell cimport *
 from change cimport *
 from group cimport *
+from method cimport *
 from row cimport *
 from row_block cimport *
 
@@ -19,3 +20,4 @@ include 'row.pxi'
 include 'group.pxi'
 include 'change.pxi'
 include 'row_block.pxi'
+include 'method.pxi'
