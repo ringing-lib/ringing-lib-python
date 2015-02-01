@@ -66,6 +66,10 @@ class MethodTest(unittest.TestCase):
         self.assertRaises(ValueError, lambda: Method(3, 6).is_palindromic(0))
         self.assertRaises(ValueError, lambda: Method(3, 6).symmetry_point())
         self.assertRaises(ValueError, lambda: Method(3, 6).symmetry_point(0))
+        self.assertRaises(ValueError,
+                          lambda: Method(3, 6).format(symmetry=True))
+        self.assertRaises(ValueError,
+                          lambda: Method(3, 6).format(full_symmetry=True))
 
         # is_symmetric() shouldn't exhibit this problem
         self.assertFalse(Method(3, 6).is_symmetric())

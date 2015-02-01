@@ -315,6 +315,11 @@ Ringing Class Library.
             Some arguments conflict with each other (e.g. ``cross_upper_x`` and
             ``cross_lower_x``); if used together then the result is undefined.
          
+         .. warning::
+            The ``symmetry`` and ``full_symmetry`` options may not be used for
+            methods that have an odd number of changes. This is a constraint of
+            the underlying library.
+         
          :param boolean all_dots: include all dots
          :param boolean external_places: include all external places
          :param boolean cross_upper_x: use an '``X``' for the cross change
@@ -326,3 +331,4 @@ Ringing Class Library.
          :param boolean asymmetric_plus: prefix asymmetric sections with '``+``'
          :return: formatted place notation
          :rtype: string
+         :raises: :exc:`ValueError` for symmetry flags with an odd-length method

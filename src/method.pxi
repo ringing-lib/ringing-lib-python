@@ -187,6 +187,11 @@ cdef class Method:
         for key, value in parameter_mapping.items():
             if kwargs.get(key, False):
                 format |= value
+
+        if self.size % 2 and format & 0o40:
+            raise ValueError('Cannot use symmetry flags with methods'
+                             'containing an odd number of changes')
+
         if PY_MAJOR_VERSION < 3:
             return <bytes>self.thisptr.format(format)
         else:
@@ -241,10 +246,10 @@ cdef class Method:
 
     def __repr__(self):
         format = {'external_places': True, 'cross_dash': True}
-        if self.is_symmetric():
-            format['symmetry'] = True
-        else:
+        if self.size % 2:
             format['asymmetric_plus'] = True
+        else:
+            format['symmetry'] = True
 
         return "Method('{pn}', {bells}, '{name}')".format(
             pn=self.format(**format),
