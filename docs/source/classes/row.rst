@@ -265,7 +265,7 @@ The Row Class
       :return: the computed row
       :rtype: :class:`Row`
    
-   .. staticmethod:: pblh(n, h=1)
+   .. staticmethod:: pblh(n, [h=1])
       
       Returns the first lead head of Plain Bob (*h* = 1), Grandsire (*h* = 2),
       or more generally the Plain Bob type method on *n* bells with *h* hunt
@@ -280,7 +280,7 @@ The Row Class
       :return: the computed row
       :rtype: :class:`Row`
    
-   .. staticmethod:: cyclic(n, h=1, c=1)
+   .. staticmethod:: cyclic(n, [h=1], [c=1])
       
       Returns a cyclic row on *n* bells with *h* initial fixed (hunt) bells. The
       variable *c* controls the number of bells moved from the front of the row
@@ -309,7 +309,7 @@ The Row Class
       :return: ``True`` if the row is rounds, and ``False`` otherwise
       :rtype: boolean
    
-   .. method:: is_pblh(hunts=0)
+   .. method:: is_pblh([hunts=0])
       
       If the row is a lead head of Plain Bob, Grandsire or, more generally, of
       the Plain Bob type method with any number of hunt bells, then this
