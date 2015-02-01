@@ -125,14 +125,11 @@ cdef class Method:
     def leads(self):
         return self.thisptr.leads()
 
-    def is_plain(self, b=None):
-        if b is None:
-            return self.thisptr.isplain()
+    def is_plain(self, b=0):
+        if 0 <= b < self.bells:
+            return self.thisptr.isplain(bell(b))
         else:
-            if 0 <= b < self.bells:
-                return self.thisptr.isplain(bell(b))
-            else:
-                raise IndexError('Bell number out of range')
+            raise IndexError('Bell number out of range')
 
     def has_dodges(self, int b):
         if 0 <= b < self.bells:
