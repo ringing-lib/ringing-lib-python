@@ -66,12 +66,12 @@ cdef class Method:
             return (<bytes>self.thisptr.fullname()).decode()
 
     @staticmethod
-    def stage_name(int n):
-        if 0 <= n <= MAX_BELL_NUMBER:
+    def stage_name(int bells):
+        if 0 <= bells <= MAX_BELL_NUMBER:
             if PY_MAJOR_VERSION < 3:
-                return <bytes>method.stagename(n)
+                return <bytes>method.stagename(bells)
             else:
-                return (<bytes>method.stagename(n)).decode()
+                return (<bytes>method.stagename(bells)).decode()
         else:
             raise ValueError('Number of bells out of range')
 
