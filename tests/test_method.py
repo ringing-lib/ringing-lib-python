@@ -59,6 +59,28 @@ class MethodTest(unittest.TestCase):
         m.symmetry_point(5)
         self.assertRaises(IndexError, lambda: m.symmetry_point(6))
 
+    def test_method_symmetry_point_assertion(self):
+        # Executing the following causes assertion failures in the library.
+        # Work around by raising ValueError instead.
+        self.assertRaises(ValueError, lambda: Method(3, 6).is_palindromic())
+        self.assertRaises(ValueError, lambda: Method(3, 6).is_palindromic(0))
+        self.assertRaises(ValueError, lambda: Method(3, 6).symmetry_point())
+        self.assertRaises(ValueError, lambda: Method(3, 6).symmetry_point(0))
+
+        # is_symmetric() shouldn't exhibit this problem
+        self.assertFalse(Method(3, 6).is_symmetric())
+        self.assertFalse(Method(3, 6).is_symmetric(0))
+
+        # Make sure __repr__ handles method with odd numbers of changes
+        self.assertEqual(
+            repr(Method(2, 4)),
+            "Method('1234.1234', 4, 'Untitled')"
+        )
+        self.assertEqual(
+            repr(Method(3, 4)),
+            "Method('+1234.1234.1234', 4, 'Untitled')"
+        )
+
     def test_method_index_limits(self):
         m = Method('&-1-1-1,2', 6)
 

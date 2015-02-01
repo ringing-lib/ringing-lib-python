@@ -102,6 +102,9 @@ cdef class Method:
                 raise IndexError('Bell number out of range')
 
     def is_palindromic(self, b=None):
+        if self.size % 2:
+            raise ValueError('Method contains an odd number of changes')
+
         if b is None:
             return self.thisptr.ispalindromic()
         else:
@@ -151,6 +154,9 @@ cdef class Method:
 
     def symmetry_point(self, b=None):
         cdef int result
+
+        if self.size % 2:
+            raise ValueError('Method contains an odd number of changes')
 
         if b is None:
             result = self.thisptr.symmetry_point()
@@ -231,12 +237,14 @@ cdef class Method:
         return (<bytes>self.thisptr.fullname()).decode()
 
     def __repr__(self):
+        format = {'external_places': True, 'cross_dash': True}
+        if self.is_symmetric():
+            format['symmetry'] = True
+        else:
+            format['asymmetric_plus'] = True
+
         return "Method('{pn}', {bells}, '{name}')".format(
-            pn=self.format(
-                external_places=True,
-                cross_dash=True,
-                symmetry=True,
-            ),
+            pn=self.format(**format),
             bells=self.bells,
             name=self.name,
         )
