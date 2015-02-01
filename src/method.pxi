@@ -96,13 +96,19 @@ cdef class Method:
         if b is None:
             return self.thisptr.issym()
         else:
-            return self.thisptr.issym(bell(b))
+            if 0 <= b < self.bells:
+                return self.thisptr.issym(bell(b))
+            else:
+                raise IndexError('Bell number out of range')
 
     def is_palindromic(self, b=None):
         if b is None:
             return self.thisptr.ispalindromic()
         else:
-            return self.thisptr.ispalindromic(bell(b))
+            if 0 <= b < self.bells:
+                return self.thisptr.ispalindromic(bell(b))
+            else:
+                raise IndexError('Bell number out of range')
 
     def is_double(self):
         return self.thisptr.isdouble()
@@ -120,13 +126,22 @@ cdef class Method:
         if b is None:
             return self.thisptr.isplain()
         else:
-            return self.thisptr.isplain(bell(b))
+            if 0 <= b < self.bells:
+                return self.thisptr.isplain(bell(b))
+            else:
+                raise IndexError('Bell number out of range')
 
     def has_dodges(self, int b):
-        return self.thisptr.hasdodges(bell(b))
+        if 0 <= b < self.bells:
+            return self.thisptr.hasdodges(bell(b))
+        else:
+            raise IndexError('Bell number out of range')
 
     def has_places(self, int b):
-        return self.thisptr.hasplaces(bell(b))
+        if 0 <= b < self.bells:
+            return self.thisptr.hasplaces(bell(b))
+        else:
+            raise IndexError('Bell number out of range')
 
     def lh_code(self):
         if PY_MAJOR_VERSION < 3:
@@ -140,7 +155,10 @@ cdef class Method:
         if b is None:
             result = self.thisptr.symmetry_point()
         else:
-            result = self.thisptr.symmetry_point(bell(b))
+            if 0 <= b < self.bells:
+                result = self.thisptr.symmetry_point(bell(b))
+            else:
+                raise IndexError('Bell number out of range')
 
         if result == -1:
             return False
