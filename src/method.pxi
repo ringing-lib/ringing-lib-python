@@ -189,7 +189,7 @@ cdef class Method:
                 format |= value
 
         if self.size % 2 and format & 0o40:
-            raise ValueError('Cannot use symmetry flags with methods'
+            raise ValueError('Cannot use symmetry flags with methods '
                              'containing an odd number of changes')
 
         if PY_MAJOR_VERSION < 3:
