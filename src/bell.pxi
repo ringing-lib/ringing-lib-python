@@ -26,6 +26,12 @@ cdef class Bell:
     def __dealloc__(self):
         del self.thisptr
 
+    def to_char(self):
+        if PY_MAJOR_VERSION < 3:
+            return chr(self.thisptr.to_char())
+        else:
+            return unichr(self.thisptr.to_char())
+
     def __richcmp__(x, y, int op):
         cdef int bx
         cdef int by
@@ -56,13 +62,19 @@ cdef class Bell:
             return self.__unicode__()
 
     def __bytes__(self):
-        return chr(self.thisptr.to_char())
+        if self < Bell.MAX_BELLS:
+            return chr(self.thisptr.to_char())
+        else:
+            return b'{{{bell:d}}}'.format(bell=int(self) + 1)
 
     def __unicode__(self):
-        return unichr(self.thisptr.to_char())
+        if self < Bell.MAX_BELLS:
+            return unichr(self.thisptr.to_char())
+        else:
+            return u'{{{bell:d}}}'.format(bell=int(self) + 1)
 
     def __repr__(self):
-        return "Bell('{bell}')".format(bell=self)
+        return 'Bell({bell:d})'.format(bell=int(self))
 
     def __int__(self):
         return <int>deref(self.thisptr)

@@ -18,9 +18,12 @@ class BellTest(unittest.TestCase):
         self.assertRaises(ValueError, lambda: Bell('%'))
 
     def test_bell_to_char(self):
-        self.assertEqual(str(Bell(5)), '6')
-        self.assertEqual(str(Bell(10)), 'E')
-        self.assertEqual(str(Bell(14)), 'C')
-        self.assertEqual(str(Bell(Bell.MAX_BELLS)), '*')
+        self.assertEqual(Bell(5).to_char(), '6')
+        self.assertEqual(Bell(10).to_char(), 'E')
+        self.assertEqual(Bell(14).to_char(), 'C')
+        self.assertEqual(Bell(Bell.MAX_BELLS).to_char(), '*')
 
-    # test_bell_output omitted as we only support MAX_BELLS bells
+    def test_bell_output(self):
+        s = '{}{}{}'.format(Bell(5), Bell(12), Bell(Bell.MAX_BELLS))
+        expected = '6A{' + str(Bell.MAX_BELLS + 1) + '}'
+        self.assertEqual(s, expected)
