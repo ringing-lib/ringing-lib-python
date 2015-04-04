@@ -2,6 +2,8 @@ cdef class Bell:
 
     cdef bell *thisptr
 
+    MAX_BELLS = bell().MAX_BELLS
+
     def __cinit__(self, input=None):
         if input is None:
             self.thisptr = new bell()

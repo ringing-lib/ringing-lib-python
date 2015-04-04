@@ -12,8 +12,6 @@ from method cimport *
 from row cimport *
 from row_block cimport *
 
-MAX_BELLS = bell().MAX_BELLS
-
 cdef int MAX_BELL_NUMBER = 255
 
 include 'bell.pxi'
