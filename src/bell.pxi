@@ -27,10 +27,7 @@ cdef class Bell:
         del self.thisptr
 
     def to_char(self):
-        if PY_MAJOR_VERSION < 3:
-            return chr(self.thisptr.to_char())
-        else:
-            return unichr(self.thisptr.to_char())
+        return chr(self.thisptr.to_char())
 
     def __richcmp__(x, y, int op):
         cdef int bx
@@ -63,13 +60,13 @@ cdef class Bell:
 
     def __bytes__(self):
         if self < Bell.MAX_BELLS:
-            return chr(self.thisptr.to_char())
+            return self.to_char().encode()
         else:
             return b'{{{bell:d}}}'.format(bell=int(self) + 1)
 
     def __unicode__(self):
         if self < Bell.MAX_BELLS:
-            return unichr(self.thisptr.to_char())
+            return unicode(self.to_char())
         else:
             return u'{{{bell:d}}}'.format(bell=int(self) + 1)
 
