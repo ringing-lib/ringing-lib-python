@@ -28,13 +28,13 @@ class BellTest(unittest.TestCase):
         self.assertRaises(ValueError, lambda: Bell(b'%'))
 
     def test_bell_bytes_bytes(self):
-        self.assertIsInstance(bytes(Bell(5)), bytes)
+        self.assertIs(type(bytes(Bell(5))), bytes)
 
     def test_bell_unicode_unicode(self):
-        if sys.version_info.major < 3:
-            self.assertIsInstance(unicode(Bell(5)), unicode)
+        if sys.version_info[0] < 3:
+            self.assertIs(type(unicode(Bell(5))), unicode)
         else:
-            self.assertIsInstance(Bell(5).__unicode__(), str)
+            self.assertIs(type(Bell(5).__unicode__()), str)
 
     def test_is_symbol(self):
         self.assertTrue(Bell.is_symbol('1'))

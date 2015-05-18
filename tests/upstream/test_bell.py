@@ -24,6 +24,6 @@ class BellTest(unittest.TestCase):
         self.assertEqual(Bell(Bell.MAX_BELLS).to_char(), '*')
 
     def test_bell_output(self):
-        s = '{}{}{}'.format(Bell(5), Bell(12), Bell(Bell.MAX_BELLS))
+        s = '{0}{1}{2}'.format(Bell(5), Bell(12), Bell(Bell.MAX_BELLS))
         expected = '6A{' + str(Bell.MAX_BELLS + 1) + '}'
         self.assertEqual(s, expected)
