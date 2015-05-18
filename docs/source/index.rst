@@ -86,6 +86,7 @@ Class Documentation
 .. toctree::
    :maxdepth: 2
    
+   classes/bell
    classes/row
    classes/change
    classes/method
