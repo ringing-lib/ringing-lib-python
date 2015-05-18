@@ -125,13 +125,17 @@ cdef class Group:
     def __len__(self):
         return self.size
 
+
 cdef class GroupIterator:
+
+    cdef Group g
 
     cdef group.const_iterator index
 
     cdef group.const_iterator end
 
     def __cinit__(self, Group g not None):
+        self.g = g
         self.index = deref(g.thisptr).begin()
         self.end = deref(g.thisptr).end()
 

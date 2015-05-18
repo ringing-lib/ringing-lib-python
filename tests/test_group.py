@@ -121,3 +121,8 @@ class GroupTest(unittest.TestCase):
             '213456', '213465', '213546', '213564', '213645', '213654',
         ])
         self.assertEqual(list(Group('654321')), ['123456', '654321'])
+
+        # Check we can iterate over a group without holding a reference to it.
+        # https://github.com/ringing-lib/ringing-lib-python/issues/5
+        for r in Group.symmetric_group(2):
+            pass
