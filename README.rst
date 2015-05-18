@@ -13,7 +13,6 @@ Python Wrapper for the Ringing Class Library
    :alt: Documentation Status
    :target: https://readthedocs.org/projects/ringing-lib-python/?badge=latest
 
-
 .. image:: https://pypip.in/version/ringing-lib/badge.svg
    :alt: Version
    :target: https://pypi.python.org/pypi/ringing-lib/
