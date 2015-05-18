@@ -15,8 +15,9 @@ cdef extern from 'ringing/method.h' namespace 'ringing':
         method(int l)
         method(int l, int b)
         method(int l, int b, const char *n)
-        method(const string& pn, int b)  # Make a method from place notation
-        method(const string& pn, int b, const string& n)
+        # Make a method from place notation
+        method(const string& pn, int b) except +
+        method(const string& pn, int b, const string& n) except +
         method(const method& m)
 
         char *name()                # Get name

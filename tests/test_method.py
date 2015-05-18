@@ -17,6 +17,9 @@ class MethodTest(unittest.TestCase):
 
         self.assertRaises(TypeError, lambda: Method(name=self))
 
+        # https://github.com/ringing-lib/ringing-lib-python/issues/6
+        self.assertRaises(ValueError, lambda: Method('3'))
+
     def test_method_is_symmetric_limits(self):
         m = Method('&-1-1-1,2', 6)
         self.assertRaises(IndexError, lambda: m.is_symmetric(-1))
