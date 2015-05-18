@@ -13,7 +13,7 @@ cdef class Bell:
             if 0 <= input <= MAX_BELL_NUMBER:
                 self.thisptr = new bell(<int>input)
             else:
-                raise ValueError('Number of bells out of range')
+                raise ValueError('Bell number out of range')
         elif isinstance(input, unicode):
             self.thisptr = new bell(<int>bell.read_char(ord(input.encode())))
         elif isinstance(input, bytes):
