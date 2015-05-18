@@ -6,7 +6,7 @@ cdef class RowBlock:
 
     cdef change_list
 
-    def __cinit__(self, *changes, starting_row=None):
+    def __cinit__(self, changes, starting_row=None):
         cdef row starting_row_obj = deref(Row(starting_row).thisptr)
 
         self.change_list = []
@@ -34,8 +34,7 @@ cdef class RowBlock:
             cdef row_block *our_rb_ptr = self.thisptr
 
             # Create a new RowBlock (may raise exceptions)...
-            cdef RowBlock new_row_block = RowBlock(*value,
-                                                   starting_row=self[0])
+            cdef RowBlock new_row_block = RowBlock(value, self[0])
 
             # ... suck its brains out...
             self.thisptr = new_row_block.thisptr
@@ -58,9 +57,9 @@ cdef class RowBlock:
     def __repr__(self):
         cdef str changes = ', '.join([repr(ch) for ch in self.change_list])
         if self[0].is_rounds():
-            return 'RowBlock({changes})'.format(changes=changes)
+            return 'RowBlock([{changes}])'.format(changes=changes)
         else:
-            return 'RowBlock({changes}, starting_row={row})'.format(
+            return 'RowBlock([{changes}], {row})'.format(
                 changes=changes,
                 row=repr(self[0]),
             )
