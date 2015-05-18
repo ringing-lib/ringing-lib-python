@@ -66,14 +66,22 @@ by a printable character.
    
    .. method:: to_char()
       
-      Returns a character representing a bell.
+      Returns a character representing a bell::
+         
+         >>> from ringing import Bell
+         >>> Bell(4).to_char()
+         '5'
       
       :return: character
       :rtype: string
    
    .. staticmethod:: is_symbol(character)
       
-      Checks whether a character is a valid bell symbol.
+      Checks whether a character is a valid bell symbol::
+         
+         >>> from ringing import Bell
+         >>> Bell.is_symbol('5')
+         True
       
       :param character: character to check
       :type character: string
