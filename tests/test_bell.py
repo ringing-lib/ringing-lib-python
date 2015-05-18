@@ -2,9 +2,31 @@ import sys
 import unittest
 
 from ringing import Bell
+from tests import MAX_BELL_NUMBER
 
 
 class BellTest(unittest.TestCase):
+    def test_bell_constructor(self):
+        self.assertEqual(Bell(Bell(10)), 10)
+        self.assertEqual(Bell('e'), 10)
+        self.assertEqual(Bell(u'e'), 10)
+        self.assertEqual(Bell(b'e'), 10)
+        self.assertEqual(Bell('E'), 10)
+        self.assertEqual(Bell(u'E'), 10)
+        self.assertEqual(Bell(b'E'), 10)
+
+    def test_bell_constructor_exceptions(self):
+        self.assertRaises(TypeError, lambda: Bell(self))
+
+        self.assertRaises(ValueError(-1))
+        Bell(0)
+        Bell(MAX_BELL_NUMBER)
+        self.assertRaises(ValueError, lambda: Bell(MAX_BELL_NUMBER + 1))
+
+        self.assertRaises(ValueError, lambda: Bell('%'))
+        self.assertRaises(ValueError, lambda: Bell(u'%'))
+        self.assertRaises(ValueError, lambda: Bell(b'%'))
+
     def test_bell_bytes_bytes(self):
         self.assertIsInstance(bytes(Bell(5)), bytes)
 
