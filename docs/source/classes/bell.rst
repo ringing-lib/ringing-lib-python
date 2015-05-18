@@ -64,6 +64,24 @@ by a printable character.
       :return: result
       :rtype: boolean
    
+   .. attribute:: MAX_BELLS
+      
+      Maximum number of bells that may be represented using symbols.
+      If the number of bells exceeds this value, the extra bells will be shown
+      as "``*``" characters.
+      
+      This attribute is available on the class as well as instances of it::
+         
+         >>> from ringing import Bell
+         >>> Bell.MAX_BELLS
+         33
+         >>> Bell(32).to_char()
+         'Z'
+         >>> Bell(33).to_char()
+         '*'
+      
+      :type: integer
+   
    .. method:: to_char()
       
       Returns a character representing a bell::
@@ -87,3 +105,28 @@ by a printable character.
       :type character: string
       :return: result
       :rtype: boolean
+   
+   .. staticmethod:: set_symbols([symbols])
+      
+      Sets the bell symbols that are to be used::
+         
+         >>> from ringing import Bell, Row
+         >>> Bell.set_symbols('abcdef')
+         >>> Row(6)
+         Row('abcdef')
+         >>> Bell.MAX_BELLS
+         6
+      
+      Note that bell symbols are set on a global level.
+      Omit the symbol specification in order to reset to the default symbols::
+         
+         >>> from ringing import Bell, Row
+         >>> Bell.set_symbols('abcdef')
+         >>> Row(6)
+         Row('abcdef')
+         >>> Bell.set_symbols()
+         >>> Row(6)
+         Row('123456')
+      
+      :param symbols: symbols to use
+      :type symbols: string

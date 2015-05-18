@@ -50,3 +50,28 @@ class BellTest(unittest.TestCase):
         self.assertFalse(Bell.is_symbol('%'))
         self.assertFalse(Bell.is_symbol(u'%'))
         self.assertFalse(Bell.is_symbol(b'%'))
+
+
+class BellSymbolsTest(unittest.TestCase):
+    NEW_SYMBOLS = 'abcdef%'
+
+    def setUp(self):
+        Bell.set_symbols(self.NEW_SYMBOLS)
+
+    def tearDown(self):
+        Bell.set_symbols()
+
+    def test_symbols_set(self):
+        for index, character in enumerate(self.NEW_SYMBOLS):
+            self.assertEqual(Bell(index), character)
+
+    def test_is_symbol(self):
+        for character in self.NEW_SYMBOLS:
+            self.assertTrue(Bell.is_symbol(character))
+
+    def test_max_bells(self):
+        self.assertEqual(Bell.MAX_BELLS, len(self.NEW_SYMBOLS))
+
+    def test_symbols_restored(self):
+        Bell.set_symbols()
+        self.assertEqual(Bell(0).to_char(), '1')

@@ -1,8 +1,16 @@
+cdef string symbols_string
+
+
+cdef class MaxBellsDescriptor:
+    def __get__(self, obj, objtype):
+        return bell().MAX_BELLS
+
+
 cdef class Bell:
 
     cdef bell *thisptr
 
-    MAX_BELLS = bell().MAX_BELLS
+    MAX_BELLS = MaxBellsDescriptor()
 
     def __cinit__(self, input=None):
         if input is None:
@@ -38,6 +46,23 @@ cdef class Bell:
         else:
             raise TypeError('Cannot convert {type} to str'.format(
                 type=type(character).__name__
+            ))
+
+    @staticmethod
+    def set_symbols(symbols=None):
+        global symbols_string
+
+        if symbols is None:
+            bell.set_symbols(NULL)
+        elif isinstance(symbols, unicode):
+            symbols_string = <string>(symbols.encode())
+            bell.set_symbols(symbols_string.c_str())
+        elif isinstance(symbols, bytes):
+            symbols_string = <string>symbols
+            bell.set_symbols(symbols_string.c_str())
+        else:
+            raise TypeError('Cannot convert {type} to str'.format(
+                type=type(symbols).__name__
             ))
 
     def __richcmp__(x, y, int op):
