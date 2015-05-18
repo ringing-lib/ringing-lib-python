@@ -29,6 +29,17 @@ cdef class Bell:
     def to_char(self):
         return chr(self.thisptr.to_char())
 
+    @staticmethod
+    def is_symbol(character):
+        if isinstance(character, unicode):
+            return bell.is_symbol(ord(character.encode()))
+        elif isinstance(character, bytes):
+            return bell.is_symbol(ord(character))
+        else:
+            raise TypeError('Cannot convert {type} to str'.format(
+                type=type(character).__name__
+            ))
+
     def __richcmp__(x, y, int op):
         cdef int bx
         cdef int by
