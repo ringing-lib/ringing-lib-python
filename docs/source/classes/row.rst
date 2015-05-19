@@ -138,11 +138,11 @@ The Row Class
          >>> from ringing import Row
          >>> r = Row('512364')
          >>> r[0]
-         4
-         >>> r[1]
-         0
+         Bell(4)
+         >>> r[1].to_char()
+         '1'
          >>> print([b for b in r])
-         [4, 0, 1, 2, 5, 3]
+         [Bell(4), Bell(0), Bell(1), Bell(2), Bell(5), Bell(3)]
       
       .. note::
          
@@ -151,7 +151,7 @@ The Row Class
       
       :param int i: bell position to return (0-indexed)
       :return: bell number in that position (0-indexed; ``0`` is the treble)
-      :rtype: int
+      :rtype: :class:`Bell`
    
    .. method:: __mul__(row)
       
@@ -367,12 +367,13 @@ The Row Class
          >>> r = Row('512364')
          >>> r.find(0)
          1
-         >>> r.find(1)
+         >>> r.find('2')
          2
       
       See also :meth:`__getitem__`.
       
-      :param int b: bell number to find (0-indexed; ``0`` is the treble)
+      :param b: bell to find
+      :type b: :class:`Bell` or string or int
       :return: bell position (0-indexed)
       :rtype: int
    

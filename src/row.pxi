@@ -101,11 +101,9 @@ cdef class Row:
     def order(self):
         return self.thisptr.order()
 
-    def find(self, int b):
-        if 0 <= b <= MAX_BELL_NUMBER:
-            return self.thisptr.find(bell(b))
-        else:
-            raise ValueError('Number of bells out of range')
+    def find(self, b):
+        cdef bell bb = deref(Bell(b).thisptr)
+        return self.thisptr.find(bb)
 
     @staticmethod
     def conjugator(x, y):
@@ -206,6 +204,6 @@ cdef class Row:
 
     def __getitem__(self, int x):
         if 0 <= x < self.bells:
-            return <int>(deref(self.thisptr)[x])
+            return Bell(<int>(deref(self.thisptr)[x]))
         else:
             raise IndexError('ringing.Row index out of range')
