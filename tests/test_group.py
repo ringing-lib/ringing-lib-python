@@ -1,6 +1,6 @@
 import unittest
 
-from ringing import Row, Group
+from ringing import Bell, Row, Group
 
 
 class GroupTest(unittest.TestCase):
@@ -90,6 +90,8 @@ class GroupTest(unittest.TestCase):
         self.assertEqual(Group('134256').invariants(), [0, 4, 5])
         self.assertEqual(Group('213564', '123546').invariants(), [2])
         self.assertEqual(Group('654321').invariants(), [])
+
+        self.assertEqual(type(Group('214536').invariants()[0]), Bell)
 
     def test_operators_return_not_implemented(self):
         # Arithmetic operator returns NotImplemented when given unknown types

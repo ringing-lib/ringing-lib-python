@@ -86,7 +86,7 @@ cdef class Group:
 
     def invariants(self):
         cdef vector[bell] invariants = self.thisptr.invariants()
-        return [<int>invariant for invariant in invariants]
+        return [Bell(<int>invariant) for invariant in invariants]
 
     def __richcmp__(x, y, int op):
         cdef group gx

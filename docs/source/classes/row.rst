@@ -514,7 +514,7 @@ The Group Class
          
          >>> from ringing import Group
          >>> Group.alternating_group(3, 1, 8).invariants()
-         [0, 4, 5, 6, 7]
+         [Bell(0), Bell(4), Bell(5), Bell(6), Bell(7)]
       
       :return: invariant bells
-      :rtype: [int]
+      :rtype: [:class:`Bell`]
