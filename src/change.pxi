@@ -55,20 +55,23 @@ cdef class Change:
     def sign(self):
         return self.thisptr.sign()
 
-    def find_swap(self, int i):
-        if 0 <= i < (self.thisptr.bells() - 1):
-            return self.thisptr.findswap(bell(i))
+    def find_swap(self, b):
+        cdef bell bb = deref(Bell(b).thisptr)
+        if <int>bb < (self.thisptr.bells() - 1):
+            return self.thisptr.findswap(bb)
         else:
             raise IndexError('ringing.Change index out of range')
 
-    def find_place(self, int i):
-        if 0 <= i <= (self.thisptr.bells() - 1):
-            return self.thisptr.findplace(bell(i))
+    def find_place(self, b):
+        cdef bell bb = deref(Bell(b).thisptr)
+        if <int>bb <= (self.thisptr.bells() - 1):
+            return self.thisptr.findplace(bb)
         else:
             raise IndexError('ringing.Change index out of range')
 
-    def swap_pair(self, int i):
-        return self.thisptr.swappair(bell(i))
+    def swap_pair(self, b):
+        cdef bell bb = deref(Bell(b).thisptr)
+        return self.thisptr.swappair(bb)
 
     def internal(self):
         return self.thisptr.internal()
@@ -129,21 +132,29 @@ cdef class Change:
             return 'Change()'
 
     def __mul__(x, y):
-        cdef bell result
-
-        cdef int i
+        cdef bell b
         cdef change c
 
-        if isinstance(x, int) and isinstance(y, Change):
-            i = x
-            c = deref((<Change>y).thisptr)
-        elif isinstance(x, Change) and isinstance(y, int):
-            i = y
+        # Handle Change × Bell OR Bell × Change.
+        if isinstance(x, Change):
             c = deref((<Change>x).thisptr)
+            other = y
+        elif isinstance(y, Change):
+            c = deref((<Change>y).thisptr)
+            other = x
         else:
             return NotImplemented
 
-        if 0 <= i <= MAX_BELL_NUMBER:
-            return <int>(bell(i) * c)
-        else:
+        # Special handling for integers because returning NotImplemented will
+        # yield an error message saying the type is incorrect; the type may be
+        # correct but the value out of range.
+        if isinstance(other, int) and (other < 0 or other > MAX_BELL_NUMBER):
             raise ValueError('Bell number out of range')
+
+        # Ordinary case: try to convert parameter to Bell.
+        try:
+            b = deref(Bell(other).thisptr)
+        except:
+            return NotImplemented
+
+        return Bell(<int>(b * c))
