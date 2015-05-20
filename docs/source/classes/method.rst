@@ -201,7 +201,7 @@ Ringing Class Library.
          :return: number of hunt bells
          :rtype: int
       
-      .. method:: is_symmetric([bell=None])
+      .. method:: is_symmetric([bell])
          
          Returns ``True`` if the method is symmetrical about the half lead (and
          has an even number of changes in the lead), or ``False`` otherwise.
@@ -209,7 +209,21 @@ Ringing Class Library.
          bell in a lead of the method is symmetrical about the half lead, or
          ``False`` otherwise.
          
-         :param int bell: bell number to check (0-indexed; ``0`` is the treble)
+         :param bell: bell to check
+         :type bell: :class:`Bell` or string or int
+         :return: whether the method is symmetric
+         :rtype: boolean
+      
+      .. method:: is_palindromic([bell])
+         
+         Returns ``True`` if the method is symmetrical about any point (and has
+         an even number of changes in the lead), or ``False`` otherwise.
+         If a *bell* number is specified, returns ``True`` if the path of that
+         bell in a lead of the method is symmetrical about any point, or
+         ``False`` otherwise.
+         
+         :param bell: bell to check
+         :type bell: :class:`Bell` or string or int
          :return: whether the method is symmetric
          :rtype: boolean
       
@@ -234,12 +248,15 @@ Ringing Class Library.
          :return: maximum consecutive blows
          :rtype: int
       
-      .. method:: is_plain([bell=0])
+      .. method:: is_plain([bell])
          
          Returns ``True`` if *bell* plain hunts for the whole lead of the
          method, or ``False`` otherwise.
          
-         :param int bell: bell number to check (0-indexed; ``0`` is the treble)
+         If *bell* is not provided then the treble path is checked.
+         
+         :param bell: bell to check
+         :type bell: :class:`Bell` or string or int
          :return: whether the bell plain hunts
          :rtype: boolean
       
@@ -248,7 +265,8 @@ Ringing Class Library.
          Returns ``True`` if *bell* dodges during the lead, or ``False``
          otherwise.
          
-         :param int bell: bell number to check (0-indexed; ``0`` is the treble)
+         :param bell: bell to check
+         :type bell: :class:`Bell` or string or int
          :return: whether the bell dodges
          :rtype: boolean
       
@@ -257,7 +275,8 @@ Ringing Class Library.
          Returns ``True`` if *bell* makes any internal places during the lead,
          or ``False`` otherwise.
          
-         :param int bell: bell number to check (0-indexed; ``0`` is the treble)
+         :param bell: bell to check
+         :type bell: :class:`Bell` or string or int
          :return: whether the bell makes internal places
          :rtype: boolean
       

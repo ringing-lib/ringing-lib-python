@@ -1,6 +1,6 @@
 import unittest
 
-from ringing import Change, Method
+from ringing import Bell, Change, Method
 from tests import MAX_BELL_NUMBER
 
 class MethodTest(unittest.TestCase):
@@ -19,45 +19,72 @@ class MethodTest(unittest.TestCase):
 
     def test_method_is_symmetric_limits(self):
         m = Method('&-1-1-1,2', 6)
-        self.assertRaises(IndexError, lambda: m.is_symmetric(-1))
+        self.assertRaises(ValueError, lambda: m.is_symmetric(-1))
         m.is_symmetric(0)
         m.is_symmetric(5)
         self.assertRaises(IndexError, lambda: m.is_symmetric(6))
 
     def test_method_is_palindromic_limits(self):
         m = Method('&-1-1-1,2', 6)
-        self.assertRaises(IndexError, lambda: m.is_palindromic(-1))
+        self.assertRaises(ValueError, lambda: m.is_palindromic(-1))
         m.is_palindromic(0)
         m.is_palindromic(5)
         self.assertRaises(IndexError, lambda: m.is_palindromic(6))
 
     def test_method_is_plain_limits(self):
         m = Method('&-1-1-1,2', 6)
-        self.assertRaises(IndexError, lambda: m.is_plain(-1))
+        self.assertRaises(ValueError, lambda: m.is_plain(-1))
         m.is_plain(0)
         m.is_plain(5)
         self.assertRaises(IndexError, lambda: m.is_plain(6))
 
     def test_method_has_dodges_limits(self):
         m = Method('&-1-1-1,2', 6)
-        self.assertRaises(IndexError, lambda: m.has_dodges(-1))
+        self.assertRaises(ValueError, lambda: m.has_dodges(-1))
         m.has_dodges(0)
         m.has_dodges(5)
         self.assertRaises(IndexError, lambda: m.has_dodges(6))
 
     def test_method_has_places_limits(self):
         m = Method('&-1-1-1,2', 6)
-        self.assertRaises(IndexError, lambda: m.has_places(-1))
+        self.assertRaises(ValueError, lambda: m.has_places(-1))
         m.has_places(0)
         m.has_places(5)
         self.assertRaises(IndexError, lambda: m.has_places(6))
 
     def test_method_symmetry_point_limits(self):
         m = Method('&-1-1-1,2', 6)
-        self.assertRaises(IndexError, lambda: m.symmetry_point(-1))
+        self.assertRaises(ValueError, lambda: m.symmetry_point(-1))
         m.symmetry_point(0)
         m.symmetry_point(5)
         self.assertRaises(IndexError, lambda: m.symmetry_point(6))
+
+    def test_method_takes_bell_types(self):
+        m = Method('&-1-1-1,2', 6)
+
+        m.is_symmetric(Bell(0))
+        m.is_symmetric('1')
+        m.is_symmetric(0)
+
+        m.is_palindromic(Bell(0))
+        m.is_palindromic('1')
+        m.is_palindromic(0)
+
+        m.is_plain(Bell(0))
+        m.is_plain('1')
+        m.is_plain(0)
+
+        m.has_dodges(Bell(0))
+        m.has_dodges('1')
+        m.has_dodges(0)
+
+        m.has_places(Bell(0))
+        m.has_places('1')
+        m.has_places(0)
+
+        m.symmetry_point(Bell(0))
+        m.symmetry_point('1')
+        m.symmetry_point(0)
 
     def test_method_symmetry_point_assertion(self):
         # Executing the following causes assertion failures in the library.
