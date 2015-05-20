@@ -1,6 +1,6 @@
 import unittest
 
-from ringing import Change, MAX_BELLS
+from ringing import Bell, Change
 
 
 class ChangeTest(unittest.TestCase):
@@ -174,7 +174,7 @@ class ChangeTest(unittest.TestCase):
         self.assertEqual(string, 'X.36.X.14')
 
     def test_change_many_bells(self):
-        n = MAX_BELLS + 4
+        n = Bell.MAX_BELLS + 4
 
         c = Change(n)
 

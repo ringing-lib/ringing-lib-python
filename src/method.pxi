@@ -93,23 +93,29 @@ cdef class Method:
         return result
 
     def is_symmetric(self, b=None):
+        cdef bell bb
+
         if b is None:
             return self.thisptr.issym()
         else:
-            if 0 <= b < self.bells:
-                return self.thisptr.issym(bell(b))
+            bb = deref(Bell(b).thisptr)
+            if <int>bb < self.bells:
+                return self.thisptr.issym(bb)
             else:
                 raise IndexError('Bell number out of range')
 
     def is_palindromic(self, b=None):
+        cdef bell bb
+
         if self.size % 2:
             raise ValueError('Method contains an odd number of changes')
 
         if b is None:
             return self.thisptr.ispalindromic()
         else:
-            if 0 <= b < self.bells:
-                return self.thisptr.ispalindromic(bell(b))
+            bb = deref(Bell(b).thisptr)
+            if <int>bb < self.bells:
+                return self.thisptr.ispalindromic(bb)
             else:
                 raise IndexError('Bell number out of range')
 
@@ -126,20 +132,26 @@ cdef class Method:
         return self.thisptr.leads()
 
     def is_plain(self, b=0):
-        if 0 <= b < self.bells:
-            return self.thisptr.isplain(bell(b))
+        cdef bell bb = deref(Bell(b).thisptr)
+
+        if <int>bb < self.bells:
+            return self.thisptr.isplain(bb)
         else:
             raise IndexError('Bell number out of range')
 
-    def has_dodges(self, int b):
-        if 0 <= b < self.bells:
-            return self.thisptr.hasdodges(bell(b))
+    def has_dodges(self, b):
+        cdef bell bb = deref(Bell(b).thisptr)
+
+        if <int>bb < self.bells:
+            return self.thisptr.hasdodges(bb)
         else:
             raise IndexError('Bell number out of range')
 
-    def has_places(self, int b):
-        if 0 <= b < self.bells:
-            return self.thisptr.hasplaces(bell(b))
+    def has_places(self, b):
+        cdef bell bb = deref(Bell(b).thisptr)
+
+        if <int>bb < self.bells:
+            return self.thisptr.hasplaces(bb)
         else:
             raise IndexError('Bell number out of range')
 
@@ -150,6 +162,7 @@ cdef class Method:
             return (<bytes>self.thisptr.lhcode()).decode()
 
     def symmetry_point(self, b=None):
+        cdef bell bb
         cdef int result
 
         if self.size % 2:
@@ -158,8 +171,9 @@ cdef class Method:
         if b is None:
             result = self.thisptr.symmetry_point()
         else:
-            if 0 <= b < self.bells:
-                result = self.thisptr.symmetry_point(bell(b))
+            bb = deref(Bell(b).thisptr)
+            if <int>bb < self.bells:
+                result = self.thisptr.symmetry_point(bb)
             else:
                 raise IndexError('Bell number out of range')
 

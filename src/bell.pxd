@@ -20,3 +20,6 @@ cdef extern from 'ringing/bell.h' namespace 'ringing':
 
         @staticmethod
         bool is_symbol(char c)
+
+        @staticmethod
+        void set_symbols(char *syms)

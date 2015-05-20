@@ -1,6 +1,6 @@
 import unittest
 
-from ringing import Change
+from ringing import Bell, Change
 from tests import MAX_BELL_NUMBER
 
 
@@ -47,20 +47,39 @@ class ChangeTest(unittest.TestCase):
     def test_index_method_bounds(self):
         c = Change(6)
 
-        self.assertRaises(IndexError, lambda: c.find_swap(-1))
+        self.assertRaises(ValueError, lambda: c.find_swap(-1))
         self.assertFalse(c.find_swap(0))
         self.assertFalse(c.find_swap(4))
         self.assertRaises(IndexError, lambda: c.find_swap(5))
 
-        self.assertRaises(IndexError, lambda: c.find_place(-1))
+        self.assertRaises(ValueError, lambda: c.find_place(-1))
         self.assertTrue(c.find_place(0))
         self.assertTrue(c.find_place(5))
         self.assertRaises(IndexError, lambda: c.find_place(6))
 
-        self.assertRaises(IndexError, lambda: c.swap_pair(-1))
+        self.assertRaises(ValueError, lambda: c.swap_pair(-1))
         self.assertTrue(c.swap_pair(0))
         self.assertTrue(c.swap_pair(4))
         self.assertRaises(IndexError, lambda: c.swap_pair(5))
+
+    def test_index_method_types(self):
+        c = Change(6)
+
+        c.find_swap(Bell(0))
+        c.find_swap('1')
+        c.find_swap(0)
+
+        c.find_place(Bell(0))
+        c.find_place('1')
+        c.find_place(0)
+
+        c.swap_pair(Bell(0))
+        c.swap_pair('1')
+        c.swap_pair(0)
+
+        self.assertRaises(TypeError, lambda: c.find_swap(self))
+        self.assertRaises(TypeError, lambda: c.find_place(self))
+        self.assertRaises(TypeError, lambda: c.swap_pair(self))
 
     def test_operators_return_not_implemented(self):
         # Arithmetic operator returns NotImplemented when given unknown types
@@ -108,3 +127,22 @@ class ChangeTest(unittest.TestCase):
         c * 0
         c * MAX_BELL_NUMBER
         self.assertRaises(ValueError, lambda: c * (MAX_BELL_NUMBER + 1))
+
+        self.assertRaises(ValueError, lambda:-1 * c)
+        0 * c
+        MAX_BELL_NUMBER * c
+        self.assertRaises(ValueError, lambda: (MAX_BELL_NUMBER + 1) * c)
+
+    def test_bell_multiply_types(self):
+        c = Change(6, '14')
+
+        c * Bell(0)
+        c * '1'
+        c * 0
+
+        Bell(0) * c
+        '1' * c
+        0 * c
+
+        self.assertRaises(TypeError, lambda: c * self)
+        self.assertRaises(TypeError, lambda: self * c)

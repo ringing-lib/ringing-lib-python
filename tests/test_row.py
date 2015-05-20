@@ -1,7 +1,7 @@
 import itertools
 import unittest
 
-from ringing import Row
+from ringing import Bell, Row
 from tests import MAX_BELL_NUMBER
 
 
@@ -41,6 +41,10 @@ class RowTest(unittest.TestCase):
         r.find(0)
         r.find(MAX_BELL_NUMBER)
         self.assertRaises(ValueError, lambda: r.find(MAX_BELL_NUMBER + 1))
+        self.assertRaises(TypeError, lambda: r.find(self))
+
+        self.assertEqual(r.find(Bell(0)), 1)
+        self.assertEqual(r.find(Bell('1')), 1)
 
     def test_row_conjugator(self):
         x = Row('2143')
@@ -99,6 +103,10 @@ class RowTest(unittest.TestCase):
         self.assertEqual(~Row('654321'), '654321')
         self.assertEqual(~Row('312'), '231')
         self.assertEqual(~Row('18234567'), '13456782')
+
+    def test_row_subscript_returns_bell(self):
+        r = Row(6)
+        self.assertEqual(type(r[0]), Bell)
 
     def test_row_subscript_bounds(self):
         r = Row(6)

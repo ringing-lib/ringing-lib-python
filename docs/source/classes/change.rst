@@ -52,7 +52,8 @@ The Change Class
       ``3 * Change(4, '34') == 3``. This is useful in tracing the path of one
       particular bell through a series of changes.
       
-      :param int bell: bell to apply
+      :param bell: bell to apply
+      :type bell: :class:`Bell` or string or int
       :return: result
       :rtype: int
       :raises: :exc:`ValueError` if ``bell`` is out of range
@@ -85,41 +86,44 @@ The Change Class
          pairs are swapped
       :rtype: int
    
-   .. method:: find_swap(i)
+   .. method:: find_swap(b)
       
       Determines whether a position is swapped by the change.
       
-      :param int i: zero-indexed place to check
-      :return: ``True`` if the change swaps bells *i* and *i*\ +1, and ``False``
-         otherwise
+      :param b: position to check
+      :type b: :class:`Bell` or string or int
+      :return: ``True`` if the change swaps positions *b* and *b*\ +1, and
+         ``False`` otherwise
       :rtype: boolean
-      :raises: :exc:`IndexError` if ``i`` is out of range
+      :raises: :exc:`IndexError` if ``b`` is out of range
    
-   .. method:: find_place(i)
+   .. method:: find_place(b)
       
       Determines whether a place is made.
       
-      :param int i: zero-indexed place to check
-      :return: ``True`` if the change doesn't move the bell in the *i*\ th place
-         (i.e. if *i*\ ths place is made), and ``False`` otherwise
+      :param b: position to check
+      :type b: :class:`Bell` or string or int
+      :return: ``True`` if the change doesn't move the bell in the *b*\ th place
+         (i.e. if *b*\ ths place is made), and ``False`` otherwise
       :rtype: boolean
-      :raises: :exc:`IndexError` if ``i`` is out of range
+      :raises: :exc:`IndexError` if ``b`` is out of range
    
-   .. method:: swap_pair(i)
+   .. method:: swap_pair(b)
       
-      If the change doesn't currently swap bells *i* and *i*\ +1, then this will
-      add that swap. If those bells are swapped, this will remove the swap. If
-      the bells *i*\ -1 and *i*, or *i*\ +1 and *i*\ +2, are currently swapped,
-      those swaps are removed.
+      If the change doesn't currently swap positions *b* and *b*\ +1, then this
+      will add that swap. If those positions are swapped, this will remove the
+      swap. If the positions *b*\ -1 and *b*, or *b*\ +1 and *b*\ +2, are
+      currently swapped, those swaps are removed.
       
       This function makes it possible for the user to edit changes in such a way
       that they will always end up in a sensible state.
       
-      :param int i: zero-indexed place to swap
-      :return: ``True`` if after the function call, the pair of bells *i* and
-         *i*\ +1 are swapped, and ``False`` otherwise
+      :param b: position to check
+      :type b: :class:`Bell` or string or int
+      :return: ``True`` if after the function call, the pair of positions *b*
+         and *b*\ +1 are swapped, and ``False`` otherwise
       :rtype: boolean
-      :raises: :exc:`IndexError` if ``i`` is out of range
+      :raises: :exc:`IndexError` if ``b`` is out of range
    
    .. method:: internal()
       
