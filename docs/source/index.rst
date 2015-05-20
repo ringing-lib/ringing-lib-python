@@ -17,6 +17,11 @@ This package contains Python bindings for the
 *  Supports: CPython versions 2.6, 2.7, 3.3, 3.4.
 *  |master|
 
+.. toctree::
+   :maxdepth: 1
+   
+   changelog
+
 Installation
 ------------
 
