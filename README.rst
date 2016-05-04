@@ -5,7 +5,7 @@ Python Wrapper for the Ringing Class Library
    :alt: Build Status
    :target: https://travis-ci.org/ringing-lib/ringing-lib-python
 
-.. image:: https://img.shields.io/github/issues/ringing-lib/ringing-lib-python.svg?style=flat
+.. image:: https://img.shields.io/github/issues/ringing-lib/ringing-lib-python.svg
    :alt: Issues
    :target: https://github.com/ringing-lib/ringing-lib-python/issues
 
@@ -13,31 +13,31 @@ Python Wrapper for the Ringing Class Library
    :alt: Documentation Status
    :target: https://readthedocs.org/projects/ringing-lib-python/?badge=latest
 
-.. image:: https://pypip.in/version/ringing-lib/badge.svg
+.. image:: https://img.shields.io/pypi/v/ringing-lib.svg
    :alt: Version
    :target: https://pypi.python.org/pypi/ringing-lib/
 
-.. image:: https://pypip.in/download/ringing-lib/badge.svg
+.. image:: https://img.shields.io/pypi/dm/ringing-lib.svg
    :alt: Downloads
    :target: https://pypi.python.org/pypi/ringing-lib/
 
-.. image:: https://pypip.in/py_versions/ringing-lib/badge.svg
+.. image:: https://img.shields.io/pypi/pyversions/ringing-lib.svg
    :alt: Supported Python versions
    :target: https://pypi.python.org/pypi/ringing-lib/
 
-.. image:: https://pypip.in/implementation/ringing-lib/badge.svg
+.. image:: https://img.shields.io/pypi/implementation/ringing-lib.svg
    :alt: Supported Python implementations
    :target: https://pypi.python.org/pypi/ringing-lib/
 
-.. image:: https://pypip.in/status/ringing-lib/badge.svg
+.. image:: https://img.shields.io/pypi/status/ringing-lib.svg
    :alt: Development Status
    :target: https://pypi.python.org/pypi/ringing-lib/
 
-.. image:: https://pypip.in/format/ringing-lib/badge.svg
+.. image:: https://img.shields.io/pypi/format/ringing-lib.svg
    :alt: Download format
    :target: https://pypi.python.org/pypi/ringing-lib/
 
-.. image:: https://pypip.in/license/ringing-lib/badge.svg
+.. image:: https://img.shields.io/pypi/l/ringing-lib.svg
    :alt: Licence
    :target: https://pypi.python.org/pypi/ringing-lib/
 
