@@ -57,4 +57,4 @@ Install as follows:
       
       pip install ringing-lib
 
-`Documentation <https://ringing-lib-python.readthedocs.org/>`_
+`Documentation <https://ringing-lib-python.readthedocs.io/>`_
