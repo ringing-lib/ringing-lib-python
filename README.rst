@@ -1,13 +1,9 @@
 Python Wrapper for the Ringing Class Library
 ============================================
 
-.. image:: https://img.shields.io/github/actions/workflow/status/ringing-lib/ringing-lib-python/build.yml
+.. image:: https://img.shields.io/github/actions/workflow/status/ringing-lib/ringing-lib-python/build.yml?branch=master
    :alt: Build Status
    :target: https://github.com/ringing-lib/ringing-lib-python/actions/workflows/build.yml
-
-.. image:: https://travis-ci.org/ringing-lib/ringing-lib-python.svg?branch=master
-   :alt: Build Status
-   :target: https://travis-ci.org/ringing-lib/ringing-lib-python
 
 .. image:: https://img.shields.io/github/issues/ringing-lib/ringing-lib-python.svg
    :alt: Issues
