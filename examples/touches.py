@@ -4,7 +4,7 @@ import sys
 # Extension should have been built in parent directory.
 sys.path.append(os.path.dirname('..'))
 
-from row import Row
+from ringing import Row
 
 
 methods = [

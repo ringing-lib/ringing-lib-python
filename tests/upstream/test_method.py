@@ -44,12 +44,12 @@ class MethodTest(unittest.TestCase):
 
         self.assertEqual(
             Method('-', 8, 'Cross').full_name(),
-            'Cross Differential Major'
+            'Cross Major'
         )
 
         self.assertEqual(
             Method('-4-6-6-4-6-6-2', 6, "Tetley's Smoothflow").full_name(),
-            "Tetley's Smoothflow Differential Hybrid Minor"
+            "Tetley's Smoothflow Differential Minor"
         )
 
     def test_method_fullname_grandsire(self):

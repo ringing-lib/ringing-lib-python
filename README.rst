@@ -1,6 +1,10 @@
 Python Wrapper for the Ringing Class Library
 ============================================
 
+.. image:: https://img.shields.io/github/actions/workflow/status/ringing-lib/ringing-lib-python/build.yml
+   :alt: Build Status
+   :target: https://github.com/ringing-lib/ringing-lib-python/actions/workflows/build.yml
+
 .. image:: https://travis-ci.org/ringing-lib/ringing-lib-python.svg?branch=master
    :alt: Build Status
    :target: https://travis-ci.org/ringing-lib/ringing-lib-python
@@ -45,7 +49,7 @@ NOTE: these bindings are still incomplete
 
 This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
-It should work with Python versions 2.6, 2.7, 3.3 or 3.4.
+It should work with Python versions 3.7 to 3.11.
 
 Install as follows:
 
