@@ -43,7 +43,7 @@ setup(
     version=version,
     author='Leigh Simpson',
     author_email='code@simpleigh.com',
-    url='http://github.com/simpleigh/ringing-lib-python',
+    url='https://github.com/ringing-lib/ringing-lib-python',
     description='Python wrapper for the Ringing Class Library',
     long_description=long_description,
     classifiers=[
