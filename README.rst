@@ -45,7 +45,7 @@ NOTE: these bindings are still incomplete
 
 This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
-It should work with Python versions 3.7 to 3.11.
+It should work with Python versions 3.8 to 3.11.
 
 Install as follows:
 
