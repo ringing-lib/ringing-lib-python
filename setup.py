@@ -34,7 +34,7 @@ with open(os.path.join(BASE_DIR, 'VERSION')) as version_file:
     version = version_file.read().strip()
 
 
-with open('README.rst') as file:
+with open(os.path.join(BASE_DIR, 'README.rst')) as file:
     long_description = file.read()
 
 
