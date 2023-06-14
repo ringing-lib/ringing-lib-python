@@ -1,5 +1,11 @@
 .PHONY: build check docs clean
 
+%.txt: %.in
+	CUSTOM_COMPILE_COMMAND="make" pip-compile --generate-hashes "$<"
+
+sync: requirements.txt
+	pip-sync $^
+
 build:
 	python setup.py build_ext --inplace
 
