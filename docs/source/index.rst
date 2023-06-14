@@ -3,8 +3,8 @@ lib-ringing-python Documentation
 
 **Wrapper for the Ringing Class Library**.
 
-.. |master| image:: https://img.shields.io/github/actions/workflow/status/ringing-lib/ringing-lib-python/build.yml?branch=master
-   :alt: Build Status - master branch
+.. |main| image:: https://img.shields.io/github/actions/workflow/status/ringing-lib/ringing-lib-python/build.yml?branch=main
+   :alt: Build Status - main branch
    :target: https://github.com/ringing-lib/ringing-lib-python/actions/workflows/build.yml
 
 About
@@ -15,7 +15,7 @@ This package contains Python bindings for the
 
 *  GitHub: https://github.com/ringing-lib/ringing-lib-python
 *  Supports: CPython versions 3.8 to 3.11.
-*  |master|
+*  |main|
 
 .. toctree::
    :maxdepth: 1
