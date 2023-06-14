@@ -1,0 +1,25 @@
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html
+
+# Required
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html#version
+version: 2
+
+# Configuration of the Python environment to be used.
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html#python
+# See https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
+python:
+  install:
+    - requirements: requirements.txt
+
+# Configuration for the documentation build process.
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html#build
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.11"
+
+# Configuration for Sphinx documentation.
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html#sphinx
+sphinx:
+  configuration: docs/conf.py
