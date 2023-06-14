@@ -3,9 +3,9 @@ lib-ringing-python Documentation
 
 **Wrapper for the Ringing Class Library**.
 
-.. |master| image:: https://travis-ci.org/ringing-lib/ringing-lib-python.svg?branch=master
+.. |master| image:: https://img.shields.io/github/actions/workflow/status/ringing-lib/ringing-lib-python/build.yml?branch=master
    :alt: Build Status - master branch
-   :target: https://travis-ci.org/ringing-lib/ringing-lib-python
+   :target: https://github.com/ringing-lib/ringing-lib-python/actions/workflows/build.yml
 
 About
 -----
@@ -14,7 +14,7 @@ This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
 
 *  GitHub: https://github.com/ringing-lib/ringing-lib-python
-*  Supports: CPython versions 2.6, 2.7, 3.3, 3.4.
+*  Supports: CPython versions 3.8 to 3.11.
 *  |master|
 
 .. toctree::
@@ -101,7 +101,7 @@ Licence
 
 This software is copyright:
 
-   Copyright © 2014  Leigh Simpson <code@simpleigh.com>
+   Copyright © 2014-2023  Leigh Simpson <code@simpleigh.com>
    
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -118,7 +118,7 @@ This software is copyright:
 
 This documentation is copyright:
 
-   Copyright © 2014  Leigh Simpson <code@simpleigh.com>
+   Copyright © 2014-2023  Leigh Simpson <code@simpleigh.com>
    
    Permission is granted to copy, distribute and/or modify this document under
    the terms of the GNU Free Documentation License, Version 1.1 or any later
