@@ -14,7 +14,7 @@ This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
 
 *  GitHub: https://github.com/ringing-lib/ringing-lib-python
-*  Supports: CPython versions 3.8 to 3.11.
+*  Supports: CPython versions 3.11 to 3.15.
 *  |main|
 
 .. toctree::
@@ -28,20 +28,16 @@ Installation
 1. **Install the Ringing Class Library**.
    
    You can download the latest source from
-   `SourceForge <http://sourceforge.net/p/ringing-lib/code/>`_.
+   `GitHub <https://github.com/ringing-lib/ringing-lib>`_.
    After obtaining appropriate prerequisites you can configure and install.
    Within the Ringing Class Library source tree:
    
    .. code-block:: bash
       
-      autoreconf --install --force
-      ./configure
       make
       make install
    
    Run :command:`make install` as root.
-   It may also be necessary to run :command:`ldconfig` as root in order to
-   refresh the loader cache.
 
 2. **Install Using pip**
    
@@ -101,7 +97,7 @@ Licence
 
 This software is copyright:
 
-   Copyright © 2014-2023  Leigh Simpson <code@simpleigh.com>
+   Copyright © 2014-2026  Leigh Simpson <code@simpleigh.com>
    
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -118,7 +114,7 @@ This software is copyright:
 
 This documentation is copyright:
 
-   Copyright © 2014-2023  Leigh Simpson <code@simpleigh.com>
+   Copyright © 2014-2026  Leigh Simpson <code@simpleigh.com>
    
    Permission is granted to copy, distribute and/or modify this document under
    the terms of the GNU Free Documentation License, Version 1.1 or any later
@@ -130,7 +126,7 @@ This documentation is copyright:
 In addition, large portions of the class documentation are taken directly from
 the manual for the Ringing Class Library, which is also copyright:
 
-   Copyright © 2001–4 Martin Bright, Mark Banner and Richard Smith
+   Copyright © 2001-26 Martin Bright, Mark Banner and Richard Smith
 
 .. toctree::
    :maxdepth: 1

@@ -45,13 +45,13 @@ NOTE: these bindings are still incomplete
 
 This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
-It should work with CPython versions 3.8 to 3.11.
+It should work with CPython versions 3.11 to 3.15.
 
 Install as follows:
 
 #. Build and install the Ringing Class Library.
    You can obtain the latest source from
-   `SourceForge <http://sourceforge.net/p/ringing-lib/code/>`_.
+   `GitHub <https://github.com/ringing-lib/ringing-lib>`_.
 
 #. Install using ``pip``::
       
