@@ -1,9 +1,12 @@
-.PHONY: sync build check docs clean
+.PHONY: sync build build-dist check docs clean
 
 sync:
 	uv sync --all-groups --locked
 
 build:
+	uv sync --reinstall-package ringing-lib
+
+build-dist:
 	uv build
 
 check:

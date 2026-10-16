@@ -65,7 +65,7 @@ Alternatively, to build from source:
 
 3. **Compile the Python extension**.
    
-   Build the extension using :file:`setup.py`:
+   Build the extension:
    
    .. code-block:: bash
       
@@ -73,11 +73,19 @@ Alternatively, to build from source:
 
 4. (Optional) **Run Tests**.
    
-   Run the included tests using :file:`setup.py`:
+   Run the included tests:
    
    .. code-block:: bash
       
       make check
+
+5. (Optional) **Build package and wheels**.
+   
+   Build a package for distribution:
+   
+   ... code-block:: bash
+      
+      make build-dist
 
 Class Documentation
 -------------------

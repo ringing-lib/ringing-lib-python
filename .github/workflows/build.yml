@@ -33,7 +33,7 @@ jobs:
       - name: Install Python dependencies    
         run: make sync
   
-      - run: make build
+      - run: make build-dist
 
       - run: make check
 
