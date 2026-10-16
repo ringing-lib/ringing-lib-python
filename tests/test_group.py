@@ -1,65 +1,47 @@
-import unittest
+import pytest
 
 from ringing import Bell, Row, Group
 
 
-class GroupTest(unittest.TestCase):
+class TestGroup:
     def test_group_constructor_exceptions(self):
-        self.assertRaises(TypeError, lambda: Group(self))
+        with pytest.raises(TypeError):
+            Group(self)
 
     def test_group_bells(self):
-        self.assertEqual(Group().bells, 0)
-        self.assertEqual(Group(6).bells, 6)
-        self.assertEqual(Group('13572468').bells, 8)
-        self.assertEqual(Group(6, 8).bells, 8)
+        assert Group().bells == 0
+        assert Group(6).bells == 6
+        assert Group('13572468').bells == 8
+        assert Group(6, 8).bells == 8
 
     def test_group_size(self):
-        self.assertEqual(Group().size, 1)
-        self.assertEqual(Group(6).size, 1)
-        self.assertEqual(Group('134256').size, 3)
-        self.assertEqual(Group('213564', '123546').size, 12)
-        self.assertEqual(Group('654321').size, 2)
+        assert Group().size == 1
+        assert Group(6).size == 1
+        assert Group('134256').size == 3
+        assert Group('213564', '123546').size == 12
+        assert Group('654321').size == 2
 
     def test_group_named_groups(self):
-        self.assertEqual(list(Group.symmetric_group(0)), [Row()])
-        self.assertEqual(
-            list(Group.symmetric_group(3)),
-            ['123', '132', '213', '231', '312', '321']
-        )
-        self.assertEqual(
-            list(Group.symmetric_group(3, 1)),
-            ['1234', '1243', '1324', '1342', '1423', '1432']
-        )
-        self.assertEqual(
-            list(Group.symmetric_group(3, 1, 5)),
-            ['12345', '12435', '13245', '13425', '14235', '14325']
-        )
+        assert list(Group.symmetric_group(0)) == [Row()]
+        assert list(Group.symmetric_group(3)) == ['123', '132', '213', '231', '312', '321']
+        assert list(Group.symmetric_group(3, 1)) == ['1234', '1243', '1324', '1342', '1423', '1432']
+        assert list(Group.symmetric_group(3, 1, 5)) == ['12345', '12435', '13245', '13425', '14235', '14325']
 
-        self.assertEqual(list(Group.alternating_group(0)), [Row()])
-        self.assertEqual(
-            list(Group.alternating_group(3)),
-            ['123', '231', '312']
-        )
-        self.assertEqual(
-            list(Group.alternating_group(3, 1)),
-            ['1234', '1342', '1423']
-        )
-        self.assertEqual(
-            list(Group.alternating_group(3, 1, 5)),
-            ['12345', '13425', '14235']
-        )
+        assert list(Group.alternating_group(0)) == [Row()]
+        assert list(Group.alternating_group(3)) == ['123', '231', '312']
+        assert list(Group.alternating_group(3, 1)) == ['1234', '1342', '1423']
+        assert list(Group.alternating_group(3, 1, 5)) == ['12345', '13425', '14235']
 
-        self.assertRaises(ValueError, lambda: Group.symmetric_group(2, 2, 3))
-        self.assertRaises(ValueError, lambda: Group.alternating_group(2, 2, 3))
+        with pytest.raises(ValueError):
+            Group.symmetric_group(2, 2, 3)
+        with pytest.raises(ValueError):
+            Group.alternating_group(2, 2, 3)
 
     def test_group_conjugate(self):
         G = Group('2143', '1324')
         r = Row('1243')
 
-        self.assertEqual(
-            sorted([~r * g * r for g in G]),
-            sorted(G.conjugate(r))
-        )
+        assert sorted([~r * g * r for g in G]) == sorted(G.conjugate(r))
 
     def test_group_coset_labels(self):
         G = Group('2143', '1324', '1243')  # S_4
@@ -78,29 +60,29 @@ class GroupTest(unittest.TestCase):
             rcoset_row = h_dash * g
 
             if h_dash in H:
-                self.assertEqual(H.lcoset_label(lcoset_row), g)
-                self.assertEqual(H.rcoset_label(rcoset_row), g)
+                assert H.lcoset_label(lcoset_row) == g
+                assert H.rcoset_label(rcoset_row) == g
             else:
-                self.assertNotEqual(H.lcoset_label(lcoset_row), g)
-                self.assertNotEqual(H.rcoset_label(rcoset_row), g)
+                assert H.lcoset_label(lcoset_row) != g
+                assert H.rcoset_label(rcoset_row) != g
 
     def test_group_invariants(self):
-        self.assertEqual(Group().invariants(), [])
-        self.assertEqual(Group(6).invariants(), list(range(6)))
-        self.assertEqual(Group('134256').invariants(), [0, 4, 5])
-        self.assertEqual(Group('213564', '123546').invariants(), [2])
-        self.assertEqual(Group('654321').invariants(), [])
+        assert Group().invariants() == []
+        assert Group(6).invariants() == list(range(6))
+        assert Group('134256').invariants() == [0, 4, 5]
+        assert Group('213564', '123546').invariants() == [2]
+        assert Group('654321').invariants() == []
 
-        self.assertEqual(type(Group('214536').invariants()[0]), Bell)
+        assert type(Group('214536').invariants()[0]) == Bell
 
     def test_operators_return_not_implemented(self):
         # Arithmetic operator returns NotImplemented when given unknown types
-        self.assertEqual(Group().__lt__(self), NotImplemented)
-        self.assertEqual(Group().__le__(self), NotImplemented)
-        self.assertEqual(Group().__eq__(self), NotImplemented)
-        self.assertEqual(Group().__ne__(self), NotImplemented)
-        self.assertEqual(Group().__gt__(self), NotImplemented)
-        self.assertEqual(Group().__ge__(self), NotImplemented)
+        assert Group().__lt__(self) == NotImplemented
+        assert Group().__le__(self) == NotImplemented
+        assert Group().__eq__(self) == NotImplemented
+        assert Group().__ne__(self) == NotImplemented
+        assert Group().__gt__(self) == NotImplemented
+        assert Group().__ge__(self) == NotImplemented
 
     def test_group_repr(self):
         tests = [
@@ -112,17 +94,17 @@ class GroupTest(unittest.TestCase):
         ]
 
         for test in tests:
-            self.assertEqual(repr(eval(test)), test)
+            assert repr(eval(test)) == test
 
     def test_group_iterator(self):
-        self.assertEqual(list(Group()), [Row()])
-        self.assertEqual(list(Group(6)), ['123456'])
-        self.assertEqual(list(Group('134256')), ['123456', '134256', '142356'])
-        self.assertEqual(list(Group('213564', '123546')), [
+        assert list(Group()) == [Row()]
+        assert list(Group(6)) == ['123456']
+        assert list(Group('134256')) == ['123456', '134256', '142356']
+        assert list(Group('213564', '123546')) == [
             '123456', '123465', '123546', '123564', '123645', '123654',
             '213456', '213465', '213546', '213564', '213645', '213654',
-        ])
-        self.assertEqual(list(Group('654321')), ['123456', '654321'])
+        ]
+        assert list(Group('654321')) == ['123456', '654321']
 
         # Check we can iterate over a group without holding a reference to it.
         # https://github.com/ringing-lib/ringing-lib-python/issues/5

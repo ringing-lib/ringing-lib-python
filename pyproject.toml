@@ -20,6 +20,7 @@ build-backend = "setuptools.build_meta"
 
 dev = [
     "Cython",  # https://cython.readthedocs.io/en/latest/index.html
+    "pytest",  # https://docs.pytest.org/en/stable/
     { include-group = "docs" },
 ]
 

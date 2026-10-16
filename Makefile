@@ -10,7 +10,7 @@ build-dist:
 	uv build
 
 check:
-	uv run --locked python -m unittest discover -s tests -v
+	uv run --locked pytest
 
 docs:
 	make -C docs html
