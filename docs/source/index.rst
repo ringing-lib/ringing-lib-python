@@ -55,13 +55,13 @@ Installation
 
 Alternatively, to build from source:
 
-2. **Install Cython**.
+2. **Install dependencies**.
    
-   `Cython <http://cython.org/>`_ is most easily installed using :command:`pip`:
+   Use uv to install the required dependencies:
    
    .. code-block:: bash
       
-      pip install Cython
+      make sync
 
 3. **Compile the Python extension**.
    
@@ -69,7 +69,7 @@ Alternatively, to build from source:
    
    .. code-block:: bash
       
-      python setup.py build_ext --inplace
+      make build
 
 4. (Optional) **Run Tests**.
    
@@ -77,7 +77,7 @@ Alternatively, to build from source:
    
    .. code-block:: bash
       
-      python setup.py test
+      make check
 
 Class Documentation
 -------------------
