@@ -65,13 +65,13 @@ cdef class Bell:
                 type=type(symbols).__name__
             ))
 
-    def __richcmp__(x, y, int op):
+    def __richcmp__(self, other, int op):
         cdef int bx
         cdef int by
 
         try:
-            bx = int(Bell(x))
-            by = int(Bell(y))
+            bx = int(Bell(self))
+            by = int(Bell(other))
         except TypeError:
             return NotImplemented
 

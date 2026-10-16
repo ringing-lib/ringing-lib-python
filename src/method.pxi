@@ -223,13 +223,14 @@ cdef class Method:
                 type=type(c).__name__
             ))
 
-    def __richcmp__(x, y, int op):
+    def __richcmp__(self, other, int op):
         cdef method mx
         cdef method my
 
+        mx = deref((<Method>self).thisptr)
+
         try:
-            mx = deref(Method(x).thisptr)
-            my = deref(Method(y).thisptr)
+            my = deref(Method(other).thisptr)
         except TypeError:
             return NotImplemented
 

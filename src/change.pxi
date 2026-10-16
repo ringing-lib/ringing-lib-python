@@ -79,21 +79,16 @@ cdef class Change:
     def count_places(self):
         return self.thisptr.count_places()
 
-    def __richcmp__(x, y, int op):
+    def __richcmp__(self, other, int op):
         cdef change cx
         cdef change cy
 
-        if isinstance(x, Change):
-            cx = deref(Change(x).thisptr)
-        elif isinstance(x, bytes) or isinstance(x, unicode):
-            cx = deref(Change(y.bells, x).thisptr)
-        else:
-            return NotImplemented
+        cx = deref((<Change>self).thisptr)
 
-        if isinstance(y, Change):
-            cy = deref(Change(y).thisptr)
-        elif isinstance(y, bytes) or isinstance(y, unicode):
-            cy = deref(Change(x.bells, y).thisptr)
+        if isinstance(other, Change):
+            cy = deref(Change(other).thisptr)
+        elif isinstance(other, bytes) or isinstance(other, unicode):
+            cy = deref(Change(self.bells, other).thisptr)
         else:
             return NotImplemented
 
@@ -131,19 +126,11 @@ cdef class Change:
         else:
             return 'Change()'
 
-    def __mul__(x, y):
+    def __mul__(self, other):
         cdef bell b
         cdef change c
 
-        # Handle Change × Bell OR Bell × Change.
-        if isinstance(x, Change):
-            c = deref((<Change>x).thisptr)
-            other = y
-        elif isinstance(y, Change):
-            c = deref((<Change>y).thisptr)
-            other = x
-        else:
-            return NotImplemented
+        c = deref((<Change>self).thisptr)
 
         # Special handling for integers because returning NotImplemented will
         # yield an error message saying the type is incorrect; the type may be
@@ -158,3 +145,6 @@ cdef class Change:
             return NotImplemented
 
         return Bell(<int>(b * c))
+
+    def __rmul__(self, other):
+        return Change.__mul__(self, other)
