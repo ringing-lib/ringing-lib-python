@@ -5,131 +5,137 @@ from ringing import Bell, Row
 from tests import MAX_BELL_NUMBER
 
 
-class TestRow:
-    def test_row_constructor_exceptions(self):
-        with pytest.raises(ValueError):
-            Row(-1)
-        Row(0)
-        Row(MAX_BELL_NUMBER)
-        with pytest.raises(ValueError):
-            Row(MAX_BELL_NUMBER + 1)
-        with pytest.raises(TypeError):
-            Row(self)
+def test_constructor_bad_input_type() -> None:
+    with pytest.raises(TypeError):
+        Row([])
 
-    def test_row_equals_string_types(self):
-        assert Row('123456') == '123456'
 
-        assert Row(b'123456') == b'123456'
-        assert Row(u'123456') == u'123456'
+def test_bell_number_range() -> None:
+    with pytest.raises(ValueError):
+        Row(-1)
 
-        assert bytes(Row('123456')) == b'123456'
+    Row(0)
+    Row(MAX_BELL_NUMBER)
 
-        try:
-            assert unicode(Row('123456')) == u'123456'
-        except NameError:
-            pass
+    with pytest.raises(ValueError):
+        Row(MAX_BELL_NUMBER + 1)
 
-    def test_row_find(self):
-        r = Row('615423')
 
-        assert r.find(0) == 1
-        assert r.find(1) == 4
-        assert r.find(2) == 5
-        assert r.find(3) == 3
-        assert r.find(4) == 2
-        assert r.find(5) == 0
-        assert r.find(6) == 6
+@pytest.mark.parametrize('self, other', (
+    ('123456', '123456'),
+    ('123456', b'123456'),
+    (b'123456', '123456'),
+    (b'123456', b'123456'),
+))
+def test_equals_string_types(self: str | bytes, other: str | bytes) -> None:
+    assert Row(self) == other
+    assert other == Row(self)
 
-        with pytest.raises(ValueError):
-            r.find(-1)
-        r.find(0)
-        r.find(MAX_BELL_NUMBER)
-        with pytest.raises(ValueError):
-            r.find(MAX_BELL_NUMBER + 1)
-        with pytest.raises(TypeError):
-            r.find(self)
 
-        assert r.find(Bell(0)) == 1
-        assert r.find(Bell('1')) == 1
+@pytest.mark.parametrize('input, expected', (
+    (Bell(0), 1),
+    (Bell('1'), 1),
+    (0, 1),
+    (1, 4),
+    (2, 5),
+    (3, 3),
+    (4, 2),
+    (5, 0),
+    (6, 6),
+))
+def test_find(input: Bell | int, expected: int) -> None:
+    r = Row('615423')
+    assert r.find(input) == expected
 
-    def test_row_conjugator(self):
-        x = Row('2143')
-        y = Row('3412')
 
-        r = Row.conjugator(x, y)
-        assert y == ~r * x * r
+def test_find_bell_range() -> None:
+    r = Row('615423')
 
-        assert not Row.conjugator(x, 4)
+    with pytest.raises(ValueError):
+        r.find(-1)
 
-    def test_row_are_conjugate(self):
-        conj_class = list(map(Row, ['2143', '3412', '4321']))
+    r.find(0)
+    r.find(MAX_BELL_NUMBER)
 
-        for r1, r2 in itertools.product(conj_class, conj_class):
-            assert Row.are_conjugate(r1, r2)
+    with pytest.raises(ValueError):
+        r.find(MAX_BELL_NUMBER + 1)
 
-        for r in conj_class:
-            assert not Row.are_conjugate(r, 4)
 
-    def test_operators_return_not_implemented(self):
-        # Arithmetic operator returns NotImplemented when given unknown types
-        assert Row().__lt__(self) == NotImplemented
-        assert Row().__le__(self) == NotImplemented
-        assert Row().__eq__(self) == NotImplemented
-        assert Row().__ne__(self) == NotImplemented
-        assert Row().__gt__(self) == NotImplemented
-        assert Row().__ge__(self) == NotImplemented
-        assert Row().__mul__(self) == NotImplemented
-        assert Row().__rmul__(self) == NotImplemented
-        assert Row().__truediv__(self) == NotImplemented
-        assert Row().__rtruediv__(self) == NotImplemented
+def test_conjugator() -> None:
+    x = Row('2143')
+    y = Row('3412')
 
-        # ... but passes through errors parsing known types.
-        with pytest.raises(ValueError):
-            Row().__lt__('!')
-        with pytest.raises(ValueError):
-            Row().__le__('!')
-        with pytest.raises(ValueError):
-            Row().__eq__('!')
-        with pytest.raises(ValueError):
-            Row().__ne__('!')
-        with pytest.raises(ValueError):
-            Row().__gt__('!')
-        with pytest.raises(ValueError):
-            Row().__ge__('!')
-        with pytest.raises(ValueError):
-            Row().__mul__('!')
-        with pytest.raises(ValueError):
-            Row().__rmul__('!')
-        with pytest.raises(ValueError):
-            Row().__truediv__('!')
-        with pytest.raises(ValueError):
-            Row().__rtruediv__('!')
+    r = Row.conjugator(x, y)
+    assert y == ~r * x * r
 
-        try:
-            assert Row().__div__(self) == NotImplemented
-            with pytest.raises(ValueError):
-                Row().__div__('!')
-        except AttributeError:
-            pass  # Ignore (Python 3 doesn't create __div__)
+    assert not Row.conjugator(x, 4)
 
-    def test_row_repr(self):
-        assert repr(Row()) == 'Row()'
-        assert repr(Row('123456')) == "Row('123456')"
 
-    def test_row_inverse_tilde(self):
-        assert ~Row('654321') == '654321'
-        assert ~Row('312') == '231'
-        assert ~Row('18234567') == '13456782'
+def test_are_conjugate() -> None:
+    conj_class = list(map(Row, ['2143', '3412', '4321']))
 
-    def test_row_subscript_returns_bell(self):
-        r = Row(6)
-        assert type(r[0]) == Bell
+    for r1, r2 in itertools.product(conj_class, conj_class):
+        assert Row.are_conjugate(r1, r2)
 
-    def test_row_subscript_bounds(self):
-        r = Row(6)
-        with pytest.raises(IndexError):
-            r[-1]
-        assert r[0] == 0
-        assert r[5] == 5
-        with pytest.raises(IndexError):
-            r[6]
+    for r in conj_class:
+        assert not Row.are_conjugate(r, 4)
+
+
+OPERATORS = (
+    '__lt__',
+    '__le__',
+    '__eq__',
+    '__ne__',
+    '__gt__',
+    '__ge__',
+    '__mul__',
+    '__rmul__',
+    '__truediv__',
+    '__rtruediv__',
+)
+
+
+@pytest.mark.parametrize('operator', OPERATORS)
+def test_operators_return_not_implemented_for_unknown_types(operator) -> None:
+    assert getattr(Row(), operator)([]) == NotImplemented
+
+
+@pytest.mark.parametrize('operator', OPERATORS)
+def test_operators_raise_value_error_if_input_not_parsed(operator) -> None:
+    with pytest.raises(ValueError):
+        getattr(Row(), operator)('!')
+
+
+@pytest.mark.parametrize('input, expected', (
+    (None, 'Row()'),
+    ('123456', "Row('123456')"),
+))
+def test_repr(input: str | None, expected: str) -> None:
+    assert repr(Row(input)) == expected
+
+
+@pytest.mark.parametrize('input, expected', (
+    ('654321', '654321'),
+    ('312', '231'),
+    ('18234567', '13456782'),
+))
+def test_inverse_tilde(input: str, expected: str) -> None:
+    assert ~Row(input) == expected
+
+
+def test_subscript_returns_bell() -> None:
+    r = Row(6)
+    assert type(r[0]) == Bell
+
+
+def test_subscript_bounds() -> None:
+    r = Row(6)
+
+    with pytest.raises(IndexError):
+        r[-1]
+
+    assert r[0] == 0
+    assert r[5] == 5
+
+    with pytest.raises(IndexError):
+        r[6]

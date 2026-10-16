@@ -43,7 +43,7 @@ by a printable character.
       *  Nothing. Constructs an object representing the treble (bell ``0``).
       *  Another bell. Constructs a copy.
       *  An integer bell number. Constructs an object representing that bell.
-      *  A character (unicode or bytes) representing a bell.
+      *  A character (``str`` or ``bytes``) representing a bell.
    :type spec: :class:`Bell` or int or string
    
    .. method:: __lt__(bell)

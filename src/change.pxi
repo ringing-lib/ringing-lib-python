@@ -11,20 +11,22 @@ cdef class Change:
             if 0 <= input <= MAX_BELL_NUMBER:
                 if change_str is None:
                     self.thisptr = new change(<int>input)
-                elif isinstance(change_str, unicode):
-                    self.thisptr = new change(<int>input,
-                                              <string>(change_str.encode()))
+                elif isinstance(change_str, str):
+                    self.thisptr = new change(
+                        <int>input,
+                        <string>(change_str.encode('ascii')),
+                    )
                 elif isinstance(change_str, bytes):
                     self.thisptr = new change(<int>input, <string>change_str)
                 else:
                     raise TypeError('Cannot convert {type} to str'.format(
-                        type=type(change_str).__name__
+                        type=type(change_str).__name__,
                     ))
             else:
                 raise ValueError('Number of bells out of range')
         else:
             raise TypeError('Cannot convert {type} to ringing.Change'.format(
-                type=type(input).__name__
+                type=type(input).__name__,
             ))
 
     def __dealloc__(self):
@@ -34,11 +36,11 @@ cdef class Change:
         if 0 <= num <= MAX_BELL_NUMBER:
             if isinstance(pn, bytes):
                 self.thisptr.set(num, pn)
-            elif isinstance(pn, unicode):
-                self.thisptr.set(num, pn.encode())
+            elif isinstance(pn, str):
+                self.thisptr.set(num, pn.encode('ascii'))
             else:
                 raise TypeError('Cannot convert {type} to str'.format(
-                    type=type(pn).__name__
+                    type=type(pn).__name__,
                 ))
         else:
             raise ValueError('Number of bells out of range')
@@ -87,7 +89,7 @@ cdef class Change:
 
         if isinstance(other, Change):
             cy = deref(Change(other).thisptr)
-        elif isinstance(other, bytes) or isinstance(other, unicode):
+        elif isinstance(other, bytes) or isinstance(other, str):
             cy = deref(Change(self.bells, other).thisptr)
         else:
             return NotImplemented
@@ -106,23 +108,14 @@ cdef class Change:
             return cx >= cy
 
     def __str__(self):
-        if PY_MAJOR_VERSION < 3:
-            return self.__bytes__()
-        else:
-            return self.__unicode__()
+        return self.thisptr.print().decode('ascii')
 
     def __bytes__(self):
         return self.thisptr.print()
 
-    def __unicode__(self):
-        return self.thisptr.print().decode()
-
     def __repr__(self):
         if self.thisptr.bells():
-            return "Change({bells}, '{change}')".format(
-                bells = self.thisptr.bells(),
-                change = self.__str__(),
-            )
+            return f"Change({self.thisptr.bells()}, '{self}')"
         else:
             return 'Change()'
 

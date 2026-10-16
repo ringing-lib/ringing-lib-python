@@ -29,7 +29,7 @@ The Change Class
       This might be:
       
       *  Nothing. Constructs a change where all bells lie still (no swaps).
-      *  A string (unicode or bytes) representation of a change.
+      *  A string (``str`` or ``bytes``) representation of a change.
    
    .. method:: __lt__(change)
    .. method:: __le__(change)

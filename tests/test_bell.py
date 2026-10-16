@@ -1,83 +1,81 @@
-import sys
+from collections.abc import Generator
+from typing import Any
+
 import pytest
 
 from ringing import Bell
 from tests import MAX_BELL_NUMBER
 
 
-class TestBell:
-    def test_bell_constructor(self):
-        assert Bell(Bell(10)) == 10
-        assert Bell('e') == 10
-        assert Bell(u'e') == 10
-        assert Bell(b'e') == 10
-        assert Bell('E') == 10
-        assert Bell(u'E') == 10
-        assert Bell(b'E') == 10
-
-    def test_bell_constructor_exceptions(self):
-        with pytest.raises(TypeError):
-            Bell(self)
-
-        with pytest.raises(ValueError):
-            Bell(-1)
-        Bell(0)
-        Bell(MAX_BELL_NUMBER)
-        with pytest.raises(ValueError):
-            Bell(MAX_BELL_NUMBER + 1)
-
-        with pytest.raises(ValueError):
-            Bell('%')
-        with pytest.raises(ValueError):
-            Bell(u'%')
-        with pytest.raises(ValueError):
-            Bell(b'%')
-
-    def test_bell_bytes_bytes(self):
-        assert type(bytes(Bell(5))) == bytes
-
-    def test_bell_unicode_unicode(self):
-        if sys.version_info[0] < 3:
-            assert type(unicode(Bell(5))) == unicode
-        else:
-            assert type(Bell(5).__unicode__()) == str
-
-    def test_is_symbol(self):
-        assert Bell.is_symbol('1')
-        assert Bell.is_symbol(u'1')
-        assert Bell.is_symbol(b'1')
-        assert Bell.is_symbol('a')
-        assert Bell.is_symbol(u'a')
-        assert Bell.is_symbol(b'a')
-        assert Bell.is_symbol('A')
-        assert Bell.is_symbol(u'A')
-        assert Bell.is_symbol(b'A')
-
-        assert not Bell.is_symbol('%')
-        assert not Bell.is_symbol(u'%')
-        assert not Bell.is_symbol(b'%')
+NEW_SYMBOLS = 'abcdef%'
 
 
-class TestBellSymbols:
-    NEW_SYMBOLS = 'abcdef%'
+@pytest.fixture
+def symbols() -> Generator[None, None, None]:
+    Bell.set_symbols(NEW_SYMBOLS)
+    yield
+    Bell.set_symbols()
 
-    def setup_method(self, test_method):
-        Bell.set_symbols(self.NEW_SYMBOLS)
 
-    def teardown_method(self, test_method):
-        Bell.set_symbols()
+def test_constructor_with_none() -> None:
+    assert Bell() == Bell(0)
 
-    def test_symbols_set(self):
-        for index, character in enumerate(self.NEW_SYMBOLS):
-            assert Bell(index) == character
 
-    def test_is_symbol(self):
-        for character in self.NEW_SYMBOLS:
-            assert Bell.is_symbol(character)
+@pytest.mark.parametrize('input', (10, Bell(10), 'e', b'e', 'E', b'E'))
+def test_constructor_with_input(input: Any) -> None:
+    assert Bell(input) == Bell(10)
 
-    def test_max_bells(self):
-        assert Bell.MAX_BELLS == len(self.NEW_SYMBOLS)
 
-    def test_symbols_restored(self):
-        Bell.set_symbols()
-        assert Bell(0).to_char() == '1'
+@pytest.mark.parametrize('input', (-1, '%', b'%', 'ao', '•', 1.5, []))
+def test_invalid_input(input: Any) -> None:
+    with pytest.raises((TypeError, ValueError)):
+        Bell(input)
+
+
+def test_bell_number_range() -> None:
+    with pytest.raises(ValueError):
+        Bell(-1)
+
+    Bell(0)
+    Bell(MAX_BELL_NUMBER)
+
+    with pytest.raises(ValueError):
+        Bell(MAX_BELL_NUMBER + 1)
+
+
+@pytest.mark.parametrize('test_type', (bytes, str, int))
+def test_type_conversion(test_type: type) -> None:
+    assert isinstance(test_type(Bell(5)), test_type)
+
+
+@pytest.mark.parametrize('symbol', ('1', b'1', 'a', b'a', 'A', b'A'))
+def test_is_symbol(symbol: str | bytes) -> None:
+    assert Bell.is_symbol(symbol)
+
+
+@pytest.mark.parametrize('symbol', ('%', b'%'))
+def test_is_not_symbol(symbol: str | bytes) -> None:
+    assert not Bell.is_symbol(symbol)
+
+
+def test_repr() -> None:
+    assert repr(Bell(5)) == 'Bell(5)'
+
+
+def test_symbols_set(symbols: Generator[None, None, None]) -> None:
+    for index, character in enumerate(NEW_SYMBOLS):
+        assert Bell(index) == character
+
+
+def test_is_new_symbol(symbols: Generator[None, None, None]) -> None:
+    for character in NEW_SYMBOLS:
+        assert Bell.is_symbol(character)
+
+
+def test_max_bells(symbols: Generator[None, None, None]) -> None:
+    assert Bell.MAX_BELLS == len(NEW_SYMBOLS)
+
+
+def test_symbols_restored(symbols: Generator[None, None, None]) -> None:
+    Bell.set_symbols()
+    assert Bell(0).to_char() == '1'

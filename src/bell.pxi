@@ -22,13 +22,15 @@ cdef class Bell:
                 self.thisptr = new bell(<int>input)
             else:
                 raise ValueError('Bell number out of range')
-        elif isinstance(input, unicode):
-            self.thisptr = new bell(<int>bell.read_char(ord(input.encode())))
+        elif isinstance(input, str):
+            self.thisptr = new bell(
+                <int>bell.read_char(ord(input.encode('ascii'))),
+            )
         elif isinstance(input, bytes):
             self.thisptr = new bell(<int>bell.read_char(ord(input)))
         else:
             raise TypeError('Cannot convert {type} to ringing.Bell'.format(
-                type=type(input).__name__
+                type=type(input).__name__,
             ))
 
     def __dealloc__(self):
@@ -39,13 +41,13 @@ cdef class Bell:
 
     @staticmethod
     def is_symbol(character):
-        if isinstance(character, unicode):
-            return bell.is_symbol(ord(character.encode()))
+        if isinstance(character, str):
+            return bell.is_symbol(ord(character.encode('ascii')))
         elif isinstance(character, bytes):
             return bell.is_symbol(ord(character))
         else:
             raise TypeError('Cannot convert {type} to str'.format(
-                type=type(character).__name__
+                type=type(character).__name__,
             ))
 
     @staticmethod
@@ -54,15 +56,15 @@ cdef class Bell:
 
         if symbols is None:
             bell.set_symbols(NULL)
-        elif isinstance(symbols, unicode):
-            symbols_string = <string>(symbols.encode())
+        elif isinstance(symbols, str):
+            symbols_string = <string>(symbols.encode('ascii'))
             bell.set_symbols(symbols_string.c_str())
         elif isinstance(symbols, bytes):
             symbols_string = <string>symbols
             bell.set_symbols(symbols_string.c_str())
         else:
             raise TypeError('Cannot convert {type} to str'.format(
-                type=type(symbols).__name__
+                type=type(symbols).__name__,
             ))
 
     def __richcmp__(self, other, int op):
@@ -89,25 +91,16 @@ cdef class Bell:
             return bx >= by
 
     def __str__(self):
-        if PY_MAJOR_VERSION < 3:
-            return self.__bytes__()
+        if self < Bell.MAX_BELLS:
+            return self.to_char()
         else:
-            return self.__unicode__()
+            return '{{{bell:d}}}'.format(bell=int(self) + 1)
 
     def __bytes__(self):
-        if self < Bell.MAX_BELLS:
-            return self.to_char().encode()
-        else:
-            return b'{{{bell:d}}}'.format(bell=int(self) + 1)
-
-    def __unicode__(self):
-        if self < Bell.MAX_BELLS:
-            return unicode(self.to_char())
-        else:
-            return u'{{{bell:d}}}'.format(bell=int(self) + 1)
+        return str(self).encode('ascii')
 
     def __repr__(self):
-        return 'Bell({bell:d})'.format(bell=int(self))
+        return f'Bell({int(self):d})'
 
     def __int__(self):
         return <int>deref(self.thisptr)

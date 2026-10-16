@@ -110,7 +110,7 @@ The Row Class
       *  Nothing. Constructs a row on zero bells.
       *  Another row. Constructs a copy.
       *  An integer number of bells. Constructs rounds.
-      *  A string (unicode or bytes) representation of a row.
+      *  A string (``str`` or ``bytes``) representation of a row.
    :type spec: :class:`Row` or int or string
    
    .. method:: __lt__(row)
