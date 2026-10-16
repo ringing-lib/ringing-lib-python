@@ -1,29 +1,30 @@
-import unittest
+import pytest
 
 from ringing import Bell
 
 
-class BellTest(unittest.TestCase):
+class TestBell:
     def test_bell(self):
-        self.assertEqual(Bell(), 0)
-        self.assertEqual(Bell(4), 4)
-        self.assertEqual(Bell(Bell.MAX_BELLS), Bell.MAX_BELLS)
+        assert Bell() == 0
+        assert Bell(4) == 4
+        assert Bell(Bell.MAX_BELLS) == Bell.MAX_BELLS
 
     def test_bell_from_char(self):
-        self.assertEqual(Bell('5'), 4)
-        self.assertEqual(Bell('0'), 9)
-        self.assertEqual(Bell('T'), 11)
+        assert Bell('5') == 4
+        assert Bell('0') == 9
+        assert Bell('T') == 11
 
         # Should this be a custom excption?
-        self.assertRaises(ValueError, lambda: Bell('%'))
+        with pytest.raises(ValueError):
+            Bell('%')
 
     def test_bell_to_char(self):
-        self.assertEqual(Bell(5).to_char(), '6')
-        self.assertEqual(Bell(10).to_char(), 'E')
-        self.assertEqual(Bell(14).to_char(), 'C')
-        self.assertEqual(Bell(Bell.MAX_BELLS).to_char(), '*')
+        assert Bell(5).to_char() == '6'
+        assert Bell(10).to_char() == 'E'
+        assert Bell(14).to_char() == 'C'
+        assert Bell(Bell.MAX_BELLS).to_char() == '*'
 
     def test_bell_output(self):
         s = '{0}{1}{2}'.format(Bell(5), Bell(12), Bell(Bell.MAX_BELLS))
         expected = '6A{' + str(Bell.MAX_BELLS + 1) + '}'
-        self.assertEqual(s, expected)
+        assert s == expected

@@ -10,7 +10,7 @@ cdef class Method:
             raise ValueError('Number of bells out of range')
 
         # Process name parameter
-        if isinstance(name, unicode):
+        if isinstance(name, str):
             name_string = <string>(name.encode())
         elif isinstance(name, bytes):
             name_string = <string>name
@@ -25,18 +25,24 @@ cdef class Method:
             self.thisptr = new method(deref((<Method>input).thisptr))
         elif isinstance(input, int):
             if 0 <= input:
-                self.thisptr = new method(<int>input, bells,
-                                          name_string.c_str())
+                self.thisptr = new method(
+                    <int>input,
+                    bells,
+                    name_string.c_str(),
+                )
             else:
                 raise ValueError('Length of method must be greater than 0')
-        elif isinstance(input, unicode):
-            self.thisptr = new method(<string>(input.encode()), bells,
-                                      name_string)
+        elif isinstance(input, str):
+            self.thisptr = new method(
+                <string>(input.encode('ascii')),
+                bells,
+                name_string,
+            )
         elif isinstance(input, bytes):
             self.thisptr = new method(<string>input, bells, name_string)
         else:
             raise TypeError('Cannot convert {type} to ringing.Method'.format(
-                type=type(input).__name__
+                type=type(input).__name__,
             ))
 
     def __dealloc__(self):
@@ -44,34 +50,25 @@ cdef class Method:
 
     property name:
         def __get__(self):
-            if PY_MAJOR_VERSION < 3:
-                return <bytes>self.thisptr.name()
-            else:
-                return (<bytes>self.thisptr.name()).decode()
+            return (<bytes>self.thisptr.name()).decode()
 
         def __set__(self, value):
-            if isinstance(value, unicode):
+            if isinstance(value, str):
                 self.thisptr.name(<string>(value.encode()))
             elif isinstance(value, bytes):
                 self.thisptr.name(<string>value)
             else:
                 raise TypeError('Cannot convert {type} to string'.format(
-                    type=type(input).__name__
+                    type=type(input).__name__,
                 ))
 
     def full_name(self):
-        if PY_MAJOR_VERSION < 3:
-            return <bytes>self.thisptr.fullname()
-        else:
-            return (<bytes>self.thisptr.fullname()).decode()
+        return (<bytes>self.thisptr.fullname()).decode()
 
     @staticmethod
     def stage_name(int bells):
         if 0 <= bells <= MAX_BELL_NUMBER:
-            if PY_MAJOR_VERSION < 3:
-                return <bytes>method.stagename(bells)
-            else:
-                return (<bytes>method.stagename(bells)).decode()
+            return (<bytes>method.stagename(bells)).decode('ascii')
         else:
             raise ValueError('Number of bells out of range')
 
@@ -156,10 +153,7 @@ cdef class Method:
             raise IndexError('Bell number out of range')
 
     def lh_code(self):
-        if PY_MAJOR_VERSION < 3:
-            return <bytes>self.thisptr.lhcode()
-        else:
-            return (<bytes>self.thisptr.lhcode()).decode()
+        return (<bytes>self.thisptr.lhcode()).decode('ascii')
 
     def symmetry_point(self, b=None):
         cdef bell bb
@@ -203,33 +197,33 @@ cdef class Method:
                 format |= value
 
         if self.size % 2 and format & 0o40:
-            raise ValueError('Cannot use symmetry flags with methods '
-                             'containing an odd number of changes')
+            raise ValueError(
+                'Cannot use symmetry flags with methods '
+                'containing an odd number of changes',
+            )
 
-        if PY_MAJOR_VERSION < 3:
-            return <bytes>self.thisptr.format(format)
-        else:
-            return (<bytes>self.thisptr.format(format)).decode()
+        return (<bytes>self.thisptr.format(format)).decode('ascii')
 
     def append(self, c):
         if isinstance(c, Change):
             self.thisptr.push_back(deref((<Change>c).thisptr))
-        elif isinstance(c, unicode):
-            self.thisptr.push_back(<string>(c.encode()))
+        elif isinstance(c, str):
+            self.thisptr.push_back(<string>(c.encode('ascii')))
         elif isinstance(c, bytes):
             self.thisptr.push_back(<string>c)
         else:
             raise TypeError("Cannot append {type} to ringing.Method".format(
-                type=type(c).__name__
+                type=type(c).__name__,
             ))
 
-    def __richcmp__(x, y, int op):
+    def __richcmp__(self, other, int op):
         cdef method mx
         cdef method my
 
+        mx = deref((<Method>self).thisptr)
+
         try:
-            mx = deref(Method(x).thisptr)
-            my = deref(Method(y).thisptr)
+            my = deref(Method(other).thisptr)
         except TypeError:
             return NotImplemented
 
@@ -247,16 +241,10 @@ cdef class Method:
             return mx >= my
 
     def __str__(self):
-        if PY_MAJOR_VERSION < 3:
-            return self.__bytes__()
-        else:
-            return self.__unicode__()
+        return (<bytes>self.thisptr.fullname()).decode()
 
     def __bytes__(self):
         return <bytes>self.thisptr.fullname()
-
-    def __unicode__(self):
-        return (<bytes>self.thisptr.fullname()).decode()
 
     def __repr__(self):
         format = {'external_places': True, 'cross_dash': True}

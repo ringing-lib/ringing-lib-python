@@ -1,8 +1,10 @@
-import os
+from pathlib import Path
 import sys
 
-# Extension should have been built in parent directory.
-sys.path.append(os.path.dirname('..'))
+
+# Extension should have been built in `src` directory.
+sys.path.append(Path(__file__).parent.parent / 'src')
+
 
 from ringing import Row
 

@@ -1,0 +1,91 @@
+[build-system]
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#declaring-the-build-backend
+
+# A list of dependencies needed to build the project.
+requires = [
+    "setuptools>=77",  # https://setuptools.pypa.io/en/latest/userguide/index.html
+    "Cython>=3",  # https://cython.readthedocs.io/en/latest/index.html
+]
+
+# The build backend to be used.
+build-backend = "setuptools.build_meta"
+
+
+[dependency-groups]
+# This specification defines dependency groups, a mechanism for storing package
+# requirements in pyproject.toml files such that they are not included in
+# project metadata when it is built.
+# https://packaging.python.org/en/latest/specifications/dependency-groups/#the-dependency-groups-table
+# https://docs.astral.sh/uv/concepts/projects/dependencies/#dependency-groups
+
+dev = [
+    "Cython",  # https://cython.readthedocs.io/en/latest/index.html
+    "pytest",  # https://docs.pytest.org/en/stable/
+    { include-group = "docs" },
+]
+
+docs = [
+    "Sphinx",  # https://www.sphinx-doc.org/en/master/index.html
+]
+
+
+[project]
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+# A list of PyPI classifiers that apply to your project
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+]
+
+# Put the name of your project on PyPI
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#name
+name = "ringing-lib"
+
+# This lets you declare the minimum version of Python that you support
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#python-requires
+requires-python = ">=3.11"
+
+# Lists of people identified by a name and/or an email address
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#authors-maintainers
+authors = [{ name = "Leigh Simpson", email = "code@simpleigh.com" }]
+
+# This should be a one-line description of your project, to show as the
+# “headline” of your project page on PyPI.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#description
+description = "Python wrapper for the Ringing Class Library"
+
+# This is a longer description of your project, to display on your project page
+# on PyPI.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#readme
+readme = "README.rst"
+
+# The new format for license is a valid SPDX license expression consisting of
+# one or more license identifiers.
+license = "GPL-3.0-or-later"
+
+# Specifies which keys listed by this PEP were intentionally unspecified so
+# another tool can/will provide such metadata dynamically.
+# https://packaging.python.org/en/latest/specifications/pyproject-toml/#dynamic
+dynamic = ["version"]
+
+
+[project.urls]
+# A list of URLs associated with your project
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#urls
+
+Homepage = "https://github.com/ringing-lib/ringing-lib-python"
+
+
+[tool.setuptools.dynamic]
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html#dynamic-metadata
+
+version = { file = "VERSION" }

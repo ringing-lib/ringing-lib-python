@@ -1,148 +1,188 @@
-import unittest
+import pytest
 
 from ringing import Bell, Change
 from tests import MAX_BELL_NUMBER
 
 
-class ChangeTest(unittest.TestCase):
-    def test_change_constructor_exceptions(self):
-        self.assertRaises(ValueError, lambda: Change(-1))
-        Change(0)
-        Change(MAX_BELL_NUMBER)
-        self.assertRaises(ValueError, lambda: Change(MAX_BELL_NUMBER + 1))
+def test_constructor_bad_input_type() -> None:
+    with pytest.raises(TypeError):
+        Change([])
+    with pytest.raises(TypeError):
+        Change(1, [])
 
-        self.assertRaises(TypeError, lambda: Change(self))
-        self.assertRaises(TypeError, lambda: Change(1, self))
 
-    def test_change_equals_string_types(self):
-        self.assertEqual(Change(6, '16'), '16')
+def test_bell_number_range() -> None:
+    with pytest.raises(ValueError):
+        Change(-1)
 
-        self.assertEqual(Change(6, b'16'), b'16')
-        self.assertEqual(Change(6, u'16'), u'16')
+    Change(0)
+    Change(MAX_BELL_NUMBER)
 
-        self.assertEqual(bytes(Change(6, '16')), b'16')
+    with pytest.raises(ValueError):
+        Change(MAX_BELL_NUMBER + 1)
 
-        try:
-            self.assertEqual(unicode(Change(6, '16')), u'16')
-        except NameError:
-            pass
 
-    def test_change_set_exceptions(self):
-        c = Change()
+@pytest.mark.parametrize('self, other', (
+    ('16', '16'),
+    ('16', b'16'),
+    (b'16', '16'),
+    (b'16', b'16'),
+))
+def test_equals_string_types(self: str | bytes, other: str | bytes) -> None:
+    assert Change(6, self) == other
+    assert other == Change(6, self)
 
-        self.assertRaises(ValueError, lambda: c.set(-1, 'X'))
-        c.set(0, 'X')
-        c.set(MAX_BELL_NUMBER, 'X')
-        self.assertRaises(ValueError, lambda: c.set(MAX_BELL_NUMBER + 1, 'X'))
 
-        self.assertRaises(TypeError, lambda: c.set(self, 'X'))
-        self.assertRaises(TypeError, lambda: c.set(1, self))
+def test_set_exceptions() -> None:
+    c = Change()
 
-        self.assertRaises(ValueError, lambda: Change(5, 'XYZ'))
+    with pytest.raises(ValueError):
+        c.set(-1, 'X')
+    c.set(0, 'X')
+    c.set(MAX_BELL_NUMBER, 'X')
+    with pytest.raises(ValueError):
+        c.set(MAX_BELL_NUMBER + 1, 'X')
 
-    def test_change_set_returns_none(self):
-        c = Change()
-        self.assertEqual(c.set(4, 'X'), None)
+    with pytest.raises(TypeError):
+        c.set([], 'X')
+    with pytest.raises(TypeError):
+        c.set(1, [])
 
-    def test_index_method_bounds(self):
-        c = Change(6)
+    with pytest.raises(ValueError):
+        Change(5, 'XYZ')
 
-        self.assertRaises(ValueError, lambda: c.find_swap(-1))
-        self.assertFalse(c.find_swap(0))
-        self.assertFalse(c.find_swap(4))
-        self.assertRaises(IndexError, lambda: c.find_swap(5))
 
-        self.assertRaises(ValueError, lambda: c.find_place(-1))
-        self.assertTrue(c.find_place(0))
-        self.assertTrue(c.find_place(5))
-        self.assertRaises(IndexError, lambda: c.find_place(6))
+def test_set_returns_none() -> None:
+    c = Change()
+    assert c.set(4, 'X') is None
 
-        self.assertRaises(ValueError, lambda: c.swap_pair(-1))
-        self.assertTrue(c.swap_pair(0))
-        self.assertTrue(c.swap_pair(4))
-        self.assertRaises(IndexError, lambda: c.swap_pair(5))
 
-    def test_index_method_types(self):
-        c = Change(6)
+def test_index_method_bounds() -> None:
+    c = Change(6)
 
-        c.find_swap(Bell(0))
-        c.find_swap('1')
-        c.find_swap(0)
+    with pytest.raises(ValueError):
+        c.find_swap(-1)
+    assert not c.find_swap(0)
+    assert not c.find_swap(4)
+    with pytest.raises(IndexError):
+        c.find_swap(5)
 
-        c.find_place(Bell(0))
-        c.find_place('1')
-        c.find_place(0)
+    with pytest.raises(ValueError):
+        c.find_place(-1)
+    assert c.find_place(0)
+    assert c.find_place(5)
+    with pytest.raises(IndexError):
+        c.find_place(6)
 
-        c.swap_pair(Bell(0))
-        c.swap_pair('1')
-        c.swap_pair(0)
+    with pytest.raises(ValueError):
+        c.swap_pair(-1)
+    assert c.swap_pair(0)
+    assert c.swap_pair(4)
+    with pytest.raises(IndexError):
+        c.swap_pair(5)
 
-        self.assertRaises(TypeError, lambda: c.find_swap(self))
-        self.assertRaises(TypeError, lambda: c.find_place(self))
-        self.assertRaises(TypeError, lambda: c.swap_pair(self))
 
-    def test_operators_return_not_implemented(self):
-        # Arithmetic operator returns NotImplemented when given unknown types
-        self.assertEqual(Change().__lt__(self), NotImplemented)
-        self.assertEqual(Change().__le__(self), NotImplemented)
-        self.assertEqual(Change().__eq__(self), NotImplemented)
-        self.assertEqual(Change().__ne__(self), NotImplemented)
-        self.assertEqual(Change().__gt__(self), NotImplemented)
-        self.assertEqual(Change().__ge__(self), NotImplemented)
-        self.assertEqual(Change().__mul__(self), NotImplemented)
-        self.assertEqual(Change().__rmul__(self), NotImplemented)
+def test_index_method_types() -> None:
+    c = Change(6)
 
-        # ... but passes through errors parsing known types.
-        self.assertRaises(ValueError, lambda: Change().__lt__('!'))
-        self.assertRaises(ValueError, lambda: Change().__le__('!'))
-        self.assertRaises(ValueError, lambda: Change().__eq__('!'))
-        self.assertRaises(ValueError, lambda: Change().__ne__('!'))
-        self.assertRaises(ValueError, lambda: Change().__gt__('!'))
-        self.assertRaises(ValueError, lambda: Change().__ge__('!'))
+    c.find_swap(Bell(0))
+    c.find_swap('1')
+    c.find_swap(0)
 
-    def test_change_repr(self):
-        self.assertEqual(repr(Change()), 'Change()')
-        self.assertEqual(repr(Change(4)), "Change(4, '1234')")
-        self.assertEqual(repr(Change(4, 'X')), "Change(4, 'X')")
+    c.find_place(Bell(0))
+    c.find_place('1')
+    c.find_place(0)
 
-    def test_bell_multiply_order(self):
-        c = Change(6, '14')
+    c.swap_pair(Bell(0))
+    c.swap_pair('1')
+    c.swap_pair(0)
 
-        self.assertEqual(0 * c, 0)
-        self.assertEqual(1 * c, 2)
-        self.assertEqual(2 * c, 1)
-        self.assertEqual(3 * c, 3)
-        self.assertEqual(4 * c, 5)
+    with pytest.raises(TypeError):
+        c.find_swap([])
+    with pytest.raises(TypeError):
+        c.find_place([])
+    with pytest.raises(TypeError):
+        c.swap_pair([])
 
-        self.assertEqual(c * 0, 0)
-        self.assertEqual(c * 1, 2)
-        self.assertEqual(c * 2, 1)
-        self.assertEqual(c * 3, 3)
-        self.assertEqual(c * 4, 5)
 
-    def test_bell_multiply_bounds(self):
-        c = Change(6, '14')
+OPERATORS = (
+    '__lt__',
+    '__le__',
+    '__eq__',
+    '__ne__',
+    '__gt__',
+    '__ge__',
+)
 
-        self.assertRaises(ValueError, lambda: c * -1)
-        c * 0
-        c * MAX_BELL_NUMBER
-        self.assertRaises(ValueError, lambda: c * (MAX_BELL_NUMBER + 1))
 
-        self.assertRaises(ValueError, lambda:-1 * c)
-        0 * c
-        MAX_BELL_NUMBER * c
-        self.assertRaises(ValueError, lambda: (MAX_BELL_NUMBER + 1) * c)
+@pytest.mark.parametrize('operator', (*OPERATORS, '__mul__', '__rmul__'))
+def test_operators_return_not_implemented_for_unknown_types(operator) -> None:
+    assert getattr(Change(), operator)([]) == NotImplemented
 
-    def test_bell_multiply_types(self):
-        c = Change(6, '14')
 
-        c * Bell(0)
-        c * '1'
-        c * 0
+@pytest.mark.parametrize('operator', OPERATORS)
+def test_operators_raise_value_error_if_input_not_parsed(operator) -> None:
+    with pytest.raises(ValueError):
+        getattr(Change(), operator)('!')
 
-        Bell(0) * c
-        '1' * c
-        0 * c
 
-        self.assertRaises(TypeError, lambda: c * self)
-        self.assertRaises(TypeError, lambda: self * c)
+@pytest.mark.parametrize('input, expected', (
+    ((None,), 'Change()'),
+    ((4,), "Change(4, '1234')"),
+    ((4, 'X'), "Change(4, 'X')"),
+))
+def test_repr(input: tuple, expected: str) -> None:
+    assert repr(Change(*input)) == expected
+
+
+@pytest.mark.parametrize('other, expected', (
+    (0, 0),
+    (1, 2),
+    (2, 1),
+    (3, 3),
+    (4, 5),
+))
+def test_bell_multiply_order(other: int, expected: int) -> None:
+    c = Change(6, '14')
+
+    assert other * c == expected
+    assert c * other == expected
+
+
+def test_bell_multiply_bounds() -> None:
+    c = Change(6, '14')
+
+    with pytest.raises(ValueError):
+        c * -1
+
+    c * 0
+    c * MAX_BELL_NUMBER
+
+    with pytest.raises(ValueError):
+        c * (MAX_BELL_NUMBER + 1)
+
+    with pytest.raises(ValueError):
+        -1 * c
+
+    0 * c
+    MAX_BELL_NUMBER * c
+
+    with pytest.raises(ValueError):
+        (MAX_BELL_NUMBER + 1) * c
+
+
+def test_bell_multiply_types() -> None:
+    c = Change(6, '14')
+
+    c * Bell(0)
+    c * '1'
+    c * 0
+
+    Bell(0) * c
+    '1' * c
+    0 * c
+
+    with pytest.raises(TypeError):
+        c * []
+    with pytest.raises(TypeError):
+        [] * c

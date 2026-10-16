@@ -1,23 +1,23 @@
-.PHONY: build check docs clean
+.PHONY: sync build build-dist check docs clean
 
-%.txt: %.in
-	CUSTOM_COMPILE_COMMAND="make" pip-compile --generate-hashes "$<"
-
-sync: requirements.txt
-	pip-sync $^
+sync:
+	uv sync --all-groups --locked
 
 build:
-	python setup.py build_ext --inplace
+	uv sync --reinstall-package ringing-lib
+
+build-dist:
+	uv build
 
 check:
-	python setup.py test
+	uv run --locked pytest
 
 docs:
 	make -C docs html
 
 clean:
-	rm -rf build
+	rm -rf dist
 	rm -f src/ringing.cpp
-	rm -f ringing*so
-	rm -rf ringing_lib.egg-info/
+	rm -f src/ringing.*.so
+	rm -rf src/ringing_lib.egg-info/
 	make -C docs clean

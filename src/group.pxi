@@ -32,12 +32,14 @@ cdef class Group:
             return self.thisptr.size()
 
     @staticmethod
-    def symmetric_group(int working_bells, int hunt_bells = 0,
-                        int total_bells = 0):
-
+    def symmetric_group(
+        int working_bells,
+        int hunt_bells = 0,
+        int total_bells = 0,
+    ):
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
-                'total_bells must be greater than working_bells + hunt_bells'
+                'total_bells must be greater than working_bells + hunt_bells',
             )
 
         cdef Group result = Group()
@@ -46,17 +48,22 @@ cdef class Group:
             h=hunt_bells,
             t=total_bells,
         )
-        result.thisptr[0] = group.symmetric_group(working_bells, hunt_bells,
-                                                  total_bells)
+        result.thisptr[0] = group.symmetric_group(
+            working_bells,
+            hunt_bells,
+            total_bells,
+        )
         return result
 
     @staticmethod
-    def alternating_group(int working_bells, int hunt_bells = 0,
-                          int total_bells = 0):
-
+    def alternating_group(
+        int working_bells,
+        int hunt_bells = 0,
+        int total_bells = 0,
+    ):
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
-                'total_bells must be greater than working_bells + hunt_bells'
+                'total_bells must be greater than working_bells + hunt_bells',
             )
 
         cdef Group result = Group()
@@ -65,8 +72,11 @@ cdef class Group:
             h=hunt_bells,
             t=total_bells,
         )
-        result.thisptr[0] = group.alternating_group(working_bells, hunt_bells,
-                                                    total_bells)
+        result.thisptr[0] = group.alternating_group(
+            working_bells,
+            hunt_bells,
+            total_bells,
+        )
         return result
 
     def conjugate(self, r):
@@ -88,15 +98,15 @@ cdef class Group:
         cdef vector[bell] invariants = self.thisptr.invariants()
         return [Bell(<int>invariant) for invariant in invariants]
 
-    def __richcmp__(x, y, int op):
+    def __richcmp__(self, other, int op):
         cdef group gx
         cdef group gy
 
-        if not isinstance(x, Group) or not isinstance(y, Group):
+        if not isinstance(other, Group):
             return NotImplemented
 
-        gx = deref((<Group>x).thisptr)
-        gy = deref((<Group>y).thisptr)
+        gx = deref((<Group>self).thisptr)
+        gy = deref((<Group>other).thisptr)
 
         if op == 0:  # <
             return gx < gy

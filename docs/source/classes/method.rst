@@ -82,7 +82,7 @@ Ringing Class Library.
          *  Nothing. Constructs a zero-length method.
          *  Another method. Constructs a copy.
          *  An integer length. Constructs a method of the specified length.
-         *  A string (unicode or bytes) place notation.
+         *  A string (``str`` or ``bytes``) place notation.
       :type spec: :class:`Method` or int or string
       :param int bells: number of bells
       :param string name: base name of the method

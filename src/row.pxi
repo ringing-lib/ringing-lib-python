@@ -12,13 +12,13 @@ cdef class Row:
                 self.thisptr = new row(<int>input)
             else:
                 raise ValueError('Number of bells out of range')
-        elif isinstance(input, unicode):
-            self.thisptr = new row(<string>(input.encode()))
+        elif isinstance(input, str):
+            self.thisptr = new row(<string>(input.encode('ascii')))
         elif isinstance(input, bytes):
             self.thisptr = new row(<string>input)
         else:
             raise TypeError('Cannot convert {type} to ringing.Row'.format(
-                type=type(input).__name__
+                type=type(input).__name__,
             ))
 
     def __dealloc__(self):
@@ -93,10 +93,7 @@ cdef class Row:
         return self.thisptr.sign()
 
     def cycles(self):
-        if PY_MAJOR_VERSION < 3:
-            return self.thisptr.cycles()
-        else:
-            return self.thisptr.cycles().decode()
+        return self.thisptr.cycles().decode('ascii')
 
     def order(self):
         return self.thisptr.order()
@@ -108,8 +105,10 @@ cdef class Row:
     @staticmethod
     def conjugator(x, y):
         cdef Row result = Row()
-        result.thisptr[0] = conjugator(deref(Row(x).thisptr),
-                                       deref(Row(y).thisptr))
+        result.thisptr[0] = conjugator(
+            deref(Row(x).thisptr),
+            deref(Row(y).thisptr),
+        )
         if result == Row():
             return None
         else:
@@ -119,13 +118,14 @@ cdef class Row:
     def are_conjugate(x, y):
         return are_conjugate(deref(Row(x).thisptr), deref(Row(y).thisptr))
 
-    def __richcmp__(x, y, int op):
+    def __richcmp__(self, other, int op):
         cdef row rx
         cdef row ry
 
+        rx = deref((<Row>self).thisptr)
+
         try:
-            rx = deref(Row(x).thisptr)
-            ry = deref(Row(y).thisptr)
+            ry = deref(Row(other).thisptr)
         except TypeError:
             return NotImplemented
 
@@ -143,49 +143,63 @@ cdef class Row:
             return rx >= ry
 
     def __str__(self):
-        if PY_MAJOR_VERSION < 3:
-            return self.__bytes__()
-        else:
-            return self.__unicode__()
+        return self.thisptr.print().decode('ascii')
 
     def __bytes__(self):
         return self.thisptr.print()
 
-    def __unicode__(self):
-        return self.thisptr.print().decode()
-
     def __repr__(self):
         if self.thisptr.bells():
-            return "Row('" + self.__str__() + "')"
+            return f"Row('{self}')"
         else:
             return 'Row()'
 
     def __hash__(self):
         return self.thisptr.hash()
 
-    def __mul__(x, y):
+    def __mul__(self, other):
         cdef Row result = Row()
 
         try:
-            if isinstance(y, Change):
-                result.thisptr[0] = deref(Row(x).thisptr) * \
-                                    deref((<Change>y).thisptr)
+            if isinstance(other, Change):
+                result.thisptr[0] = deref((<Row>self).thisptr) * \
+                                    deref((<Change>other).thisptr)
             else:
-                result.thisptr[0] = deref(Row(x).thisptr) * \
-                                    deref(Row(y).thisptr)
+                result.thisptr[0] = deref((<Row>self).thisptr) * \
+                                    deref(Row(other).thisptr)
         except TypeError:
             return NotImplemented
         else:
             return result
 
-    def __div__(x, y):
-        return Row.__truediv__(x, y)
-
-    def __truediv__(x, y):
+    def __rmul__(self, other):
         cdef Row result = Row()
 
         try:
-            result.thisptr[0] = deref(Row(x).thisptr) / deref(Row(y).thisptr)
+            result.thisptr[0] = deref(Row(other).thisptr) * \
+                deref((<Row>self).thisptr)
+        except TypeError:
+            return NotImplemented
+        else:
+            return result
+
+    def __truediv__(self, other):
+        cdef Row result = Row()
+
+        try:
+            result.thisptr[0] = deref((<Row>self).thisptr) / \
+                deref(Row(other).thisptr)
+        except TypeError:
+            return NotImplemented
+        else:
+            return result
+
+    def __rtruediv__(self, other):
+        cdef Row result = Row()
+
+        try:
+            result.thisptr[0] = deref(Row(other).thisptr) / \
+                deref((<Row>self).thisptr)
         except TypeError:
             return NotImplemented
         else:

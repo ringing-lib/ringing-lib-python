@@ -25,7 +25,6 @@ cdef extern from 'ringing/row.h' namespace 'ringing':
 
         string print()                      # Print the row into a string
         int bells()                         # How many bells?
-        row &rounds()                       # Set it to rounds
 
         @staticmethod
         row rounds(int n)                   # Return rounds on n bells

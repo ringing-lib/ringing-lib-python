@@ -57,12 +57,9 @@ cdef class RowBlock:
     def __repr__(self):
         cdef str changes = ', '.join([repr(ch) for ch in self.change_list])
         if self[0].is_rounds():
-            return 'RowBlock([{changes}])'.format(changes=changes)
+            return f'RowBlock([{changes}])'
         else:
-            return 'RowBlock([{changes}], {row})'.format(
-                changes=changes,
-                row=repr(self[0]),
-            )
+            return f'RowBlock([{changes}], {repr(self[0])})'
 
     def __len__(self):
         return self.size

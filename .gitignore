@@ -1,3 +1,5 @@
+/.venv
+/dist/
 /docs/build/
-/ringing_lib.egg-info/
+/src/ringing_lib.egg-info/
 /src/ringing.cpp
