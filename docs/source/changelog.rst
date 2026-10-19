@@ -50,7 +50,7 @@ v0.3.0
 
 *  Modified the following methods to accept or return :class:`Bell`-shaped
    ducks:
-   
+
    *  :meth:`Row.find`
    *  :meth:`Row.__getitem__`
    *  :meth:`Group.invariants`
@@ -69,7 +69,7 @@ v0.2.1
 ------
 
 *  Bugfixes for the following hard crashes (segfaults):
-   
+
    *  https://github.com/ringing-lib/ringing-lib-python/issues/5
    *  https://github.com/ringing-lib/ringing-lib-python/issues/6
 
@@ -92,7 +92,7 @@ First release.
 *  Cython build system
 
 *  Initial versions of the following classes:
-   
+
    *  :class:`Row`
    *  :class:`Group`
    *  :class:`Change`

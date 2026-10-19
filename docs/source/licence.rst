@@ -151,7 +151,7 @@ in the Modified Version:
    responsible for authorship of the modifications in the Modified Version,
    together with at least five of the principal authors of the Document (all of
    its principal authors, if it has less than five).
-#. State on the Title page the name of the publisher of the Modified Version, as 
+#. State on the Title page the name of the publisher of the Modified Version, as
    the publisher.
 #. Preserve all the copyright notices of the Document.
 #. Add an appropriate copyright notice for your modifications adjacent to the
@@ -326,4 +326,3 @@ Back-Cover Texts.
 If your document contains nontrivial examples of program code, we recommend
 releasing these examples in parallel under your choice of free software license,
 such as the GNU General Public License, to permit their use in free software.
- 
