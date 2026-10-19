@@ -30,20 +30,31 @@ cdef extern from 'ringing/group.h' namespace 'ringing':
 
         # Named constructors
         @staticmethod
-        group symmetric_group(int nw)
+        group symmetric(int nw, int nh, int nt)
         @staticmethod
-        group symmetric_group(int nw, int nh)
+        group alternating(int nw, int nh, int nt)
+
         @staticmethod
-        group symmetric_group(int nw, int nh, int nt)
+        group trivial(int nt)
+
+        # These come in two version, _c and _r depending on whether the 
+        # nw-cycle is row::cyclic or row::pblh.  D(n) is defined here 
+        # as a group of order 2n.
         @staticmethod
-        group alternating_group(int nw)
+        group dihedral_c(int nw, int nh, int nt);
         @staticmethod
-        group alternating_group(int nw, int nh)
+        group dihedral_r(int nw, int nh, int nt);
         @staticmethod
-        group alternating_group(int nw, int nh, int nt)
+        group cyclic_c(int nw, int nh, int nt);
+        @staticmethod
+        group cyclic_r(int nw, int nh, int nt);
+
+        @staticmethod
+        group direct_product(const group& a, const group& b);
 
         # Conjugate by r to get { r^-1 g r : g \in *this }
         group conjugate(const row& r)
+        group even_subgroup()
 
         bool operator==(const group& g)
         bool operator<(const group& g)

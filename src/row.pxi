@@ -33,6 +33,11 @@ cdef class Row:
         def __get__(self):
             return self.thisptr.bells()
 
+    def conjugate(self, r):
+        cdef Row result = Row()
+        result.thisptr[0] = self.thisptr.conjugate(deref(Row(r).thisptr))
+        return result
+
     @staticmethod
     def rounds(int n):
         cdef Row result = Row()
@@ -94,6 +99,17 @@ cdef class Row:
 
     def cycles(self):
         return self.thisptr.cycles().decode('ascii')
+
+    def num_cycles(self):
+        return self.thisptr.num_cycles()
+
+    def cycle_size(self, b):
+        cdef bell bb = deref(Bell(b).thisptr)
+
+        if <int>bb >= self.bells:
+            raise ValueError('Bell too large for row')
+
+        return self.thisptr.cycle_size(<int>bb)
 
     def order(self):
         return self.thisptr.order()

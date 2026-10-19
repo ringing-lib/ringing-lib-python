@@ -32,7 +32,14 @@ cdef class Group:
             return self.thisptr.size()
 
     @staticmethod
-    def symmetric_group(
+    def trivial(int total_bells):
+        cdef Group result = Group()
+        result.repr_string = f'Group.trivial({total_bells})'
+        result.thisptr[0] = group.trivial(total_bells)
+        return result
+
+    @staticmethod
+    def symmetric(
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
@@ -43,12 +50,9 @@ cdef class Group:
             )
 
         cdef Group result = Group()
-        result.repr_string = 'Group.symmetric_group({w}, {h}, {t})'.format(
-            w=working_bells,
-            h=hunt_bells,
-            t=total_bells,
-        )
-        result.thisptr[0] = group.symmetric_group(
+        result.repr_string = \
+            f'Group.symmetric({working_bells}, {hunt_bells}, {total_bells})'
+        result.thisptr[0] = group.symmetric(
             working_bells,
             hunt_bells,
             total_bells,
@@ -56,7 +60,7 @@ cdef class Group:
         return result
 
     @staticmethod
-    def alternating_group(
+    def alternating(
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
@@ -67,21 +71,118 @@ cdef class Group:
             )
 
         cdef Group result = Group()
-        result.repr_string = 'Group.alternating_group({w}, {h}, {t})'.format(
-            w=working_bells,
-            h=hunt_bells,
-            t=total_bells,
-        )
-        result.thisptr[0] = group.alternating_group(
+        result.repr_string = \
+            f'Group.alternating({working_bells}, {hunt_bells}, {total_bells})'
+        result.thisptr[0] = group.alternating(
             working_bells,
             hunt_bells,
             total_bells,
         )
         return result
 
+    @staticmethod
+    def dihedral_c(
+        int working_bells,
+        int hunt_bells = 0,
+        int total_bells = 0,
+    ):
+        if total_bells and total_bells < working_bells + hunt_bells:
+            raise ValueError(
+                'total_bells must be greater than working_bells + hunt_bells',
+            )
+
+        cdef Group result = Group()
+        result.repr_string = \
+            f'Group.dihedral_c({working_bells}, {hunt_bells}, {total_bells})'
+        result.thisptr[0] = group.dihedral_c(
+            working_bells,
+            hunt_bells,
+            total_bells,
+        )
+        return result
+
+    @staticmethod
+    def dihedral_r(
+        int working_bells,
+        int hunt_bells = 0,
+        int total_bells = 0,
+    ):
+        if total_bells and total_bells < working_bells + hunt_bells:
+            raise ValueError(
+                'total_bells must be greater than working_bells + hunt_bells',
+            )
+
+        cdef Group result = Group()
+        result.repr_string = \
+            f'Group.dihedral_r({working_bells}, {hunt_bells}, {total_bells})'
+        result.thisptr[0] = group.dihedral_r(
+            working_bells,
+            hunt_bells,
+            total_bells,
+        )
+        return result
+
+    @staticmethod
+    def cyclic_c(
+        int working_bells,
+        int hunt_bells = 0,
+        int total_bells = 0,
+    ):
+        if total_bells and total_bells < working_bells + hunt_bells:
+            raise ValueError(
+                'total_bells must be greater than working_bells + hunt_bells',
+            )
+
+        cdef Group result = Group()
+        result.repr_string = \
+            f'Group.cyclic_c({working_bells}, {hunt_bells}, {total_bells})'
+        result.thisptr[0] = group.cyclic_c(
+            working_bells,
+            hunt_bells,
+            total_bells,
+        )
+        return result
+
+    @staticmethod
+    def cyclic_r(
+        int working_bells,
+        int hunt_bells = 0,
+        int total_bells = 0,
+    ):
+        if total_bells and total_bells < working_bells + hunt_bells:
+            raise ValueError(
+                'total_bells must be greater than working_bells + hunt_bells',
+            )
+
+        cdef Group result = Group()
+        result.repr_string = \
+            f'Group.cyclic_r({working_bells}, {hunt_bells}, {total_bells})'
+        result.thisptr[0] = group.cyclic_r(
+            working_bells,
+            hunt_bells,
+            total_bells,
+        )
+        return result
+
+    @staticmethod
+    def direct_product(Group a, Group b):
+        cdef Group result = Group()
+        result.thisptr[0] = group.direct_product(
+            deref((<Group>a).thisptr),
+            deref((<Group>b).thisptr),
+        )
+        return result
+
     def conjugate(self, r):
         cdef Group result = Group()
         result.thisptr[0] = self.thisptr.conjugate(deref(Row(r).thisptr))
+        return result
+
+    def even_subgroup(self):
+        cdef Group result = Group()
+        result.thisptr[0] = self.thisptr.even_subgroup()
+        if self.repr_string:
+            result.repr_string = f'{self.repr_string}.even_subgroup()'
         return result
 
     def rcoset_label(self, r):

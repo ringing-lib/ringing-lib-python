@@ -3,6 +3,44 @@ Changelog
 
 .. currentmodule:: ringing
 
+v0.5.0
+------
+
+* Updated Python version support:
+
+   * ⚠️ **BREAKING CHANGE!** Dropped support for Python 3.8, 3.9, 3.10
+   * Added support for Python 3.12, 3.13, 3.14, 3.15
+   * Note that Python 3.11 is still supported
+
+* Added new methods to :class:`Row`:
+
+   *  :meth:`Row.conjugate()`
+   *  :meth:`Row.num_cycles()`
+   *  :meth:`Row.cycle_size()`
+
+* ⚠️ **BREAKING CHANGE!** Renamed ``Group.symmetric_group`` and
+   ``Group.alternating_group`` to match upstream.
+   These are now :meth:`Group.symmetric` and :meth:`Group.alternating`
+   respectively.
+
+* Added new methods to :class:`Group`:
+
+   *  :meth:`Group.trivial`
+   *  :meth:`Group.dihedral_c`
+   *  :meth:`Group.dihedral_r`
+   *  :meth:`Group.cyclic_c`
+   *  :meth:`Group.cyclic_r`
+   *  :meth:`Group.direct_product`
+   *  :meth:`Group.even_subgroup`
+
+v0.4.0
+------
+
+*  Updated Python version support:
+
+   *  ⚠️ **BREAKING CHANGE!** Dropped support for Python 2.6, 2.7, 3.3, 3.4
+   *  Added support for Python 3.8, 3.9, 3.10, 3.11
+
 v0.3.0
 ------
 

@@ -26,6 +26,8 @@ cdef extern from 'ringing/row.h' namespace 'ringing':
         string print()                      # Print the row into a string
         int bells()                         # How many bells?
 
+        row conjugate(const row& r)         # Return r^-1 * *this * r
+
         @staticmethod
         row rounds(int n)                   # Return rounds on n bells
         @staticmethod
@@ -47,12 +49,14 @@ cdef extern from 'ringing/row.h' namespace 'ringing':
         @staticmethod                       # on n bells with h hunt bells
         row pblh(int n, int h)
 
-        bool isrounds()     # Is it rounds?
-        int ispblh()        # Which plain bob lead head is it?
-        int ispblh(int h)   # Which plain bob lh (with h hunts) is it?
-        int sign()          # Return whether it's odd or even
-        string cycles()     # Express it as a product of disjoint cycles
-        int order()         # Return the order
+        bool isrounds()            # Is it rounds?
+        int ispblh()               # Which plain bob lead head is it?
+        int ispblh(int h)          # Which plain bob lh (with h hunts) is it?
+        int sign()                 # Return whether it's odd or even
+        string cycles()            # Express it as a product of disjoint cycles
+        size_t num_cycles()        # How many cycles are there?
+        size_t cycle_size(int b)   # Size of the cylce of bell b.
+        int order()                # Return the order
         size_t hash()
 
         int find(const bell& b)  # Finds the bell

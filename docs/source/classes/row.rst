@@ -251,7 +251,18 @@ The Row Class
          >>> from ringing import Row
          >>> Row('2143').bells
          4
-   
+
+   .. method:: conjugate(r)
+
+      Conjugates the row by another row *r*, in pseudocode::
+
+         R = (r ^ -1) . self . r
+
+      :param r: row *r*
+      :type r: :class:`Row` or int or string
+      :return: the computed row
+      :rtype: :class:`Row``
+
    .. staticmethod:: rounds(n)
    .. staticmethod:: queens(n)
    .. staticmethod:: kings(n)
@@ -344,7 +355,34 @@ The Row Class
       
       :return: representation of the row as disjoint cycles
       :rtype: string
-   
+
+   .. method:: num_cycles()
+
+      Returns the number of cycles in the row::
+
+         >>> from ringing import Row
+         >>> Row('21453678').num_cycles()
+         5
+
+      :return: number of disjoint cycles in the row
+      :rtype: int
+
+   .. method:: cycle_size(b)
+
+      Returns the size of the cycle containing bell *b*::
+
+         >>> from ringing import Row
+         >>> Row('21453678').cycle_size(0)
+         2
+         >>> Row('21453678').cycle_size('3')
+         3
+
+      :param bell b: bell to find
+      :type b: :class:`Bell` or string or int
+      :return: size of the cycle containing bell *b*
+      :rtype: int
+      :raises: ``ValueError`` if the bell is out of range
+
    .. method:: order()
       
       Returns the order of the row::
@@ -449,27 +487,76 @@ The Group Class
       
       Number of rows which the group contains (the *order* of the group)::
          
-         >>> from ringing import group
-         >>> Group('2143', '1324').size
+         >>> from ringing import Group
+         >>> Group('2143', '1324').size  # generators for plain hunt
          8
-   
-   .. staticmethod:: symmetric_group(working_bells[, hunt_bells[, total_bells]])
-   .. staticmethod:: alternating_group(working_bells[, hunt_bells[, total_bells]])
-      
-      Returns the symmetric or alternating group respectively.
-      
-      The symmetric group S\ :sub:`n` contains all permutations on *n* bells,
-      i.e. the extent.
-      The alternating group A\ :sub:`n` contains all even permutations on *n*
-      bells (see :meth:`Row.sign`).
-      
+
+   .. staticmethod:: trivial(total_bells)
+
+      Returns the trivial group of order 1::
+
+         >>> from ringing import Group
+         >>> list(Group.trivial(4))
+         [Row('1234')]
+
+   .. staticmethod:: symmetric(working_bells[, hunt_bells[, total_bells]])
+   .. staticmethod:: alternating(working_bells[, hunt_bells[, total_bells]])
+   .. staticmethod:: dihedral_c(working_bells[, hunt_bells[, total_bells]])
+   .. staticmethod:: dihedral_r(working_bells[, hunt_bells[, total_bells]])
+   .. staticmethod:: cyclic_c(working_bells[, hunt_bells[, total_bells]])
+   .. staticmethod:: cyclic_r(working_bells[, hunt_bells[, total_bells]])
+
+      Return specific groups.
+
+      *  The symmetric group S\ :sub:`n` contains all permutations on *n* bells,
+         i.e. the extent::
+
+            >>> from ringing import Group
+            >>> list(Group.symmetric(3))
+            [Row('123'), Row('132'), Row('213'), Row('231'), Row('312'), Row('321')]
+
+      *  The alternating group A\ :sub:`n` contains all even permutations on *n*
+         bells (see :meth:`Row.sign`)::
+
+            >>> from ringing import Group
+            >>> list(Group.alternating(3))
+            [Row('123'), Row('231'), Row('312')]
+
+      *  The dihedral groups D\ :sub:`n` contain the symmetries of a regular
+         *n*-gon, i.e. rotations and reflections.
+         The ``_c`` variant uses cyclic lead heads.
+         Its generators are the first cyclic lead head and reverse rounds.
+         The ``_r`` variant uses plain bob lead heads.
+         Its generators are the first plain bob lead head and reverse rounds.
+         ::
+
+            >>> from ringing import Group
+            >>> list(Group.dihedral_c(4))
+            [Row('1234'), Row('1432'), Row('2143'), Row('2341'), Row('3214'), Row('3412'), Row('4123'), Row('4321')]
+            >>> list(Group.dihedral_r(4))
+            [Row('1234'), Row('2413'), Row('3142'), Row('4321')]
+
+      *  The cyclic groups C\ :sub:`n` contain the rotations of a regular
+         *n*-gon.
+         The ``_c`` variant uses cyclic lead heads.
+         Its generator is the first cyclic lead head.
+         The ``_r`` variant uses plain bob lead heads.
+         Its generator is the first plain bob lead head.
+         ::
+
+            >>> from ringing import Group
+            >>> list(Group.cyclic_c(4))
+            [Row('1234'), Row('2341'), Row('3412'), Row('4123')]
+            >>> list(Group.cyclic_r(4))
+            [Row('1234'), Row('2413'), Row('3142'), Row('4321')]
+
       By specifying *hunt_bells* and *total_bells* it's possible to produce
       groups with more fixed bells, e.g.::
-         
+
          >>> from ringing import Group
-         >>> list(Group.alternating_group(3, 1, 8))
+         >>> list(Group.alternating(3, 1, 8))
          [Row('12345678'), Row('13425678'), Row('14235678')]
-      
+
       :param int working_bells: *n*, number of bells involved in permutations
       :param int hunt_bells: number of fixed bells at the start of the change
       :param int total_bells: number of bells in each row
@@ -477,7 +564,26 @@ The Group Class
       :rtype: :class:`Group`
       :raises: :exc:`ValueError` if *total_bells* is less than the sum of
          *working_bells* and *hunt_bells*
-   
+
+   .. method:: direct_product(a, b)
+
+      Combines two groups by computing their direct product.
+      Bells of group ``b`` are shifted right to make room for the bells in group
+      ``a`` and then the cartesian product is computed::
+
+         >>> from ringing import Group
+         >>> a = Group('2134')  # ['1234', '2134']
+         >>> b = Group('1324')  # ['1234', '1324']
+         >>> list(Group.direct_product(a, b))
+         [Row('12345678'), Row('12345768'), Row('21345678'), Row('21345768')]
+
+      :param a: first group
+      :type a: :class:`Group`
+      :param b: second group
+      :type b: :class:`Group`
+      :return: the computed group
+      :rtype: :class:`Group`
+
    .. method:: conjugate(r)
       
       Conjugates the group by a row *r*, in pseudocode::
@@ -488,7 +594,18 @@ The Group Class
       :type r: :class:`Row` or int or string
       :return: the computed group
       :rtype: :class:`Group`
-   
+
+   .. method:: even_subgroup()
+
+      Returns the subgroup where all rows are even (see :meth:`Row.sign`)::
+
+         >>> from ringing import Group
+         >>> Group.symmetric(4).even_subgroup() == Group.alternating(4)
+         True
+
+      :return: the computed group
+      :rtype: :class:`Group`
+
    .. method:: rcoset_label(r)
    .. method:: lcoset_label(r)
       
@@ -513,7 +630,7 @@ The Group Class
       Returns a list of invariant bells as 0-indexed integers, e.g.::
          
          >>> from ringing import Group
-         >>> Group.alternating_group(3, 1, 8).invariants()
+         >>> Group.alternating(3, 1, 8).invariants()
          [Bell(0), Bell(4), Bell(5), Bell(6), Bell(7)]
       
       :return: invariant bells
