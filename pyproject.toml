@@ -86,6 +86,12 @@ dynamic = ["version"]
 Homepage = "https://github.com/ringing-lib/ringing-lib-python"
 
 
+[tool.setuptools]
+
+# https://setuptools.pypa.io/en/latest/userguide/datafiles.html#include-package-data
+include-package-data = false
+
+
 [tool.setuptools.dynamic]
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html#dynamic-metadata
 

@@ -1,13 +1,4 @@
-from pathlib import Path
-import sys
-
-
-# Extension should have been built in `src` directory.
-sys.path.append(Path(__file__).parent.parent / 'src')
-
-
 from ringing import Row
-
 
 methods = [
     ('Slinky', Row('14523ET90786')),

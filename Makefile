@@ -11,11 +11,11 @@ build-dist: stubs
 check:
 	uv run --locked pytest
 
-clean: clean-docs
+clean:
 	rm -rf dist
-	rm -f ringing.*.so
-	rm -f ringing/ringing.cpp
-	rm -f ringing/ringing.pyi
+	rm -f ringing/__init__.pyi
+	rm -f ringing/_ringing.cpp
+	rm -f ringing/_ringing.*.so
 	rm -rf ringing_lib.egg-info/
 
 clean-docs:
@@ -24,13 +24,13 @@ clean-docs:
 docs:
 	make -C docs html
 
-ringing/ringing.pyi: ringing/ringing.pyx $(wildcard ringing/*.pxd) $(wildcard ringing/*.pxi)
+ringing/__init__.pyi: ringing/_ringing.pyx $(wildcard ringing/*.pxd) $(wildcard ringing/*.pxi)
 	uv run --locked stubgen-pyx \
 	    --file $< \
 	    --output-file $@ \
 	    --replace-defaults-with-ellipsis
 
-stubs: ringing/ringing.pyi
+stubs: ringing/__init__.pyi
 
 sync:
 	uv sync --all-groups --locked
