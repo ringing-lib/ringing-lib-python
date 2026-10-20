@@ -12,3 +12,6 @@ trim_trailing_whitespace = true
 
 [*.rst]
 indent_size = 3
+
+[Makefile]
+indent_style = tab
