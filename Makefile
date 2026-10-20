@@ -13,10 +13,10 @@ check:
 
 clean: clean-docs
 	rm -rf dist
-	rm -f src/ringing.cpp
-	rm -f src/ringing.pyi
-	rm -f src/ringing.*.so
-	rm -rf src/ringing_lib.egg-info/
+	rm -f ringing.*.so
+	rm -f ringing/ringing.cpp
+	rm -f ringing/ringing.pyi
+	rm -rf ringing_lib.egg-info/
 
 clean-docs:
 	make -C docs clean
@@ -24,13 +24,13 @@ clean-docs:
 docs:
 	make -C docs html
 
-src/ringing.pyi: src/ringing.pyx $(wildcard src/*.pxd) $(wildcard src/*.pxi)
+ringing/ringing.pyi: ringing/ringing.pyx $(wildcard ringing/*.pxd) $(wildcard ringing/*.pxi)
 	uv run --locked stubgen-pyx \
 	    --file $< \
 	    --output-file $@ \
 	    --replace-defaults-with-ellipsis
 
-stubs: src/ringing.pyi
+stubs: ringing/ringing.pyi
 
 sync:
 	uv sync --all-groups --locked

@@ -1,6 +1,6 @@
 /.venv
 /dist/
 /docs/build/
-/src/ringing_lib.egg-info/
-/src/ringing.cpp
-/src/ringing.pyi
+/ringing/ringing.cpp
+/ringing/ringing.pyi
+/ringing_lib.egg-info/

@@ -12,7 +12,7 @@ else:
         ext_modules=cythonize([
             Extension(
                 'ringing',
-                ['src/ringing.pyx'],
+                ['ringing/ringing.pyx'],
                 language='c++',
                 libraries=['ringing', 'ringingcore', 'ringingutils'],
             ),
