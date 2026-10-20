@@ -1,7 +1,8 @@
-from pathlib import Path
-
 # Configuration file for the Sphinx documentation builder.
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
+
+import tomllib
+from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent.parent
 
@@ -19,8 +20,8 @@ copyright = '2014-%Y, Leigh Simpson <code@simpleigh.com>'
 
 # The major project version.
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-version
-with open(BASE_DIR / 'VERSION') as version_file:
-    version = version_file.read().strip()
+with open(BASE_DIR / 'pyproject.toml', 'rb') as pyproject:
+    version = tomllib.load(pyproject)['project']['version']
 
 # The full project version.
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-release
