@@ -21,6 +21,7 @@ build-backend = "setuptools.build_meta"
 dev = [
     "Cython",  # https://cython.readthedocs.io/en/latest/index.html
     "pytest",  # https://docs.pytest.org/en/stable/
+    "stubgen-pyx>=0.3.0",  # https://github.com/jon-edward/stubgen-pyx
     { include-group = "docs" },
 ]
 

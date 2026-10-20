@@ -1,9 +1,15 @@
+from typing import TypeAlias
+
+
 cdef string symbols_string
 
 
 cdef class MaxBellsDescriptor:
-    def __get__(self, obj, objtype):
+    def __get__(self, obj, objtype) -> int:
         return bell().MAX_BELLS
+
+
+BellSpec: TypeAlias = Bell | int | str | bytes | None
 
 
 cdef class Bell:
@@ -12,7 +18,7 @@ cdef class Bell:
 
     MAX_BELLS = MaxBellsDescriptor()
 
-    def __cinit__(self, input=None):
+    def __cinit__(self, input: BellSpec = None):
         if input is None:
             self.thisptr = new bell()
         elif isinstance(input, Bell):
@@ -36,11 +42,11 @@ cdef class Bell:
     def __dealloc__(self):
         del self.thisptr
 
-    def to_char(self):
+    def to_char(self) -> str:
         return chr(self.thisptr.to_char())
 
     @staticmethod
-    def is_symbol(character):
+    def is_symbol(character: str | bytes) -> bool:
         if isinstance(character, str):
             return bell.is_symbol(ord(character.encode('ascii')))
         elif isinstance(character, bytes):
@@ -51,7 +57,7 @@ cdef class Bell:
             ))
 
     @staticmethod
-    def set_symbols(symbols=None):
+    def set_symbols(symbols: str | bytes | None = None) -> None:
         global symbols_string
 
         if symbols is None:
@@ -67,12 +73,13 @@ cdef class Bell:
                 type=type(symbols).__name__,
             ))
 
-    def __richcmp__(self, other, int op):
+    def __richcmp__(self, other, int op) -> bool:
         cdef int bx
         cdef int by
 
+        bx = int(self)
+
         try:
-            bx = int(Bell(self))
             by = int(Bell(other))
         except TypeError:
             return NotImplemented
@@ -90,17 +97,17 @@ cdef class Bell:
         elif op == 5:  # >=
             return bx >= by
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self < Bell.MAX_BELLS:
             return self.to_char()
         else:
             return '{{{bell:d}}}'.format(bell=int(self) + 1)
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
         return str(self).encode('ascii')
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'Bell({int(self):d})'
 
-    def __int__(self):
+    def __int__(self) -> int:
         return <int>deref(self.thisptr)

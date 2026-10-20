@@ -1,8 +1,14 @@
+from typing import Literal, TypeAlias
+
+
+RowSpec: TypeAlias = Row | int | str | bytes | None
+
+
 cdef class Row:
 
     cdef row *thisptr
 
-    def __cinit__(self, input=None):
+    def __cinit__(self, input: RowSpec = None):
         if input is None:
             self.thisptr = new row()
         elif isinstance(input, Row):
@@ -24,66 +30,66 @@ cdef class Row:
     def __dealloc__(self):
         del self.thisptr
 
-    def inverse(self):
+    def inverse(self) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = self.thisptr.inverse()
         return result
 
     property bells:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.bells()
 
-    def conjugate(self, r):
+    def conjugate(self, r: RowSpec) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = self.thisptr.conjugate(deref(Row(r).thisptr))
         return result
 
     @staticmethod
-    def rounds(int n):
+    def rounds(int n) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = row.rounds(n)
         return result
 
     @staticmethod
-    def queens(int n):
+    def queens(int n) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = row.queens(n)
         return result
 
     @staticmethod
-    def kings(int n):
+    def kings(int n) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = row.kings(n)
         return result
 
     @staticmethod
-    def tittums(int n):
+    def tittums(int n) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = row.tittums(n)
         return result
 
     @staticmethod
-    def reverse_rounds(int n):
+    def reverse_rounds(int n) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = row.reverse_rounds(n)
         return result
 
     @staticmethod
-    def cyclic(int n, int h=1, int c=1):
+    def cyclic(int n, int h=1, int c=1) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = row.cyclic(n, h, c)
         return result
 
     @staticmethod
-    def pblh(int n, int h=1):
+    def pblh(int n, int h=1) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = row.pblh(n, h)
         return result
 
-    def is_rounds(self):
+    def is_rounds(self) -> bool:
         return self.thisptr.isrounds()
 
-    def is_pblh(self, int hunts=0):
+    def is_pblh(self, int hunts=0) -> int:
         if hunts:
             result = self.thisptr.ispblh(hunts)
         else:
@@ -94,16 +100,16 @@ cdef class Row:
 
         return result
 
-    def sign(self):
+    def sign(self) -> Literal[+1, -1]:
         return self.thisptr.sign()
 
-    def cycles(self):
+    def cycles(self) -> str:
         return self.thisptr.cycles().decode('ascii')
 
-    def num_cycles(self):
+    def num_cycles(self) -> int:
         return self.thisptr.num_cycles()
 
-    def cycle_size(self, b):
+    def cycle_size(self, b: BellSpec) -> int:
         cdef bell bb = deref(Bell(b).thisptr)
 
         if <int>bb >= self.bells:
@@ -111,15 +117,15 @@ cdef class Row:
 
         return self.thisptr.cycle_size(<int>bb)
 
-    def order(self):
+    def order(self) -> int:
         return self.thisptr.order()
 
-    def find(self, b):
+    def find(self, b: BellSpec) -> int:
         cdef bell bb = deref(Bell(b).thisptr)
         return self.thisptr.find(bb)
 
     @staticmethod
-    def conjugator(x, y):
+    def conjugator(x: RowSpec, y: RowSpec) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = conjugator(
             deref(Row(x).thisptr),
@@ -131,10 +137,10 @@ cdef class Row:
             return result
 
     @staticmethod
-    def are_conjugate(x, y):
+    def are_conjugate(x: RowSpec, y: RowSpec) -> bool:
         return are_conjugate(deref(Row(x).thisptr), deref(Row(y).thisptr))
 
-    def __richcmp__(self, other, int op):
+    def __richcmp__(self, other, int op) -> bool:
         cdef row rx
         cdef row ry
 
@@ -158,22 +164,22 @@ cdef class Row:
         elif op == 5:  # >=
             return rx >= ry
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.thisptr.print().decode('ascii')
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
         return self.thisptr.print()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.thisptr.bells():
             return f"Row('{self}')"
         else:
             return 'Row()'
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return self.thisptr.hash()
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> Row:
         cdef Row result = Row()
 
         try:
@@ -188,7 +194,7 @@ cdef class Row:
         else:
             return result
 
-    def __rmul__(self, other):
+    def __rmul__(self, other) -> Row:
         cdef Row result = Row()
 
         try:
@@ -199,7 +205,7 @@ cdef class Row:
         else:
             return result
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> Row:
         cdef Row result = Row()
 
         try:
@@ -210,7 +216,7 @@ cdef class Row:
         else:
             return result
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other) -> Row:
         cdef Row result = Row()
 
         try:
@@ -221,18 +227,18 @@ cdef class Row:
         else:
             return result
 
-    def __pow__(Row x, int y, z):
+    def __pow__(Row x, int y, z) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = Row(x).thisptr.power(y)
         return result
 
-    def __invert__(self):
+    def __invert__(self) -> Row:
         return self.inverse()
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.bells
 
-    def __getitem__(self, int x):
+    def __getitem__(self, int x) -> Bell:
         if 0 <= x < self.bells:
             return Bell(<int>(deref(self.thisptr)[x]))
         else:

@@ -1,8 +1,19 @@
+from typing import TypeAlias
+
+
+MethodSpec: TypeAlias = Method | int | str | bytes | None
+
+
 cdef class Method:
 
     cdef method *thisptr
 
-    def __cinit__(self, input=None, int bells=0, name='Untitled'):
+    def __cinit__(
+        self,
+        input: MethodSpec = None,
+        int bells = 0,
+        name: str | bytes = 'Untitled',
+    ):
         cdef string name_string
 
         # Validate bells parameter
@@ -49,10 +60,10 @@ cdef class Method:
         del self.thisptr
 
     property name:
-        def __get__(self):
+        def __get__(self) -> str:
             return (<bytes>self.thisptr.name()).decode()
 
-        def __set__(self, value):
+        def __set__(self, value: str | bytes) -> None:
             if isinstance(value, str):
                 self.thisptr.name(<string>(value.encode()))
             elif isinstance(value, bytes):
@@ -62,34 +73,34 @@ cdef class Method:
                     type=type(input).__name__,
                 ))
 
-    def full_name(self):
+    def full_name(self) -> str:
         return (<bytes>self.thisptr.fullname()).decode()
 
     @staticmethod
-    def stage_name(int bells):
+    def stage_name(int bells) -> str:
         if 0 <= bells <= MAX_BELL_NUMBER:
             return (<bytes>method.stagename(bells)).decode('ascii')
         else:
             raise ValueError('Number of bells out of range')
 
     property size:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.size()
 
     property length:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.length()
 
     property bells:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.bells()
 
-    def lead_head(self):
+    def lead_head(self) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = self.thisptr.lh()
         return result
 
-    def is_symmetric(self, b=None):
+    def is_symmetric(self, b: BellSpec = None) -> bool:
         cdef bell bb
 
         if b is None:
@@ -101,7 +112,7 @@ cdef class Method:
             else:
                 raise IndexError('Bell number out of range')
 
-    def is_palindromic(self, b=None):
+    def is_palindromic(self, b: BellSpec = None) -> bool:
         cdef bell bb
 
         if self.size % 2:
@@ -116,19 +127,19 @@ cdef class Method:
             else:
                 raise IndexError('Bell number out of range')
 
-    def is_double(self):
+    def is_double(self) -> bool:
         return self.thisptr.isdouble()
 
-    def is_regular(self):
+    def is_regular(self) -> bool:
         return self.thisptr.isregular()
 
-    def hunt_bells(self):
+    def hunt_bells(self) -> int:
         return self.thisptr.huntbells()
 
-    def leads(self):
+    def leads(self) -> int:
         return self.thisptr.leads()
 
-    def is_plain(self, b=0):
+    def is_plain(self, b: BellSpec = 0) -> bool:
         cdef bell bb = deref(Bell(b).thisptr)
 
         if <int>bb < self.bells:
@@ -136,7 +147,7 @@ cdef class Method:
         else:
             raise IndexError('Bell number out of range')
 
-    def has_dodges(self, b):
+    def has_dodges(self, b: BellSpec) -> bool:
         cdef bell bb = deref(Bell(b).thisptr)
 
         if <int>bb < self.bells:
@@ -144,7 +155,7 @@ cdef class Method:
         else:
             raise IndexError('Bell number out of range')
 
-    def has_places(self, b):
+    def has_places(self, b: BellSpec) -> bool:
         cdef bell bb = deref(Bell(b).thisptr)
 
         if <int>bb < self.bells:
@@ -152,10 +163,10 @@ cdef class Method:
         else:
             raise IndexError('Bell number out of range')
 
-    def lh_code(self):
+    def lh_code(self) -> str:
         return (<bytes>self.thisptr.lhcode()).decode('ascii')
 
-    def symmetry_point(self, b=None):
+    def symmetry_point(self, b: BellSpec = None) -> int:
         cdef bell bb
         cdef int result
 
@@ -176,10 +187,10 @@ cdef class Method:
 
         return result
 
-    def max_blows(self):
+    def max_blows(self) -> int:
         return self.thisptr.maxblows()
 
-    def format(self, **kwargs):
+    def format(self, **kwargs) -> str:
         cdef int format = 0
         parameter_mapping = {
             'all_dots': 0o1,
@@ -204,7 +215,7 @@ cdef class Method:
 
         return (<bytes>self.thisptr.format(format)).decode('ascii')
 
-    def append(self, c):
+    def append(self, c: Change | str | bytes) -> None:
         if isinstance(c, Change):
             self.thisptr.push_back(deref((<Change>c).thisptr))
         elif isinstance(c, str):
@@ -216,7 +227,7 @@ cdef class Method:
                 type=type(c).__name__,
             ))
 
-    def __richcmp__(self, other, int op):
+    def __richcmp__(self, other, int op) -> bool:
         cdef method mx
         cdef method my
 
@@ -240,13 +251,13 @@ cdef class Method:
         elif op == 5:  # >=
             return mx >= my
 
-    def __str__(self):
+    def __str__(self) -> str:
         return (<bytes>self.thisptr.fullname()).decode()
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
         return <bytes>self.thisptr.fullname()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         format = {'external_places': True, 'cross_dash': True}
         if self.size % 2:
             format['asymmetric_plus'] = True
@@ -259,10 +270,10 @@ cdef class Method:
             name=self.name,
         )
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
-    def __getitem__(self, int x):
+    def __getitem__(self, int x) -> Change:
         cdef Change result = Change()
 
         if 0 <= x < self.size:
@@ -271,7 +282,7 @@ cdef class Method:
         else:
             raise IndexError('ringing.Method index out of range')
 
-    def __setitem__(self, int x, y):
+    def __setitem__(self, int x, y: ChangeSpec) -> None:
         cdef Change cy = Change(y)
 
         if 0 <= x < self.size:

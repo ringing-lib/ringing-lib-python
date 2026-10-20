@@ -3,3 +3,4 @@
 /docs/build/
 /src/ringing_lib.egg-info/
 /src/ringing.cpp
+/src/ringing.pyi

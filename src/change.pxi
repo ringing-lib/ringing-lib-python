@@ -1,8 +1,18 @@
+from typing import Literal, TypeAlias
+
+
+ChangeSpec: TypeAlias = Change | int | None
+
+
 cdef class Change:
 
     cdef change *thisptr
 
-    def __cinit__(self, input=None, change_str=None):
+    def __cinit__(
+        self,
+        input: ChangeSpec = None,
+        change_str: str | bytes | None = None,
+    ):
         if input is None:
             self.thisptr = new change()
         elif isinstance(input, Change):
@@ -32,7 +42,7 @@ cdef class Change:
     def __dealloc__(self):
         del self.thisptr
 
-    def set(self, int num, pn):
+    def set(self, int num, pn: str | bytes) -> None:
         if 0 <= num <= MAX_BELL_NUMBER:
             if isinstance(pn, bytes):
                 self.thisptr.set(num, pn)
@@ -45,43 +55,43 @@ cdef class Change:
         else:
             raise ValueError('Number of bells out of range')
 
-    def reverse(self):
+    def reverse(self) -> Change:
         cdef Change result = Change()
         result.thisptr[0] = self.thisptr.reverse()
         return result
 
     property bells:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.bells()
 
-    def sign(self):
+    def sign(self) -> Literal[+1, -1]:
         return self.thisptr.sign()
 
-    def find_swap(self, b):
+    def find_swap(self, b: BellSpec) -> bool:
         cdef bell bb = deref(Bell(b).thisptr)
         if <int>bb < (self.thisptr.bells() - 1):
             return self.thisptr.findswap(bb)
         else:
             raise IndexError('ringing.Change index out of range')
 
-    def find_place(self, b):
+    def find_place(self, b: BellSpec) -> bool:
         cdef bell bb = deref(Bell(b).thisptr)
         if <int>bb <= (self.thisptr.bells() - 1):
             return self.thisptr.findplace(bb)
         else:
             raise IndexError('ringing.Change index out of range')
 
-    def swap_pair(self, b):
+    def swap_pair(self, b: BellSpec) -> bool:
         cdef bell bb = deref(Bell(b).thisptr)
         return self.thisptr.swappair(bb)
 
-    def internal(self):
+    def internal(self) -> bool:
         return self.thisptr.internal()
 
-    def count_places(self):
+    def count_places(self) -> int:
         return self.thisptr.count_places()
 
-    def __richcmp__(self, other, int op):
+    def __richcmp__(self, other, int op) -> bool:
         cdef change cx
         cdef change cy
 
@@ -107,19 +117,19 @@ cdef class Change:
         elif op == 5:  # >=
             return cx >= cy
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.thisptr.print().decode('ascii')
 
-    def __bytes__(self):
+    def __bytes__(self) -> bytes:
         return self.thisptr.print()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.thisptr.bells():
             return f"Change({self.thisptr.bells()}, '{self}')"
         else:
             return 'Change()'
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> Bell:
         cdef bell b
         cdef change c
 
@@ -139,5 +149,5 @@ cdef class Change:
 
         return Bell(<int>(b * c))
 
-    def __rmul__(self, other):
+    def __rmul__(self, other) -> Bell:
         return Change.__mul__(self, other)

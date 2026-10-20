@@ -6,7 +6,7 @@ cdef class Group:
 
     cdef repr_string
 
-    def __cinit__(self, *generators):
+    def __cinit__(self, *generators: Row):
         cdef vector[row] generator_vector
         cdef Row current_row
 
@@ -24,15 +24,15 @@ cdef class Group:
         del self.thisptr
 
     property bells:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.bells()
 
     property size:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.size()
 
     @staticmethod
-    def trivial(int total_bells):
+    def trivial(int total_bells) -> Group:
         cdef Group result = Group()
         result.repr_string = f'Group.trivial({total_bells})'
         result.thisptr[0] = group.trivial(total_bells)
@@ -43,7 +43,7 @@ cdef class Group:
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
-    ):
+    ) -> Group:
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
                 'total_bells must be greater than working_bells + hunt_bells',
@@ -64,7 +64,7 @@ cdef class Group:
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
-    ):
+    ) -> Group:
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
                 'total_bells must be greater than working_bells + hunt_bells',
@@ -85,7 +85,7 @@ cdef class Group:
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
-    ):
+    ) -> Group:
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
                 'total_bells must be greater than working_bells + hunt_bells',
@@ -106,7 +106,7 @@ cdef class Group:
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
-    ):
+    ) -> Group:
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
                 'total_bells must be greater than working_bells + hunt_bells',
@@ -127,7 +127,7 @@ cdef class Group:
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
-    ):
+    ) -> Group:
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
                 'total_bells must be greater than working_bells + hunt_bells',
@@ -148,7 +148,7 @@ cdef class Group:
         int working_bells,
         int hunt_bells = 0,
         int total_bells = 0,
-    ):
+    ) -> Group:
         if total_bells and total_bells < working_bells + hunt_bells:
             raise ValueError(
                 'total_bells must be greater than working_bells + hunt_bells',
@@ -165,7 +165,7 @@ cdef class Group:
         return result
 
     @staticmethod
-    def direct_product(Group a, Group b):
+    def direct_product(Group a, Group b) -> Group:
         cdef Group result = Group()
         result.thisptr[0] = group.direct_product(
             deref((<Group>a).thisptr),
@@ -173,33 +173,33 @@ cdef class Group:
         )
         return result
 
-    def conjugate(self, r):
+    def conjugate(self, r: RowSpec) -> Group:
         cdef Group result = Group()
         result.thisptr[0] = self.thisptr.conjugate(deref(Row(r).thisptr))
         return result
 
-    def even_subgroup(self):
+    def even_subgroup(self) -> Group:
         cdef Group result = Group()
         result.thisptr[0] = self.thisptr.even_subgroup()
         if self.repr_string:
             result.repr_string = f'{self.repr_string}.even_subgroup()'
         return result
 
-    def rcoset_label(self, r):
+    def rcoset_label(self, r: RowSpec) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = self.thisptr.rcoset_label(deref(Row(r).thisptr))
         return result
 
-    def lcoset_label(self, r):
+    def lcoset_label(self, r: RowSpec) -> Row:
         cdef Row result = Row()
         result.thisptr[0] = self.thisptr.lcoset_label(deref(Row(r).thisptr))
         return result
 
-    def invariants(self):
+    def invariants(self) -> list[Bell]:
         cdef vector[bell] invariants = self.thisptr.invariants()
         return [Bell(<int>invariant) for invariant in invariants]
 
-    def __richcmp__(self, other, int op):
+    def __richcmp__(self, other, int op) -> bool:
         cdef group gx
         cdef group gy
 
@@ -222,7 +222,7 @@ cdef class Group:
         elif op == 5:  # >=
             return gx >= gy
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.repr_string:
             return self.repr_string
         else:
@@ -230,10 +230,10 @@ cdef class Group:
                 rows=', '.join([repr(r) for r in self.generator_list]),
             )
 
-    def __iter__(self):
+    def __iter__(self) -> GroupIterator:
         return GroupIterator(self)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
 
@@ -250,10 +250,10 @@ cdef class GroupIterator:
         self.index = deref(g.thisptr).begin()
         self.end = deref(g.thisptr).end()
 
-    def __iter__(self):
+    def __iter__(self) -> GroupIterator:
         return self
 
-    def __next__(self):
+    def __next__(self) -> Row:
         cdef Row result = Row()
 
         if self.index == self.end:

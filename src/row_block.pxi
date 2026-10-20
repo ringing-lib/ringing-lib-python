@@ -1,3 +1,6 @@
+from collections.abc import Iterable
+
+
 cdef class RowBlock:
 
     cdef row_block *thisptr
@@ -6,7 +9,11 @@ cdef class RowBlock:
 
     cdef change_list
 
-    def __cinit__(self, changes, starting_row=None):
+    def __cinit__(
+        self,
+        changes: Iterable[Change],
+        starting_row: RowSpec = None,
+    ):
         cdef row starting_row_obj = deref(Row(starting_row).thisptr)
 
         self.change_list = []
@@ -23,14 +30,14 @@ cdef class RowBlock:
         del self.thisptr
 
     property size:
-        def __get__(self):
+        def __get__(self) -> int:
             return self.thisptr.size()
 
     property changes:
-        def __get__(self):
+        def __get__(self) -> list[Change]:
             return self.change_list[:]
 
-        def __set__(self, value):
+        def __set__(self, value: Iterable[Change]) -> None:
             cdef row_block *our_rb_ptr = self.thisptr
 
             # Create a new RowBlock (may raise exceptions)...
@@ -44,27 +51,27 @@ cdef class RowBlock:
             # ... and put our thisptr into it so it gets deallocated
             new_row_block.thisptr = our_rb_ptr
 
-    def set_start(self, starting_row):
+    def set_start(self, starting_row: RowSpec) -> None:
         cdef Row starting_row_obj = Row(starting_row)
         self.thisptr.set_start(deref(starting_row_obj.thisptr))
 
-    def recalculate(self, int start=0):
+    def recalculate(self, int start=0) -> None:
         if 0 <= start < self.size:
             self.thisptr.recalculate(start)
         else:
             raise IndexError('ringing.RowBlock index out of range')
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         cdef str changes = ', '.join([repr(ch) for ch in self.change_list])
         if self[0].is_rounds():
             return f'RowBlock([{changes}])'
         else:
             return f'RowBlock([{changes}], {repr(self[0])})'
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.size
 
-    def __getitem__(self, int x):
+    def __getitem__(self, int x) -> Row:
         cdef Row result = Row()
 
         if 0 <= x < self.size:
@@ -73,7 +80,7 @@ cdef class RowBlock:
         else:
             raise IndexError('ringing.RowBlock index out of range')
 
-    def __setitem__(self, int x, y):
+    def __setitem__(self, int x, y: RowSpec) -> None:
         cdef Row ry = Row(y)
 
         if 0 <= x < self.size:
