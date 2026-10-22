@@ -25,6 +25,20 @@ This package contains Python bindings for the
 Installation
 ------------
 
+Wheels are available for Linux systems that bundle the Ringing Class Library and
+these are the simplest way to install the library.
+
+1. **Install Using pip**
+
+   Install directly from
+   `PyPI <https://pypi.python.org/pypi/ringing-lib/>`_:
+
+   .. code-block:: bash
+
+      pip install ringing-lib
+
+If a wheel is not available then you'll need to build from source as follows:
+
 1. **Install the Ringing Class Library**.
 
    You can download the latest source from
@@ -35,9 +49,7 @@ Installation
    .. code-block:: bash
 
       make
-      make install
-
-   Run :command:`make install` as root.
+      sudo make install
 
 2. **Install Using pip**
 
@@ -53,25 +65,19 @@ Installation
       This is a C++ Python extension: you will need a working compiler with
       access to Python headers in order to build it.
 
-Alternatively, to build from source:
+Rather than download from PyPI you may prefer to build from source. Start by
+installing the Ringing Class Library (as described above) and then clone the
+repository before building as follows:
 
-2. **Install dependencies**.
+2. **Install dependencies and build the Python extension**.
 
-   Use uv to install the required dependencies:
+   Use uv to install the required dependencies and build the extension:
 
    .. code-block:: bash
 
       make sync
 
-3. **Compile the Python extension**.
-
-   Build the extension:
-
-   .. code-block:: bash
-
-      make build
-
-4. (Optional) **Run Tests**.
+3. (Optional) **Run Tests**.
 
    Run the included tests:
 
@@ -79,13 +85,14 @@ Alternatively, to build from source:
 
       make check
 
-5. (Optional) **Build package and wheels**.
+4. (Optional) **Build package and wheels**.
 
    Build a package for distribution:
 
-   ... code-block:: bash
+   .. code-block:: bash
 
       make build-dist
+      make wheels
 
 Class Documentation
 -------------------

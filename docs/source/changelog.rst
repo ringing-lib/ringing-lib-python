@@ -3,6 +3,11 @@ Changelog
 
 .. currentmodule:: ringing
 
+v0.5.1
+------
+
+* Build wheels for Linux systems (``manylinux`` and ``musllinux``).
+
 v0.5.0
 ------
 
