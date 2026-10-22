@@ -1,4 +1,5 @@
-/.venv
+/.venv/
+/dist/
 /docs/build/
 /ringing/__init__.pyi
 /ringing/_ringing.cpp

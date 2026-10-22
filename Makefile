@@ -1,4 +1,4 @@
-.PHONY: default build build-dist check clean clean-docs docs stubs sync
+.PHONY: default build build-dist check clean clean-docs docs stubs sync wheels
 
 default: sync
 
@@ -34,3 +34,6 @@ stubs: ringing/__init__.pyi
 
 sync:
 	uv sync --all-groups --locked
+
+wheels:
+	uv run --locked cibuildwheel --output-dir dist

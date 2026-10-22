@@ -19,6 +19,7 @@ build-backend = "setuptools.build_meta"
 # https://docs.astral.sh/uv/concepts/projects/dependencies/#dependency-groups
 
 dev = [
+    "cibuildwheel",  # https://cibuildwheel.pypa.io/en/stable/
     "Cython",  # https://cython.readthedocs.io/en/latest/index.html
     "pytest",  # https://docs.pytest.org/en/stable/
     "stubgen-pyx>=0.3.0",  # https://github.com/jon-edward/stubgen-pyx
@@ -85,7 +86,43 @@ license = "GPL-3.0-or-later"
 Homepage = "https://github.com/ringing-lib/ringing-lib-python"
 
 
+[tool.cibuildwheel]
+# https://cibuildwheel.pypa.io/en/stable/options/
+
+# Build customization
+
+# Set the tool to use to build, either "build" (default), "build[uv]", or "pip".
+# https://cibuildwheel.pypa.io/en/stable/options/#build-frontend
+build-frontend = "build[uv]"
+
+# Set environment variables.
+# https://cibuildwheel.pypa.io/en/stable/options/#environment
+environment = { RINGING_LIB_SHA="6d7533186fb89497ab059b91d0e7bd7911cd3f71" }
+
+# Execute a shell command on the build system before any wheels are built.
+# https://cibuildwheel.pypa.io/en/stable/options/#before-all
+before-all = "./build-lib.sh"
+
+# Testing
+
+# The command to test each built wheel.
+# https://cibuildwheel.pypa.io/en/stable/options/#testing
+test-command = "pytest"
+
+# Paths that are copied into the working directory of the tests.
+# https://cibuildwheel.pypa.io/en/stable/options/#test-sources
+test-sources = ["tests"]
+
+# Specify test dependencies from your project's `dependency-groups`.
+# https://cibuildwheel.pypa.io/en/stable/options/#test-groups
+test-groups = ["dev"]
+
+
 [tool.setuptools]
+# https://setuptools.pypa.io/en/latest/userguide/index.html
 
 # https://setuptools.pypa.io/en/latest/userguide/datafiles.html#include-package-data
 include-package-data = false
+
+# https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#custom-discovery
+packages = ["ringing"]
