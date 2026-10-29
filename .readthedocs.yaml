@@ -12,7 +12,6 @@ python:
   install:
     - method: uv
       command: sync
-      groups: ['docs']
 
 # Configuration for the documentation build process.
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html#build
@@ -20,6 +19,9 @@ build:
   os: ubuntu-26.04
   tools:
     python: "3.14"
+  jobs:
+    post_system_dependencies:
+      - ./build-lib.sh
 
 # Configuration for Sphinx documentation.
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html#sphinx

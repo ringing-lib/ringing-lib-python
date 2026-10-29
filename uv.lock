@@ -627,10 +627,6 @@ dev = [
     { name = "sphinx", version = "9.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "stubgen-pyx" },
 ]
-docs = [
-    { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
-    { name = "sphinx", version = "9.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
-]
 
 [package.metadata]
 
@@ -642,7 +638,6 @@ dev = [
     { name = "sphinx" },
     { name = "stubgen-pyx", specifier = ">=0.3.0" },
 ]
-docs = [{ name = "sphinx" }]
 
 [[package]]
 name = "roman-numerals"

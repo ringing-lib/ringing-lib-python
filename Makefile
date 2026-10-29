@@ -33,7 +33,7 @@ ringing/__init__.pyi: ringing/_ringing.pyx $(wildcard ringing/*.pxd) $(wildcard 
 stubs: ringing/__init__.pyi
 
 sync:
-	uv sync --all-groups --locked
+	uv sync --locked
 
 wheels:
 	uv run --locked cibuildwheel --output-dir dist
