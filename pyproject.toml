@@ -76,6 +76,7 @@ readme = "README.rst"
 
 # The new format for license is a valid SPDX license expression consisting of
 # one or more license identifiers.
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license
 license = "GPL-3.0-or-later"
 
 
@@ -83,7 +84,10 @@ license = "GPL-3.0-or-later"
 # A list of URLs associated with your project
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#urls
 
-Homepage = "https://github.com/ringing-lib/ringing-lib-python"
+Documentation = "https://ringing-lib-python.readthedocs.io/"
+Homepage = "https://ringing-lib.github.io/"
+Issues = "https://github.com/ringing-lib/ringing-lib-python/issues"
+Repository = "https://github.com/ringing-lib/ringing-lib-python"
 
 
 [tool.cibuildwheel]

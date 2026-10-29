@@ -261,7 +261,7 @@ The Row Class
       :param r: row *r*
       :type r: :class:`Row` or int or string
       :return: the computed row
-      :rtype: :class:`Row``
+      :rtype: :class:`Row`
 
    .. staticmethod:: rounds(n)
    .. staticmethod:: queens(n)
@@ -342,7 +342,7 @@ The Row Class
          -1
 
       :return: 1 for even, -1 for odd
-      :rype: int
+      :rtype: int
 
    .. method:: cycles()
 

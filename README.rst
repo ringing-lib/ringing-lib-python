@@ -9,7 +9,7 @@ Python Wrapper for the Ringing Class Library
    :alt: Issues
    :target: https://github.com/ringing-lib/ringing-lib-python/issues
 
-.. image:: https://readthedocs.org/projects/ringing-lib-python/badge/?version=latest
+.. image:: https://app.readthedocs.org/projects/ringing-lib-python/badge/?version=latest
    :alt: Documentation Status
    :target: https://readthedocs.org/projects/ringing-lib-python/?badge=latest
 
@@ -47,14 +47,11 @@ This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
 It should work with CPython versions 3.11 to 3.15.
 
-Install as follows:
+Install using pip::
 
-#. Build and install the Ringing Class Library.
-   You can obtain the latest source from
-   `GitHub <https://github.com/ringing-lib/ringing-lib>`_.
+   .. code-block:: bash
 
-#. Install using ``pip``::
-      
       pip install ringing-lib
 
-`Documentation <https://ringing-lib-python.readthedocs.io/>`_
+If a wheel is not available then you can build from source by following the
+`documentation <https://ringing-lib-python.readthedocs.io/>`_.
