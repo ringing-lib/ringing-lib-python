@@ -99,10 +99,6 @@ Repository = "https://github.com/ringing-lib/ringing-lib-python"
 # https://cibuildwheel.pypa.io/en/stable/options/#build-frontend
 build-frontend = "build[uv]"
 
-# Set environment variables.
-# https://cibuildwheel.pypa.io/en/stable/options/#environment
-environment = { RINGING_LIB_SHA="6d7533186fb89497ab059b91d0e7bd7911cd3f71" }
-
 # Execute a shell command on the build system before any wheels are built.
 # https://cibuildwheel.pypa.io/en/stable/options/#before-all
 before-all = "./build-lib.sh"
