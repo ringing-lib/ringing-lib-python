@@ -21,7 +21,7 @@ build:
     python: "3.14"
   jobs:
     post_system_dependencies:
-      - ./build-lib.sh
+      - PREFIX="${PWD}/.ringing-lib" ./build-lib.sh
 
 # Configuration for Sphinx documentation.
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html#sphinx
