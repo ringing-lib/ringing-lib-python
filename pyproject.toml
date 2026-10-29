@@ -22,12 +22,8 @@ dev = [
     "cibuildwheel",  # https://cibuildwheel.pypa.io/en/stable/
     "Cython",  # https://cython.readthedocs.io/en/latest/index.html
     "pytest",  # https://docs.pytest.org/en/stable/
-    "stubgen-pyx>=0.3.0",  # https://github.com/jon-edward/stubgen-pyx
-    { include-group = "docs" },
-]
-
-docs = [
     "Sphinx",  # https://www.sphinx-doc.org/en/master/index.html
+    "stubgen-pyx>=0.3.0",  # https://github.com/jon-edward/stubgen-pyx
 ]
 
 
