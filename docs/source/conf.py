@@ -28,6 +28,14 @@ with open(BASE_DIR / 'pyproject.toml', 'rb') as pyproject:
 release = version
 
 
+# General configuration
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+
+# A list of strings that are module names of Sphinx extensions.
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-extensions
+extensions = ['sphinx.ext.autodoc']
+
+
 # Options for HTML output
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 

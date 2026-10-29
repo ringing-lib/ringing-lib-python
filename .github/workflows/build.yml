@@ -24,15 +24,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install build dependencies
+      - name: Build upstream library
         run: |
-          sudo apt-get install libreadline8t64 libgdome2-0
-          wget https://github.com/ringing-lib/ringing-lib-deb/releases/download/v0.4.0-6/libringing-dev_0.4.0-6_amd64.deb
-          sudo dpkg --install libringing-dev_0.4.0-6_amd64.deb
+          sudo ./build-lib.sh
+          sudo ldconfig
 
-      - name: Install Python dependencies    
+      - name: Install Python dependencies
         run: make sync
-  
+
       - run: make build-dist
 
       - run: make check
