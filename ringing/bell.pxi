@@ -13,6 +13,41 @@ BellSpec: TypeAlias = Bell | int | str | bytes | None
 
 
 cdef class Bell:
+    """
+    Constructs a Bell.
+
+    Bells may be constructed in a variety of ways:
+
+    >>> from ringing import Bell
+    >>> Bell(10)  # from an integer bell number
+    Bell(10)
+    >>> Bell('E')  # from a printable character
+    Bell(10)
+    >>> Bell(Bell(10))  # from another bell
+    Bell(10)
+
+    Bells are immutable once created.
+
+    This library makes extensive use of :class:`Bell` objects as function
+    parameters.
+    These may be passed in the same ways:
+
+    * as a bell
+    * as a character representing a bell
+    * as an integer bell number
+
+    If a bell parameter can't be read then a :exc:`TypeError` or
+    :exc:`ValueError` exception will be raised as most appropriate.
+
+    :param spec: Specification for constructing the bell.
+        This might be:
+
+        * Nothing. Constructs an object representing the treble (bell ``0``).
+        * Another bell. Constructs a copy.
+        * An integer bell number. Constructs an object representing that bell.
+        * A character (``str`` or ``bytes``) representing a bell.
+    :type spec: :class:`Bell` or int or string
+    """
 
     cdef bell *thisptr
 
@@ -43,10 +78,32 @@ cdef class Bell:
         del self.thisptr
 
     def to_char(self) -> str:
+        """
+        Returns a character representing a bell:
+
+        >>> from ringing import Bell
+        >>> Bell(4).to_char()
+        '5'
+
+        :return: character
+        :rtype: string
+        """
         return chr(self.thisptr.to_char())
 
     @staticmethod
     def is_symbol(character: str | bytes) -> bool:
+        """
+        Checks whether a character is a valid bell symbol:
+
+        >>> from ringing import Bell
+        >>> Bell.is_symbol('5')
+        True
+
+        :param character: character to check
+        :type character: string
+        :return: result
+        :rtype: boolean
+        """
         if isinstance(character, str):
             return bell.is_symbol(ord(character.encode('ascii')))
         elif isinstance(character, bytes):
@@ -58,6 +115,30 @@ cdef class Bell:
 
     @staticmethod
     def set_symbols(symbols: str | bytes | None = None) -> None:
+        """
+        Sets the bell symbols that are to be used:
+
+        >>> from ringing import Bell, Row
+        >>> Bell.set_symbols('abcdef')
+        >>> Row(6)
+        Row('abcdef')
+        >>> Bell.MAX_BELLS
+        6
+
+        Note that bell symbols are set on a global level.
+        Omit the symbol specification in order to reset to the default symbols:
+
+        >>> from ringing import Bell, Row
+        >>> Bell.set_symbols('abcdef')
+        >>> Row(6)
+        Row('abcdef')
+        >>> Bell.set_symbols()
+        >>> Row(6)
+        Row('123456')
+
+        :param symbols: symbols to use
+        :type symbols: string
+        """
         global symbols_string
 
         if symbols is None:
