@@ -24,7 +24,7 @@ build:
       - PREFIX="${PWD}/.ringing-lib" ./build-lib.sh
     pre_build:
       # Pre-build the docs with the library available
-      - LD_LIBRARY_PATH="${PWD}/.ringing-lib:${LD_LIBRARY_PATH}" make build
+      - LD_LIBRARY_PATH="${PWD}/.ringing-lib:${LD_LIBRARY_PATH}" make docs
 
 # Configuration for Sphinx documentation.
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html#sphinx
