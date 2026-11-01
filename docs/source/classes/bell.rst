@@ -10,7 +10,7 @@ numerical representation and a printable character. The class library can cope
 with up to 256 bells, though only bells numbered from 0 to 32 may be described
 by a printable character.
 
-.. autoclass:: Bell(input: :class:`Bell` | int | str | bytes | None = None)
+.. autoclass:: Bell(input: Bell | int | str | bytes | None = None)
 
    .. method:: __lt__(bell)
    .. method:: __le__(bell)
