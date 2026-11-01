@@ -11,6 +11,7 @@ if os.environ.get('READTHEDOCS') == 'True':
     lib_dir = Path(__file__).parent / '.ringing-lib'
     extension_kwargs['include_dirs'] = [str(lib_dir / 'include')]
     extension_kwargs['library_dirs'] = [str(lib_dir / 'lib')]
+    extension_kwargs['runtime_library_dirs'] = [str(lib_dir / 'lib')]
 
 setup(
     ext_modules=cythonize(
