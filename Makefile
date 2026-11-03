@@ -6,7 +6,7 @@ build:
 	uv sync --reinstall-package ringing-lib
 
 build-dist: stubs
-	uv build
+	uv build --sdist
 
 check:
 	uv run --locked pytest
@@ -35,5 +35,5 @@ stubs: ringing/__init__.pyi
 sync:
 	uv sync --locked
 
-wheels:
+wheels: stubs
 	uv run --locked cibuildwheel --output-dir dist
