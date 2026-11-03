@@ -39,14 +39,14 @@ cdef class Bell:
     If a bell parameter can't be read then a :exc:`TypeError` or
     :exc:`ValueError` exception will be raised as most appropriate.
 
-    :param spec: Specification for constructing the bell.
+    :param input: Specification for constructing the bell.
         This might be:
 
         * Nothing. Constructs an object representing the treble (bell ``0``).
         * Another bell. Constructs a copy.
         * An integer bell number. Constructs an object representing that bell.
         * A character (``str`` or ``bytes``) representing a bell.
-    :type spec: :class:`Bell` or int or string
+    :type input: :class:`Bell` or int or string
     """
 
     cdef bell *thisptr

@@ -77,41 +77,7 @@ cycle, which is ``(456)``. Combining these two cycles will give us the row
 The Row Class
 -------------
 
-.. class:: Row([spec])
-
-   Constructs a Row.
-
-   Rows may be constructed in a variety of ways::
-
-      >>> from ringing import Row
-      >>> Row(4)  # from an integer number of bells
-      Row('1234')
-      >>> Row('1234')  # from a string containing the row
-      Row('1234')
-      >>> Row(Row('1234'))  # from another row
-      Row('1234')
-
-   Rows are immutable once created.
-
-   This library makes extensive use of :class:`Row` objects as function
-   parameters.
-   These may be passed in the same ways:
-
-   *  as a row
-   *  as a string containing the row
-   *  as an integer number of bells
-
-   If a row parameter can't be read then a :exc:`TypeError` or :exc:`ValueError`
-   exception will be raised as most appropriate.
-
-   :param spec: Specification for constructing the row.
-      This might be:
-
-      *  Nothing. Constructs a row on zero bells.
-      *  Another row. Constructs a copy.
-      *  An integer number of bells. Constructs rounds.
-      *  A string (``str`` or ``bytes``) representation of a row.
-   :type spec: :class:`Row` or int or string
+.. autoclass:: Row(input: Row | int | str | bytes | None = None)
 
    .. method:: __lt__(row)
    .. method:: __le__(row)
@@ -131,335 +97,36 @@ The Row Class
       :return: result
       :rtype: boolean
 
-   .. method:: __getitem__(i)
-
-      This returns the *i*\ th bell in the row::
-
-         >>> from ringing import Row
-         >>> r = Row('512364')
-         >>> r[0]
-         Bell(4)
-         >>> r[1].to_char()
-         '1'
-         >>> print([b for b in r])
-         [Bell(4), Bell(0), Bell(1), Bell(2), Bell(5), Bell(3)]
-
-      .. note::
-
-         Note that this is not an lvalue,
-         so you cannot assign a value to an individual bell in a row.
-
-      :param int i: bell position to return (0-indexed)
-      :return: bell number in that position (0-indexed; ``0`` is the treble)
-      :rtype: :class:`Bell`
-
-   .. method:: __mul__(row)
-
-      Multiplies two rows together as explained above::
-
-         >>> from ringing import Row
-         >>> r = Row('21345678')
-         >>> r * '13572468'
-         Row('23571468')
-         >>> '13572468' * r
-         Row('31572468')
-
-      If the rows are not of the same length, the shorter row is considered to
-      be first padded out to the length of the longer row by adding the extra
-      bells in order at the end.
-
-      :param row: value to multiply by
-      :type row: :class:`Row` or int or string
-      :return: result
-      :rtype: :class:`Row`
-
-   .. method:: __mul__(change)
-
-      Applies a change to a row::
-
-         >>> from ringing import Row, Change
-         >>> Row('214365') * Change(6, '1')
-         Row('241635')
-
-      If the number of bells *c* differs from the number of bells in *r*\ , then
-      *c* is considered to be padded or truncated in the obvious way.
-
-      :param change: change to apply
-      :type change: :class:`Change`
-      :return: result
-      :rtype: :class:`Row`
-
-   .. method:: __div__(row)
-
-      Divides two rows, as explained above::
-
-         >>> from ringing import Row
-         >>> Row('23571468') / Row('13572468')
-         Row('21345678')
-
-      If the rows are not of the same length, the shorter row is considered to
-      be first padded out to the length of the longer row by adding the extra
-      bells in order at the end.
-
-      :param row: value to divide by
-      :type row: :class:`Row` or int or string
-      :return: result
-      :rtype: :class:`Row`
-
-   .. method:: __invert__()
-   .. method:: inverse()
-
-      Returns the inverse of a row::
-
-         >>> from ringing import Row
-         >>> r = Row('13572468')
-         >>> ~r
-         Row('15263748')
-         >>> r.inverse()
-         Row('15263748')
-         >>> r * ~r
-         Row('12345678')
-         >>> ~r * r
-         Row('12345678')
-
-      :return: the row's inverse
-      :rtype: :class:`Row`
-
-   .. method:: __pow__(n)
-
-      Returns the *n*\ th power of a row::
-
-         >>> from ringing import Row
-         >>> r = Row('13572468')
-         >>> r ** 0
-         Row('12345678')
-         >>> r ** 1
-         Row('13572468')
-         >>> r ** 2
-         Row('15263748')
-         >>> r ** 3
-         Row('12345678')
-
-      :param int n: power to which the row should be raised
-      :return: result
-      :rtype: :class:`Row`
-
-   .. attribute:: bells
-
-      Number of bells which the row contains::
-
-         >>> from ringing import Row
-         >>> Row('2143').bells
-         4
-
-   .. method:: conjugate(r)
-
-      Conjugates the row by another row *r*, in pseudocode::
-
-         R = (r ^ -1) . self . r
-
-      :param r: row *r*
-      :type r: :class:`Row` or int or string
-      :return: the computed row
-      :rtype: :class:`Row`
-
-   .. staticmethod:: rounds(n)
-   .. staticmethod:: queens(n)
-   .. staticmethod:: kings(n)
-   .. staticmethod:: tittums(n)
-   .. staticmethod:: reverse_rounds(n)
-
-      Return the row corresponding to rounds, queens, kings, tittums and
-      reverse rounds respectively on *n* bells.
-
-      :param int n: number of bells
-      :return: the computed row
-      :rtype: :class:`Row`
-
-   .. staticmethod:: pblh(n, [h=1])
-
-      Returns the first lead head of Plain Bob (*h* = 1), Grandsire (*h* = 2),
-      or more generally the Plain Bob type method on *n* bells with *h* hunt
-      bells::
-
-         >>> from ringing import Row
-         >>> Row.pblh(6)
-         Row('135264')
-
-      :param int n: number of bells
-      :param int h: number of hunt bells
-      :return: the computed row
-      :rtype: :class:`Row`
-
-   .. staticmethod:: cyclic(n, [h=1], [c=1])
-
-      Returns a cyclic row on *n* bells with *h* initial fixed (hunt) bells. The
-      variable *c* controls the number of bells moved from the front of the row
-      to the end::
-
-         >>> from ringing import Row
-         >>> Row.cyclic(6, 1, 2)
-         Row('145623')
-
-      :param int n: number of bells
-      :param int h: number of hunt bells
-      :param int c: number of bells to move to the end of the row
-      :return: the computed row
-      :rtype: :class:`Row`
-
-   .. method:: is_rounds()
-
-      Determines whether the row is rounds::
-
-         >>> from ringing import Row
-         >>> Row('12345678').is_rounds()
-         True
-         >>> Row('72635184').is_rounds()
-         False
-
-      :return: ``True`` if the row is rounds, and ``False`` otherwise
-      :rtype: boolean
-
-   .. method:: is_pblh([hunts=0])
-
-      If the row is a lead head of Plain Bob, Grandsire or, more generally, of
-      the Plain Bob type method with any number of hunt bells, then this
-      function returns an integer indicating which lead head it is. Otherwise,
-      it returns ``False``.
-
-      :param int hunts: number of hunt bells
-      :return: lead head number, or ``False`` if not a Plain Bob-type lead head
-      :rtype: int
-
-   .. method:: sign()
-
-      Returns the sign or parity of a row::
-
-         >>> from ringing import Row
-         >>> Row('12345678').sign()
-         1
-         >>> Row('21345678').sign()
-         -1
-
-      :return: 1 for even, -1 for odd
-      :rtype: int
-
-   .. method:: cycles()
-
-      Expresses the row as separate cycles. The returned string will afterwards
-      contain a list of all the cycles in the row, separated by commas::
-
-         >>> from ringing import Row
-         >>> Row('21453678').cycles()
-         '12,345,6,7,8'
-
-      :return: representation of the row as disjoint cycles
-      :rtype: string
-
-   .. method:: num_cycles()
-
-      Returns the number of cycles in the row::
-
-         >>> from ringing import Row
-         >>> Row('21453678').num_cycles()
-         5
-
-      :return: number of disjoint cycles in the row
-      :rtype: int
-
-   .. method:: cycle_size(b)
-
-      Returns the size of the cycle containing bell *b*::
-
-         >>> from ringing import Row
-         >>> Row('21453678').cycle_size(0)
-         2
-         >>> Row('21453678').cycle_size('3')
-         3
-
-      :param bell b: bell to find
-      :type b: :class:`Bell` or string or int
-      :return: size of the cycle containing bell *b*
-      :rtype: int
-      :raises: ``ValueError`` if the bell is out of range
-
-   .. method:: order()
-
-      Returns the order of the row::
-
-         >>> from ringing import Row
-         >>> r = Row('21453678')
-         >>> r.order()
-         6
-         >>> (r ** 6).is_rounds()
-         True
-
-      :return: the row's order
-      :rtype: int
-
-   .. method:: find(b)
-
-      Locates the bell, *b*, in this row and returns its place::
-
-         >>> from ringing import Row
-         >>> r = Row('512364')
-         >>> r.find(0)
-         1
-         >>> r.find('2')
-         2
-
-      See also :meth:`__getitem__`.
-
-      :param b: bell to find
-      :type b: :class:`Bell` or string or int
-      :return: bell position (0-indexed)
-      :rtype: int
-
-   .. staticmethod:: conjugator(x, y)
-
-      Two rows, *x* and *y*, are conjugate if there exists some row, *r*, such
-      that::
-
-         y = (r ^ -1) . x . r
-
-      or, in Python::
-
-         y = ~r * x * r
-
-      If *x* and *y* are conjugate, this method computes the row *r* that
-      relates them.
-
-      :param x: row ``x``
-      :type x: :class:`Row` or int or string
-      :param y: row ``y``
-      :type y: :class:`Row` or int or string
-      :return: row ``r``, or ``None`` if the rows are not conjugate
-      :rtype: :class:`Row` or ``None``
-
-   .. staticmethod:: are_conjugate(x, y)
-
-      Determines whether the rows *x* and *y* are conjugate as described above.
-
-      :param x: row ``x``
-      :type x: :class:`Row` or int or string
-      :param y: row ``y``
-      :type y: :class:`Row` or int or string
-      :return: ``True`` if the rows are conjugate, or ``False`` otherwise
-      :rtype: boolean
+   .. automethod:: __getitem__(i: int)
+   .. automethod:: __mul__(input: Change | Row | int | str | bytes) -> Row
+   .. automethod:: __truediv__(Row | int | str | bytes) -> Row
+   .. automethod:: __invert__
+   .. automethod:: inverse
+   .. automethod:: __pow__
+   .. autoattribute:: bells
+   .. automethod:: conjugate
+   .. automethod:: rounds
+   .. automethod:: queens
+   .. automethod:: kings
+   .. automethod:: tittums
+   .. automethod:: reverse_rounds
+   .. automethod:: pblh
+   .. automethod:: cyclic
+   .. automethod:: is_rounds
+   .. automethod:: is_pblh
+   .. automethod:: sign
+   .. automethod:: cycles
+   .. automethod:: num_cycles
+   .. automethod:: cycle_size
+   .. automethod:: order
+   .. automethod:: find
+   .. automethod:: conjugator
+   .. automethod:: are_conjugate
 
 The Group Class
 ---------------
 
-.. class:: Group(generator[, generator[, ...]])
-
-   Generates a group of rows.
-
-   Once created, groups can be tested for membership or iterated over using the
-   ``in`` operator (and hence converted to lists via ``list()``).
-   Groups are immutable.
-
-   :param generator: generators for the group (rows)
-   :type generator: :class:`Row` or int or string
+.. autoclass:: Group(generator: Row[, generator: Row[, ...]])
 
    .. method:: __lt__(group)
    .. method:: __le__(group)
@@ -475,163 +142,18 @@ The Group Class
       :return: result
       :rtype: boolean
 
-   .. attribute:: bells
-
-      Number of bells which the group's rows contain::
-
-         >>> from ringing import Group
-         >>> Group('2143', '1324').bells
-         4
-
-   .. attribute:: size
-
-      Number of rows which the group contains (the *order* of the group)::
-
-         >>> from ringing import Group
-         >>> Group('2143', '1324').size  # generators for plain hunt
-         8
-
-   .. staticmethod:: trivial(total_bells)
-
-      Returns the trivial group of order 1::
-
-         >>> from ringing import Group
-         >>> list(Group.trivial(4))
-         [Row('1234')]
-
-   .. staticmethod:: symmetric(working_bells[, hunt_bells[, total_bells]])
-   .. staticmethod:: alternating(working_bells[, hunt_bells[, total_bells]])
-   .. staticmethod:: dihedral_c(working_bells[, hunt_bells[, total_bells]])
-   .. staticmethod:: dihedral_r(working_bells[, hunt_bells[, total_bells]])
-   .. staticmethod:: cyclic_c(working_bells[, hunt_bells[, total_bells]])
-   .. staticmethod:: cyclic_r(working_bells[, hunt_bells[, total_bells]])
-
-      Return specific groups.
-
-      *  The symmetric group S\ :sub:`n` contains all permutations on *n* bells,
-         i.e. the extent::
-
-            >>> from ringing import Group
-            >>> list(Group.symmetric(3))
-            [Row('123'), Row('132'), Row('213'), Row('231'), Row('312'), Row('321')]
-
-      *  The alternating group A\ :sub:`n` contains all even permutations on *n*
-         bells (see :meth:`Row.sign`)::
-
-            >>> from ringing import Group
-            >>> list(Group.alternating(3))
-            [Row('123'), Row('231'), Row('312')]
-
-      *  The dihedral groups D\ :sub:`n` contain the symmetries of a regular
-         *n*-gon, i.e. rotations and reflections.
-         The ``_c`` variant uses cyclic lead heads.
-         Its generators are the first cyclic lead head and reverse rounds.
-         The ``_r`` variant uses plain bob lead heads.
-         Its generators are the first plain bob lead head and reverse rounds.
-         ::
-
-            >>> from ringing import Group
-            >>> list(Group.dihedral_c(4))
-            [Row('1234'), Row('1432'), Row('2143'), Row('2341'), Row('3214'), Row('3412'), Row('4123'), Row('4321')]
-            >>> list(Group.dihedral_r(4))
-            [Row('1234'), Row('2413'), Row('3142'), Row('4321')]
-
-      *  The cyclic groups C\ :sub:`n` contain the rotations of a regular
-         *n*-gon.
-         The ``_c`` variant uses cyclic lead heads.
-         Its generator is the first cyclic lead head.
-         The ``_r`` variant uses plain bob lead heads.
-         Its generator is the first plain bob lead head.
-         ::
-
-            >>> from ringing import Group
-            >>> list(Group.cyclic_c(4))
-            [Row('1234'), Row('2341'), Row('3412'), Row('4123')]
-            >>> list(Group.cyclic_r(4))
-            [Row('1234'), Row('2413'), Row('3142'), Row('4321')]
-
-      By specifying *hunt_bells* and *total_bells* it's possible to produce
-      groups with more fixed bells, e.g.::
-
-         >>> from ringing import Group
-         >>> list(Group.alternating(3, 1, 8))
-         [Row('12345678'), Row('13425678'), Row('14235678')]
-
-      :param int working_bells: *n*, number of bells involved in permutations
-      :param int hunt_bells: number of fixed bells at the start of the change
-      :param int total_bells: number of bells in each row
-      :return: the computed group
-      :rtype: :class:`Group`
-      :raises: :exc:`ValueError` if *total_bells* is less than the sum of
-         *working_bells* and *hunt_bells*
-
-   .. method:: direct_product(a, b)
-
-      Combines two groups by computing their direct product.
-      Bells of group ``b`` are shifted right to make room for the bells in group
-      ``a`` and then the cartesian product is computed::
-
-         >>> from ringing import Group
-         >>> a = Group('2134')  # ['1234', '2134']
-         >>> b = Group('1324')  # ['1234', '1324']
-         >>> list(Group.direct_product(a, b))
-         [Row('12345678'), Row('12345768'), Row('21345678'), Row('21345768')]
-
-      :param a: first group
-      :type a: :class:`Group`
-      :param b: second group
-      :type b: :class:`Group`
-      :return: the computed group
-      :rtype: :class:`Group`
-
-   .. method:: conjugate(r)
-
-      Conjugates the group by a row *r*, in pseudocode::
-
-         H = (r ^ -1) . g . r for g in G
-
-      :param r: row *r*
-      :type r: :class:`Row` or int or string
-      :return: the computed group
-      :rtype: :class:`Group`
-
-   .. method:: even_subgroup()
-
-      Returns the subgroup where all rows are even (see :meth:`Row.sign`)::
-
-         >>> from ringing import Group
-         >>> Group.symmetric(4).even_subgroup() == Group.alternating(4)
-         True
-
-      :return: the computed group
-      :rtype: :class:`Group`
-
-   .. method:: rcoset_label(r)
-   .. method:: lcoset_label(r)
-
-      A subgroup H of S\ :sub:`n` partitions the group into ``n! / |G|`` cosets.
-
-      *  *g*\ H is the left coset of H in G with respect to *g*
-      *  H\ *g* is the right coset of H in G with respect to *g*
-
-      Each coset may be conveniently labelled by choosing the lexicographically
-      least element within it.
-
-      These methods return the label of the right or left coset (respectively)
-      of G in S\ :sub:`n` with respect to the row *r*.
-
-      :param r: row *r*
-      :type r: :class:`Row` or int or string
-      :return: the computed label
-      :rtype: :class:`Row`
-
-   .. method:: invariants
-
-      Returns a list of invariant bells as 0-indexed integers, e.g.::
-
-         >>> from ringing import Group
-         >>> Group.alternating(3, 1, 8).invariants()
-         [Bell(0), Bell(4), Bell(5), Bell(6), Bell(7)]
-
-      :return: invariant bells
-      :rtype: [:class:`Bell`]
+   .. autoattribute:: bells
+   .. autoattribute:: size
+   .. automethod:: trivial
+   .. automethod:: symmetric
+   .. automethod:: alternating
+   .. automethod:: dihedral_c
+   .. automethod:: dihedral_r
+   .. automethod:: cyclic_c
+   .. automethod:: cyclic_r
+   .. automethod:: direct_product
+   .. automethod:: conjugate
+   .. automethod:: even_subgroup
+   .. automethod:: rcoset_label
+   .. automethod:: lcoset_label
+   .. automethod:: invariants
