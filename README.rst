@@ -47,7 +47,7 @@ This package contains Python bindings for the
 `Ringing Class Library <http://ringing-lib.github.io/>`_.
 It should work with CPython versions 3.11 to 3.15.
 
-Install using pip::
+Install using pip:
 
    .. code-block:: bash
 
