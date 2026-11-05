@@ -168,9 +168,11 @@ jobs:
         run: >
           gh release create
           --notes 'TBC'
-          --title '${{ github.ref_name }}'
-          '${{ github.ref_name }}'
+          --title "${TAG_NAME}"
+          "${TAG_NAME}"
           ./dist/*
+        env:
+          TAG_NAME: ${{ github.ref_name }}
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
