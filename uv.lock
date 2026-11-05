@@ -632,7 +632,7 @@ wheels = [
 
 [[package]]
 name = "ringing-lib"
-version = "0.5.2a2"
+version = "0.5.2a1"
 source = { editable = "." }
 
 [package.dev-dependencies]

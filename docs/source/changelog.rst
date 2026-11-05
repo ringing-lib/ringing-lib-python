@@ -3,6 +3,14 @@ Changelog
 
 .. currentmodule:: ringing
 
+v0.5.2
+------
+
+* Migrate documentation into docstrings so it can be read from the code itself
+   or within the REPL.
+
+* Build ARM wheels for Linux systems
+
 v0.5.1
 ------
 
