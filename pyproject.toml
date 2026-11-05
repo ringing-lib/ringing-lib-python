@@ -51,7 +51,7 @@ name = "ringing-lib"
 
 # Put the version of your project.
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#version
-version = "0.5.2a1"
+version = "0.5.2a2"
 
 # This lets you declare the minimum version of Python that you support
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#python-requires
