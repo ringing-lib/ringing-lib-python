@@ -1,14 +1,15 @@
 .PHONY: default build build-dist check clean clean-docs docs stubs sync wheels
 
+SOURCE_FILES = ringing/_ringing.pyx $(wildcard ringing/*.pxd) $(wildcard ringing/*.pxi)
+
 default: sync
 
-build:
-	uv sync --reinstall-package ringing-lib
+build: ringing/_ringing.cpp
 
-build-dist: stubs
+build-dist: build stubs
 	uv build --sdist
 
-check:
+check: build
 	uv run --locked pytest
 
 clean:
@@ -21,14 +22,17 @@ clean:
 clean-docs:
 	make -C docs clean
 
-docs:
+docs: build
 	make -C docs html
 
-ringing/__init__.pyi: ringing/_ringing.pyx $(wildcard ringing/*.pxd) $(wildcard ringing/*.pxi)
+ringing/__init__.pyi: $(SOURCE_FILES)
 	uv run --locked stubgen-pyx \
 	    --file $< \
 	    --output-file $@ \
 	    --replace-defaults-with-ellipsis
+
+ringing/_ringing.cpp: $(SOURCE_FILES)
+	uv sync --reinstall-package ringing-lib
 
 stubs: ringing/__init__.pyi
 
