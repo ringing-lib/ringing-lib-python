@@ -62,9 +62,17 @@ jobs:
 
       - run: make docs
 
+      - if: ${{ github.ref_type == 'tag' && strategy.job-index == 0 }}
+        name: Upload sdist artefact
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sdist
+          path: ./dist/*.tar.gz
+
     strategy:
       matrix:
-        python-version: ['3.11', '3.12', '3.13', '3.14', '3.15']
+        python-version: ['3.15', '3.14', '3.13', '3.12', '3.11']
 
   merge-dependabot:
     name: Merge Dependabot changes
@@ -94,3 +102,75 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         continue-on-error: true
+
+  build-wheels:
+    name: Build wheels on ${{ matrix.os }}
+    needs: build
+    if: github.ref_type == 'tag'
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build wheels
+        # https://github.com/pypa/cibuildwheel
+        # https://cibuildwheel.pypa.io/en/stable/ci-services/
+        uses: pypa/cibuildwheel@f9b966cfadf4109556cadc5bb39ddb72d0ce664e # v4.3.5
+        with:
+          output-dir: dist
+
+      - name: Upload artefacts
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./dist/*.whl
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-26.04
+          - ubuntu-26.04-arm
+          # - windows-11
+          # - windows-11-arm
+          # - macos-15-intel
+          # - macos-15
+
+  release:
+    name: Create release and publish to PyPI
+
+    permissions:
+      contents: write
+      id-token: write
+
+    needs: build-wheels
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        # https://github.com/actions/checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download artefacts
+        # https://github.com/actions/download-artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          path: ./dist
+
+      - name: Create release
+        run: >
+          gh release create
+          --notes 'TBC'
+          --title '${{ github.ref_name }}'
+          '${{ github.ref_name }}'
+          ./dist/*
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
