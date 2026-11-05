@@ -41,6 +41,7 @@ cdef class Group:
         >>> from ringing import Group
         >>> Group('2143', '1324').bells
         4
+
         """
         return self.thisptr.bells()
 

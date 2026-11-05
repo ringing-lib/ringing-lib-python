@@ -129,6 +129,7 @@ cdef class Method:
         >>> m.name = 'Plain'
         >>> m
         Method('&-16-16-16,12', 6, 'Plain')
+
         """
         return (<bytes>self.thisptr.name()).decode()
 
@@ -215,6 +216,7 @@ cdef class Method:
         >>> from ringing import Method
         >>> Method('&-1-1-1,2', 6).bells
         6
+
         """
         return self.thisptr.bells()
 

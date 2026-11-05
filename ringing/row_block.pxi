@@ -98,6 +98,7 @@ cdef class RowBlock:
         >>> rb.changes = [Change(5, pn) for pn in ['5', '3']]
         >>> list(rb)
         [Row('12345'), Row('21435'), Row('12453')]
+
         """
         return self.change_list[:]
 

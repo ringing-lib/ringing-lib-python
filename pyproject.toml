@@ -114,6 +114,19 @@ test-sources = ["tests"]
 test-groups = ["dev"]
 
 
+[tool.pytest]
+# https://docs.pytest.org/en/latest/reference/customize.html#pyproject-toml
+
+# Add the specified OPTS to the set of command line arguments as if they had
+# been specified by the user.
+# https://docs.pytest.org/en/latest/reference/reference.html#confval-addopts
+addopts = [
+    # Doctests file matching pattern.
+    # https://docs.pytest.org/en/latest/reference/reference.html#cmdoption-doctest-glob
+    "--doctest-glob=*.pxi",
+]
+
+
 [tool.setuptools]
 # https://setuptools.pypa.io/en/latest/userguide/index.html
 

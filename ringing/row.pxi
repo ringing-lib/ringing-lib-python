@@ -89,6 +89,7 @@ cdef class Row:
         >>> from ringing import Row
         >>> Row('2143').bells
         4
+
         """
         return self.thisptr.bells()
 
