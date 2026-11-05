@@ -23,7 +23,8 @@ dev = [
     "Cython",  # https://cython.readthedocs.io/en/latest/index.html
     "pytest",  # https://docs.pytest.org/en/stable/
     "Sphinx",  # https://www.sphinx-doc.org/en/master/index.html
-    "stubgen-pyx>=0.3.0",  # https://github.com/jon-edward/stubgen-pyx
+    "stubgen-pyx",  # https://github.com/jon-edward/stubgen-pyx
+    "zizmor",  # https://docs.zizmor.sh/
 ]
 
 
